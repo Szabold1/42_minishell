@@ -7,9 +7,9 @@
   <a href="https://github.com/Szabold1" target="_blank">Author</a>
 </p>
 
-<h3 align="center">🚧 Under construction...</h3>
-
 <br>
+
+<h3 align="center">🚧 Under construction...</h3>
 
 ## About
 
