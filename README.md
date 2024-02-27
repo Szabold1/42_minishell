@@ -1,0 +1,94 @@
+<h1 align="center">42_minishell</h1>
+
+<p align="center">
+  <a href="#about">About</a> &#xa0; | &#xa0;
+  <a href="#features">Features</a> &#xa0; | &#xa0;
+  <a href="#allowed-functions">Allowed functions</a> &#xa0; | &#xa0;
+  <a href="https://github.com/Szabold1" target="_blank">Author</a>
+</p>
+
+<h3 align="center">🚧 Under construction...</h3>
+
+<br>
+
+## About
+
+Minishell is a simple shell implementation written in C that provides basic shell functionalities. This shell aims to mimic some of the functionalities of a standard Unix shell like Bash.
+
+## Features
+
+- Displays a prompt when waiting for a new command.
+- Maintains a working history of previously executed commands.
+- Searches and launches the right executable based on the PATH variable or using a relative or absolute path.
+- ...
+
+## Allowed functions
+
+The following functions were allowed to be used in this project:
+
+| **Function**     | **Man**        | **Short Description**                                                    |
+| ---------------- | -------------- | ------------------------------------------------------------------------ |
+| readline         | man 3 readline | Reads a line from the terminal                                           |
+| rl_clear_history |                |                                                                          |
+| rl_on_new_line   |                |                                                                          |
+| rl_replace_line  |                |                                                                          |
+| rl_redisplay     |                |                                                                          |
+| add_history      |                |                                                                          |
+| printf           |                |                                                                          |
+| malloc           | man 3 malloc   | Allocates a block of memory dynamically                                  |
+| free             | man 3 free     | Deallocates a block of memory                                            |
+| write            | man 2 write    | Writes data to a file descriptor                                         |
+| access           |                |                                                                          |
+| open             | man 2 open     | Opens a file or device and returns a file descriptor                     |
+| read             | man 2 read     | Reads data from a file descriptor                                        |
+| close            | man 2 close    | Closes a file descriptor                                                 |
+| fork             |                |                                                                          |
+| wait             |                |                                                                          |
+| waitpid          |                |                                                                          |
+| wait3            |                |                                                                          |
+| wait4            |                |                                                                          |
+| signal           |                |                                                                          |
+| sigaction        |                |                                                                          |
+| sigemptyset      |                |                                                                          |
+| sigaddset        |                |                                                                          |
+| kill             |                |                                                                          |
+| exit             | man 3 exit     | Terminates the calling process                                           |
+| getcwd           |                |                                                                          |
+| chdir            |                |                                                                          |
+| stat             |                |                                                                          |
+| lstat            |                |                                                                          |
+| fstat            |                |                                                                          |
+| unlink           |                |                                                                          |
+| execve           |                |                                                                          |
+| dup              |                |                                                                          |
+| dup2             |                |                                                                          |
+| pipe             |                |                                                                          |
+| opendir          |                |                                                                          |
+| readdir          |                |                                                                          |
+| closedir         |                |                                                                          |
+| strerror         | man 3 strerror | Returns a string describing the error code passed as argument            |
+| perror           | man 3 perror   | Prints a descriptive error message to stderr based on the value of errno |
+| isatty           |                |                                                                          |
+| ttyname          |                |                                                                          |
+| ttyslot          |                |                                                                          |
+| ioctl            |                |                                                                          |
+| getenv           |                |                                                                          |
+| tcsetattr        |                |                                                                          |
+| tcgetattr        |                |                                                                          |
+| tgetent          |                |                                                                          |
+| tgetflag         |                |                                                                          |
+| tgetnum          |                |                                                                          |
+| tgetstr          |                |                                                                          |
+| tgoto            |                |                                                                          |
+| tputs            |                |                                                                          |
+| rl_clear_history |                |                                                                          |
+
+Additionally, the following libraries were allowed:
+
+- `libft`
+
+<br>
+
+<div align="center">
+  Made by <a href="https://github.com/Szabold1" target="_blank">Boldizsar Szabo</a>
+</div>
