@@ -29,22 +29,22 @@ The following functions were allowed to be used in this project:
 | **Function**     | **Man**        | **Short Description**                                                    |
 | ---------------- | -------------- | ------------------------------------------------------------------------ |
 | readline         | man 3 readline | Reads a line from the terminal                                           |
-| rl_clear_history |                |                                                                          |
+| rl_clear_history |                | Clears the history list maintained by the GNU Readline library           |
 | rl_on_new_line   |                |                                                                          |
 | rl_replace_line  |                |                                                                          |
 | rl_redisplay     |                |                                                                          |
-| add_history      |                |                                                                          |
-| printf           |                |                                                                          |
+| add_history      |                | Adds a line to the history list maintained by the GNU Readline library   |
+| printf           | man 3 printf   | Prints formatted output to stdout                                        |
 | malloc           | man 3 malloc   | Allocates a block of memory dynamically                                  |
 | free             | man 3 free     | Deallocates a block of memory                                            |
 | write            | man 2 write    | Writes data to a file descriptor                                         |
-| access           |                |                                                                          |
+| access           | man 2 access   | Checks the accessibility of a file or directory                          |
 | open             | man 2 open     | Opens a file or device and returns a file descriptor                     |
 | read             | man 2 read     | Reads data from a file descriptor                                        |
 | close            | man 2 close    | Closes a file descriptor                                                 |
-| fork             |                |                                                                          |
-| wait             |                |                                                                          |
-| waitpid          |                |                                                                          |
+| fork             | man 2 fork     | Creates a new process                                                    |
+| wait             | man 2 wait     | Waits for a child process to terminate                                   |
+| waitpid          | man 2 waitpid  | Waits for a specific child process to terminate                          |
 | wait3            |                |                                                                          |
 | wait4            |                |                                                                          |
 | signal           |                |                                                                          |
@@ -58,11 +58,11 @@ The following functions were allowed to be used in this project:
 | stat             |                |                                                                          |
 | lstat            |                |                                                                          |
 | fstat            |                |                                                                          |
-| unlink           |                |                                                                          |
-| execve           |                |                                                                          |
-| dup              |                |                                                                          |
-| dup2             |                |                                                                          |
-| pipe             |                |                                                                          |
+| unlink           | man 2 unlink   | Deletes a name from the filesystem                                       |
+| execve           | man 2 execve   | Executes a program                                                       |
+| dup              | man 2 dup      | Duplicates a file descriptor                                             |
+| dup2             | man 2 dup2     | Duplicates a file descriptor to a specified new descriptor               |
+| pipe             | man 2 pipe     | Creates a pipe, a unidirectional communication channel                   |
 | opendir          |                |                                                                          |
 | readdir          |                |                                                                          |
 | closedir         |                |                                                                          |
@@ -81,7 +81,6 @@ The following functions were allowed to be used in this project:
 | tgetstr          |                |                                                                          |
 | tgoto            |                |                                                                          |
 | tputs            |                |                                                                          |
-| rl_clear_history |                |                                                                          |
 
 Additionally, the following libraries were allowed:
 
