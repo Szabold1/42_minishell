@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 10:59:28 by bszabo            #+#    #+#             */
-/*   Updated: 2023/09/10 15:39:03 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/05 10:14:52 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	count_substrs(char const *str, char c)
 }
 
 // count number of characters in substring starting at index 'i'
-int	get_substr_len(char const *str, char c, int i)
+static int	get_substr_len(char const *str, char c, int i)
 {
 	int	count;
 
@@ -48,17 +48,8 @@ int	get_substr_len(char const *str, char c, int i)
 	return (count);
 }
 
-// free 'arr' array and return 0
-int	free_arr(char **arr, int str_index)
-{
-	while (str_index > 0)
-		free(arr[--str_index]);
-	free(arr);
-	return (0);
-}
-
 // fill 'arr' array with substrings
-// return 1 if successful, 0 if malloc fails
+// return 0 if successful, -1 if malloc fails
 int	fill_arr(char **arr, char const *str, char c)
 {
 	int	i;
@@ -77,13 +68,13 @@ int	fill_arr(char **arr, char const *str, char c)
 		{
 			arr[str_index] = malloc(sizeof(char) * (substr_len + 1));
 			if (arr[str_index] == NULL)
-				return (free_arr(arr, str_index));
+				return (ft_free_str_arr(arr), -1);
 			ft_strlcpy(arr[str_index], &str[i], substr_len + 1);
 			str_index++;
 		}
 		i += substr_len;
 	}
-	return (1);
+	return (0);
 }
 
 // split string 'str' into substrings using char 'c' as delimiter
@@ -102,7 +93,7 @@ char	**ft_split(char const *str, char c)
 	arr[substrs] = NULL;
 	if (substrs == 0)
 		return (arr);
-	if (fill_arr(arr, str, c) == 0)
+	if (fill_arr(arr, str, c) == -1)
 		return (NULL);
 	return (arr);
 }
