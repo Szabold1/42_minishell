@@ -23,7 +23,13 @@ LFLAGS = -L$(LIBFT_DIR) -lft_full -lreadline
 RM = rm -f
 
 # Source files
-SRC = main.c
+SRC = builtins/cd.c \
+		builtins/env.c \
+		builtins/exit.c \
+		builtins/pwd.c \
+		clean_up.c \
+		init.c \
+		main.c
 
 # Object files
 OBJ = $(SRC:%.c=$(SRC_DIR)/%.o)
