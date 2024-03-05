@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 19:39:55 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/05 14:20:09 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/05 21:59:59 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ void	ms_cd(t_data *data)
 	char	new_pwd[PATH_MAX];
 
 	arr = ft_split(data->cmd_line, ' ');
-	if (!arr)
-		return ;
-	if (check_errors(arr, data) == -1)
+	if (!arr || check_errors(arr, data) == -1)
 		return ;
 	if (!arr[1])
 	{
@@ -57,6 +55,7 @@ void	ms_cd(t_data *data)
 			return (err_msg(arr[1], strerror(errno)), ft_free_str_arr(arr));
 		}
 	}
+	data->exit_status = 0;
 	ms_setenv("OLDPWD", ms_getenv("PWD", data), data);
 	getcwd(new_pwd, PATH_MAX);
 	ms_setenv("PWD", new_pwd, data);
