@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 18:29:27 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/05 13:47:37 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/05 14:22:46 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ms_pwd(t_data *data)
 	if (ft_strcmp(temp[0], "pwd") != 0)
 	{
 		err_msg(temp[0], "command not found");
-		free(temp);
+		ft_free_str_arr(temp);
 		data->exit_status = 127;
 		return ;
 	}
@@ -32,5 +32,5 @@ void	ms_pwd(t_data *data)
 		printf("%s\n", pwd);
 	else
 		perror("Error: getcwd");
-	free(temp);
+	ft_free_str_arr(temp);
 }
