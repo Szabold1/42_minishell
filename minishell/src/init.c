@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 21:08:25 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/04 22:10:56 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/05 13:45:36 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	**init_envp(char *envp[])
 // initialize all the data
 int	init(t_data *data, char *envp[])
 {
+	data->exit_status = 0;
 	data->cmd_line = NULL;
 	data->my_envp = init_envp(envp);
 	if (!data->my_envp)

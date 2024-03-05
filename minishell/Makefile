@@ -28,6 +28,7 @@ SRC = builtins/cd.c \
 		builtins/exit.c \
 		builtins/pwd.c \
 		clean_up.c \
+		errors.c \
 		init.c \
 		main.c
 

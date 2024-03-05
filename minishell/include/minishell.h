@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 21:20:01 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/05 12:59:27 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/05 13:45:23 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "../libft/include/libft.h"
 # include <unistd.h>
 # include <stdio.h>
+# include <errno.h>
+# include <string.h>
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -27,7 +29,7 @@
 # define ANSI_RESET "\e[0m"
 
 # define PROMPT ANSI_NEON "minishell " ANSI_RED "> " ANSI_RESET
-# define ARGS_ERROR ANSI_RED "Error:" ANSI_RESET " minishell cannot take any arguments\n"
+# define ARGS_ERROR "Error: minishell cannot take any arguments\n"
 
 // structure for data related to the command
 typedef struct s_cmd
@@ -38,10 +40,11 @@ typedef struct s_cmd
 
 typedef struct s_data
 {
-	char		*cmd_line;
-	char		**my_envp;
-	char		**paths_arr;
-	t_cmd		*cmds;
+	int		exit_status;
+	char	*cmd_line;
+	char	**my_envp;
+	char	**paths_arr;
+	t_cmd	*cmds;
 }	t_data;
 
 /* builtins ***************************************** ms stands for minishell */
@@ -57,15 +60,19 @@ void	ms_env(char *envp[]);
 void	ms_exit(t_data *data);
 // File: exit.c
 
-void	ms_pwd(void);
+void	ms_pwd(t_data *data);
 // File: pwd.c
 
 /* ************************************************************************** */
 
+void	clean_up(t_data *data);
+// File: clean_up.c
+
+void	err_msg(char *cmd, char *msg);
+// File: errors.c
+
 int		init(t_data *data, char *envp[]);
 // File: init.c
 
-void	clean_up(t_data *data);
-// File: clean_up.c
 
 #endif

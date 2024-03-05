@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 21:19:39 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/05 09:50:19 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/05 13:46:16 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	handle_builtins(t_data *data)
 		ms_cd(data);
 	else if (ft_strcmp(data->cmd_line, "env") == 0)
 		ms_env(data->my_envp);
-	else if (ft_strcmp(data->cmd_line, "pwd") == 0)
-		ms_pwd();
+	else if (ft_strncmp(data->cmd_line, "pwd", 3) == 0)
+		ms_pwd(data);
 	else if (ft_strcmp(data->cmd_line, "exit") == 0)
 		ms_exit(data);
 	return (0);
