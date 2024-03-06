@@ -9,3 +9,5 @@
 [Git & GitHub](https://youtube.com/playlist?list=PL4cUxeGkcC9goXbgTDQ0n_4TBzOO0ocPR&si=Uq1ucOr4MHXsbRTQ)
 
 [42 minishell](https://youtube.com/playlist?list=PLGU1kcPKHMKj5yA0RPb5AK4QAhexmQwrW&si=qUeTIHAtYtlATnUM)
+
+[Other minishell resources](https://github.com/pasqualerossi/Minishell_Resources?tab=readme-ov-file)
