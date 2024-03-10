@@ -29,7 +29,8 @@ LFLAGS = -L$(LIBFT_DIR) -lft -lreadline
 RM = rm -rf
 
 # Source files
-SRC = main.c
+SRC = init.c \
+		main.c
 
 # Object files
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
