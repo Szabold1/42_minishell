@@ -15,7 +15,7 @@ OBJ_DIR = ./obj
 
 # Libft
 LIBFT_DIR = ./libft
-LIBFT = ./libft/libft_full.a
+LIBFT = ./libft/libft.a
 
 # Headers
 INCLUDE_DIR = ./include
@@ -24,7 +24,7 @@ HEADERS = $(INCLUDE_DIR)/minishell.h
 # Compiler and flags
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -MMD -MP -I$(INCLUDE_DIR) -I$(LIBFT_DIR)/include
-LFLAGS = -L$(LIBFT_DIR) -lft_full -lreadline
+LFLAGS = -L$(LIBFT_DIR) -lft -lreadline
 
 # Remove command
 RM = rm -rf
@@ -49,12 +49,12 @@ all: $(NAME)
 clean:
 	@cd $(LIBFT_DIR) && $(MAKE) --quiet clean
 	@$(RM) $(OBJ_DIR)
-	@echo "$(RED)✔️ clean$(RESET)"
+	@echo "$(RED)✔️ clean $(NAME)$(RESET)"
 
 fclean: clean
 	@cd $(LIBFT_DIR) && $(MAKE) --quiet fclean
 	@$(RM) $(NAME)
-	@echo "$(RED)✔️ fclean$(RESET)"
+	@echo "$(RED)✔️ fclean $(NAME)$(RESET)"
 
 re: fclean all
 
@@ -69,7 +69,8 @@ $(OBJ_DIR):
 
 # Library compilation
 $(LIBFT): $(LIBFT_DIR)
-	@echo "$(YELLOW)compiling libft...$(RESET)"
-	@cd $(LIBFT_DIR) && $(MAKE) --quiet full
+	@echo "$(YELLOW)compiling...$(RESET)"
+	@cd $(LIBFT_DIR) && $(MAKE) --quiet
+	@echo "$(GREEN)✔️ libft created$(RESET)"
 
 .PHONY: all clean fclean re
