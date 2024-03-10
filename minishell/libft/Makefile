@@ -30,7 +30,6 @@ RM = rm -f
 SRC = ft_atoi.c \
       ft_bzero.c \
       ft_calloc.c \
-      ft_free_str_arr.c \
       ft_isalnum.c \
       ft_isalpha.c \
       ft_isascii.c \
@@ -48,7 +47,6 @@ SRC = ft_atoi.c \
       ft_putstr_fd.c \
       ft_split.c \
       ft_strchr.c \
-      ft_strcmp.c \
       ft_strdup.c \
       ft_striteri.c \
       ft_strjoin.c \
@@ -74,6 +72,10 @@ SRC_BONUS = ft_lstadd_back.c \
             ft_lstnew.c \
             ft_lstsize.c
 
+SRC_OTHER = ft_free_str_arr.c \
+            ft_strcmp.c \
+            ft_strdup_arr.c
+
 SRC_GNL = get_next_line.c
 
 SRC_PRINTF = ft_printf_utils.c \
@@ -87,6 +89,7 @@ SRC_PRINTF_FD = ft_printf_fd_utils.c \
 # Object files
 OBJ = $(SRC:%.c=$(SRC_DIR)/%.o)
 OBJ_BONUS = $(SRC_BONUS:%.c=$(SRC_BONUS_DIR)/%.o)
+OBJ_OTHER = $(SRC_OTHER:%.c=$(SRC_DIR)/%.o)
 OBJ_GNL = $(SRC_GNL:%.c=$(SRC_GNL_DIR)/%.o)
 OBJ_PRINTF = $(SRC_PRINTF:%.c=$(SRC_PRINTF_DIR)/%.o)
 OBJ_PRINTF_FD = $(SRC_PRINTF_FD:%.c=$(SRC_PRINTF_FD_DIR)/%.o)
