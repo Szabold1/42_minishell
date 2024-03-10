@@ -11,15 +11,14 @@ NAME = minishell
 
 # Source directories
 SRC_DIR = ./src
-OBJ_DIR = ./obj
 
 # Libft
 LIBFT_DIR = ./libft
-LIBFT = ./libft/libft.a
+LIBFT = $(LIBFT_DIR)/libft.a
 
-# Headers
+# Other directories
+OBJ_DIR = ./obj
 INCLUDE_DIR = ./include
-HEADERS = $(INCLUDE_DIR)/minishell.h
 
 # Compiler and flags
 CC = cc

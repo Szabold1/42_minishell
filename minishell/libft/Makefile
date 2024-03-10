@@ -9,11 +9,10 @@ SRC_BONUS_DIR = $(SRC_DIR)/bonus
 SRC_GNL_DIR = $(SRC_DIR)/get_next_line
 SRC_PRINTF_DIR = $(SRC_DIR)/ft_printf
 SRC_PRINTF_FD_DIR = $(SRC_DIR)/ft_printf_fd
-OBJ_DIR = ./obj
 
-# Headers
+# Other directories
+OBJ_DIR = ./obj
 INCLUDE_DIR = ./include
-HEADERS = $(INCLUDE_DIR)/libft.h
 
 # Compiler and flags
 CC = cc
