@@ -70,7 +70,8 @@ SRC_BONUS = ft_lstadd_back.c \
             ft_lstnew.c \
             ft_lstsize.c
 
-SRC_OTHER = ft_free_str_arr.c \
+SRC_OTHER = ft_arrlen.c \
+            ft_free_str_arr.c \
             ft_strcmp.c \
             ft_strdup_arr.c
 
