@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 10:48:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/12 18:12:01 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/13 11:35:26 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 // Other libft functions
 int		ft_arrlen(char **arr);
 void	ft_free_str_arr(char **arr);
+char	***ft_split_2d(char **arr, char c);
 int		ft_strcmp(char *s1, char *s2);
 char	**ft_strdup_arr(char *arr[]);
 
