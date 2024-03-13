@@ -11,3 +11,5 @@
 [42 minishell](https://youtube.com/playlist?list=PLGU1kcPKHMKj5yA0RPb5AK4QAhexmQwrW&si=qUeTIHAtYtlATnUM)
 
 [Other minishell resources](https://github.com/pasqualerossi/Minishell_Resources?tab=readme-ov-file)
+
+[Writing a Unix Shell (Part 1/3)](https://indradhanush.github.io/blog/writing-a-unix-shell-part-1/)
