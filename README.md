@@ -12,7 +12,7 @@
 
 [Other minishell resources](https://github.com/pasqualerossi/Minishell_Resources?tab=readme-ov-file)
 
-Writing a Unix Shell (3 Parts)
+Writing a Unix Shell (3 Parts):
 
 [Part I deals with understanding fork.](https://indradhanush.github.io/blog/writing-a-unix-shell-part-1/)
    
