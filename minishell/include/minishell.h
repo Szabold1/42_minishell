@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/11 10:25:07 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/15 17:52:37 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <errno.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 

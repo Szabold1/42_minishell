@@ -31,6 +31,7 @@ RM = rm -rf
 # Source files
 SRC = clean_up.c \
 		init.c \
+		signals.c \
 		main.c
 
 # Object files
