@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:42:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/11 16:58:09 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/18 22:39:16 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,14 @@ int	main_loop(t_data *data)
 {
 	while (1)
 	{
-		// handle_signals();
+		sig_cases(data, INTERACTIVE);
 		data->line = readline(PROMPT);
+		// sig_cases(data, NONINTERACTIVE);
 		if (!data->line)
-			return (clean_up(data), ERROR);
+		{
+			printf("exit\n");
+			return (clean_up(data), OK);
+		}
 		if (ft_strlen(data->line) > 0)
 		{
 			add_history(data->line);

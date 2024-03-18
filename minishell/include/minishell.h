@@ -6,7 +6,7 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/15 17:52:37 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/03/18 22:37:19 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@
 # define RED "\x1b[31m"
 # define RESET "\e[0m"
 
+// Define status
+# define INTERACTIVE 0
+# define NONINTERACTIVE 1
+
 // Define error messages
 # define ARGS_ERROR RED "error:" RESET " minishell cannot take any arguments\n"
 
@@ -40,23 +44,26 @@
 // Define the command structure
 typedef struct s_cmd
 {
-	char	**cmd_array; // {"ls", "-l", NULL}
-	char	*cmd_path; // "/bin/ls"
+	char		**cmd_array; // {"ls", "-l", NULL}
+	char		*cmd_path; // "/bin/ls"
 }	t_cmd;
 
 // Define the main data structure
 typedef struct s_data
 {
-	char	**env; // copy of the environment
-	char	*line; // "ls -l | sort | grep a > output.txt"
-	char	**line_split; // split by "|" {"ls -l", "sort", "grep a > output.txt"}
-	char	**cmd_paths; // array of paths to commands
-	t_cmd	**cmds; // array of commands
-	int		exit_status;
+	char		**env; // copy of the environment
+	char		*line; // "ls -l | sort | grep a > output.txt"
+	char		**line_split; // split by "|" {"ls -l", "sort", "grep a > output.txt"}
+	char		**cmd_paths; // array of paths to commands
+	t_cmd		**cmds; // array of commands
+	int			exit_status;
 }	t_data;
 
 // Function prototypes
 void	clean_up(t_data *data);
 int		init(t_data *data, char *env[]);
+
+// Signals
+void sig_cases(t_data *data, int sig_status);
 
 # endif
