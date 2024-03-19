@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:42:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/11 16:58:09 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/19 19:05:39 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	main_loop(t_data *data)
 		if (ft_strlen(data->line) > 0)
 		{
 			add_history(data->line);
+			if (check_line(data) == ERROR)
+				return (ERROR);
 			// if (parse_line(data) == ERROR)
 			// 	return (ERROR);
 			// if (exec_line(data) == ERROR)
@@ -39,7 +41,6 @@ int	main_loop(t_data *data)
 // 1. check arguments
 // 2. initialize data
 // 3. main loop
-// 4. clean up and exit
 int	main(int argc, char *argv[], char *env[])
 {
 	t_data	data;
