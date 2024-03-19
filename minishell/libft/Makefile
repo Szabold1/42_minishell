@@ -74,7 +74,8 @@ SRC_OTHER = ft_arrlen.c \
             ft_free_str_arr.c \
             ft_split_2d.c \
             ft_strcmp.c \
-            ft_strdup_arr.c
+            ft_strdup_arr.c \
+            ft_strreplace.c
 
 SRC_GNL = get_next_line.c
 
