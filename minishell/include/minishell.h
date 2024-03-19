@@ -6,7 +6,7 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/18 22:37:19 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:45:12 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/ioctl.h>
 
 // Define return values
 # define OK 0
@@ -31,15 +32,22 @@
 # define RED "\x1b[31m"
 # define RESET "\e[0m"
 
-// Define status
+// Define mode
 # define INTERACTIVE 0
 # define NONINTERACTIVE 1
+# define CHILD 2
+# define HEREDOC 3
+
+// Signals
+# define CTRLC 1
 
 // Define error messages
 # define ARGS_ERROR RED "error:" RESET " minishell cannot take any arguments\n"
 
 // Define the prompt
 # define PROMPT NEON "minishell$ " RESET
+
+extern int	g_signal;
 
 // Define the command structure
 typedef struct s_cmd
@@ -56,7 +64,7 @@ typedef struct s_data
 	char		**line_split; // split by "|" {"ls -l", "sort", "grep a > output.txt"}
 	char		**cmd_paths; // array of paths to commands
 	t_cmd		**cmds; // array of commands
-	int			exit_status;
+	int			exit_status; // exit_code
 }	t_data;
 
 // Function prototypes
@@ -64,6 +72,6 @@ void	clean_up(t_data *data);
 int		init(t_data *data, char *env[]);
 
 // Signals
-void sig_cases(t_data *data, int sig_status);
+void 	sig_cases(t_data *data, int sig_status);
 
 # endif

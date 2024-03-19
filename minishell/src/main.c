@@ -6,7 +6,7 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:42:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/18 22:39:16 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/03/19 19:51:42 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	main_loop(t_data *data)
 		sig_cases(data, INTERACTIVE);
 		data->line = readline(PROMPT);
 		// sig_cases(data, NONINTERACTIVE);
+		if (g_signal == CTRLC && g_signal--)
+			data->exit_status = 130;
 		if (!data->line)
 		{
 			printf("exit\n");
