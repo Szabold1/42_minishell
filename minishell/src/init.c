@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 09:39:28 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/10 12:27:36 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/19 21:14:34 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	init(t_data *data, char *env[])
 	if (!data->cmd_paths)
 		return (ERROR);
 	data->cmds = NULL;
+	data->cmd_count = 0;
+	data->pipe_count = 0;
 	data->exit_status = 0;
 	return (OK);
 }

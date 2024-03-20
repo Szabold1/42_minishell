@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/19 19:02:21 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/19 21:14:27 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ typedef struct s_data
 	char	**line_split; // split by "|" {"ls -l", "sort", "grep a > output.txt"}
 	char	**cmd_paths; // array of paths to commands
 	t_cmd	**cmds; // array of commands
+	int		cmd_count; // 3 (number of commands in the line)
+	int		pipe_count; // 2 (number of pipes in the line)
 	int		exit_status;
 }	t_data;
 
