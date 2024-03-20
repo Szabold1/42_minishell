@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 20:01:15 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/19 20:41:43 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/20 12:30:41 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // find next occurrence of 'quote' in 'line' starting at index 'i'
 // return index of next 'quote' or index of null terminator
-int	find_next_quote(char *line, int i, char quote)
+static int	find_next_quote(char *line, int i, char quote)
 {
 	i++;
 	while (line[i] && line[i] != quote)
@@ -77,7 +77,7 @@ static int	get_substr_len(char *str, char c, int i)
 
 // fill 'arr' array with substrings
 // return 0 if successful, -1 if malloc fails
-int	fill_arr(char **arr, char *str, char c)
+static int	fill_arr(char **arr, char *str, char c)
 {
 	int	i;
 	int	str_index;

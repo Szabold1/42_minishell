@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 10:59:28 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/05 10:14:52 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/20 12:30:21 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	get_substr_len(char const *str, char c, int i)
 
 // fill 'arr' array with substrings
 // return 0 if successful, -1 if malloc fails
-int	fill_arr(char **arr, char const *str, char c)
+static int	fill_arr(char **arr, char const *str, char c)
 {
 	int	i;
 	int	str_index;
