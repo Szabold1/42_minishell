@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 09:39:28 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/19 21:14:34 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/24 16:43:55 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	init(t_data *data, char *env[])
 		return (ERROR);
 	data->line = NULL;
 	data->line_split = NULL;
+	data->command_split = NULL;
 	data->cmd_paths = ft_split(getenv("PATH"), ':');
 	if (!data->cmd_paths)
 		return (ERROR);

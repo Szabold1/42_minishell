@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/24 14:05:02 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/24 16:43:42 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_data
 	char	**env; // copy of the environment
 	char	*line; // "ls -l | sort | grep a > output.txt"
 	char	**line_split; // split by "|" {"ls -l", "sort", "grep a > output.txt"}
+	char	***command_split; // split by " " {{ls, -l, NULL}, {sort, NULL}, {grep, a, >, output.txt, NULL}}
 	char	**cmd_paths; // array of paths to commands
 	t_cmd	**cmds; // array of commands
 	int		cmd_count; // 3 (number of commands in the line)

@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:37:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/24 14:06:10 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/24 17:01:06 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ static int	split_and_count(t_data *data)
 	data->line_split = ft_split_quotes(data->line, '|');
 	if (!data->line_split)
 		return (ERROR);
+	data->command_split = ft_split_quotes_2d(data->line_split, ' ');
+	if (!data->command_split)
+		return (ERROR);
 	data->cmd_count = ft_arrlen(data->line_split);
 	data->pipe_count = data->cmd_count - 1;
 	return (OK);
@@ -54,5 +57,10 @@ int	check_line(t_data *data)
 	printf("line: %s\n", data->line);
 	for (int i = 0; i < data->cmd_count; i++)
 		printf("line_split[%d]: %s\n", i, data->line_split[i]);
+	for (int i = 0; i < data->cmd_count; i++)
+	{
+		for (int j = 0; data->command_split[i][j]; j++)
+			printf("command_split[%d][%d]: %s\n", i, j, data->command_split[i][j]);
+	}
 	return (OK);
 }

@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:03:36 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/11 10:20:17 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/24 17:09:25 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	clean_up(t_data *data)
 			free(data->line);
 		if (data->line_split)
 			ft_free_str_arr(data->line_split);
+		if (data->command_split)
+			ft_free_str_arr_2d(data->command_split);
 		if (data->cmd_paths)
 			ft_free_str_arr(data->cmd_paths);
 		if (data->cmds)

@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:42:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/24 14:04:32 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/24 17:04:31 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ static void	main_loop_free(t_data *data)
 	{
 		ft_free_str_arr(data->line_split);
 		data->line_split = NULL;
+	}
+	if (data->command_split)
+	{
+		ft_free_str_arr_2d(data->command_split);
+		data->command_split = NULL;
 	}
 }
 

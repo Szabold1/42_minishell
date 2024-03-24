@@ -71,8 +71,9 @@ SRC_BONUS			=	ft_lstadd_back.c \
 						ft_lstsize.c
 
 SRC_OTHER			=	ft_arrlen.c \
+						ft_free_str_arr_2d.c \
 						ft_free_str_arr.c \
-						ft_split_2d.c \
+						ft_split_quotes_2d.c \
 						ft_split_quotes.c \
 						ft_strcmp.c \
 						ft_strdup_arr.c \
