@@ -6,16 +6,30 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:42:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/19 19:05:39 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/24 14:04:32 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	main_loop_free(t_data *data)
+{
+	if (data->line)
+	{
+		free(data->line);
+		data->line = NULL;
+	}
+	if (data->line_split)
+	{
+		ft_free_str_arr(data->line_split);
+		data->line_split = NULL;
+	}
+}
+
 // main loop for minishell
 // handle signals, read line, add it to history, parse, execute, and free line
 // return ERROR if any of the steps fail
-int	main_loop(t_data *data)
+static int	main_loop(t_data *data)
 {
 	while (1)
 	{
@@ -27,13 +41,13 @@ int	main_loop(t_data *data)
 		{
 			add_history(data->line);
 			if (check_line(data) == ERROR)
-				return (ERROR);
+				return (err_msg("check_line failed"), ERROR);
 			// if (parse_line(data) == ERROR)
 			// 	return (ERROR);
 			// if (exec_line(data) == ERROR)
 			// 	return (ERROR);
 		}
-		free(data->line);
+		main_loop_free(data);
 	}
 	return (OK);
 }
@@ -50,5 +64,5 @@ int	main(int argc, char *argv[], char *env[])
 	if (init(&data, env) == ERROR)
 		return (clean_up(&data), ERROR);
 	if (main_loop(&data) == ERROR)
-		return (clean_up(&data), ERROR);
+		return (err_msg("main_loop failed"), clean_up(&data), ERROR);
 }

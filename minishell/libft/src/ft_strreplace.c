@@ -6,63 +6,48 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 14:56:07 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/14 18:12:06 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/24 14:09:25 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-int	get_len(char *str, int start)
+// replace 'old' substring with 'new' substring in 'str'
+// ft_strreplace("echo "$USER'", "$USER", "username") -> "echo username'"
+// it will free the original string 'str' and return a new string, or NULL
+char	*ft_strreplace(char *str, char *old, char *new)
 {
-	int	len;
+	int		result_len;
+	char	*ptr;
+	char	*result;
 
-	len = 0;
-	while (str[start + len] && str[start + len] != ' ')
-		len++;
-	return (len);
-}
-
-// replace the word which starts at index 'start' with 'replace' in the 'str'
-// free the memory of 'str' and return a pointer to the new string, or NULL
-// example: ft_strreplace("hello world", 6, "there") -> "hello there"
-char	*ft_strreplace(char *str, int start, char *replace)
-{
-	char	*new;
-	int		i;
-	int		j;
-	int		len;
-
-	new = (char *)malloc(ft_strlen(str) + ft_strlen(replace) + 1);
-	if (!new)
+	result_len = ft_strlen(str) - ft_strlen(old) + ft_strlen(new) + 1;
+	ptr = ft_strnstr(str, old, ft_strlen(str));
+	if (!ptr)
 		return (NULL);
-	i = -1;
-	while (str[++i] && (i < start))
-		new[i] = str[i];
-	len = get_len(str, start);
-	j = 0;
-	while (replace[j])
-		new[i++] = replace[j++];
-	j = start + len;
-	while (str[j])
-		new[i++] = str[j++];
-	new[i] = '\0';
+	result = (char *)malloc(result_len * sizeof(char));
+	if (!result)
+		return (NULL);
+	ft_strlcpy(result, str, ptr - str + 1);
+	ft_strlcat(result, new, result_len);
+	ft_strlcat(result, ptr + ft_strlen(old), result_len);
 	free(str);
-	return (new);
+	return (result);
 }
+
 /*
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 int main(void)
 {
-	char *str = strdup("echo $USER");
-	int start = 5;
+	char *str = strdup("echo \"$USER\'\"");
 	char replace[] = "username";
 
 	printf("Original string: %s\n", str);
-	printf("Replacing \"%s\" starting from index %d\n", replace, start);
+	printf("Substring to replace: $USER\n");
 
-	char *result = ft_strreplace(str, start, replace);
+	char *result = ft_strreplace(str, "$USER", replace);
 	if (result == NULL) {
 		printf("Failed to replace. Memory allocation error.\n");
 		return 1;

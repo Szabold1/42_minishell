@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/19 21:14:27 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/24 14:05:02 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ int		init(t_data *data, char *env[]);
 // File: src/input_check/check_line.c
 int		check_line(t_data *data);
 // File: src/input_check/env_variables.c
-int		handle_env_variables(t_data *data);
+int		replace_env_variables_in_quotes(t_data *data, int q_start, int q_end);
+int		replace_env_variable(t_data *data, int i);
 // File: src/input_check/quotes.c
-int		find_next_quote(char *line, int i, char quote);
-int		check_quotes(t_data *data);
+int		quotes_and_env_var(t_data *data);
 
 /* ********************************************** Clean up and error handling */
 // File: src/clean_up.c
