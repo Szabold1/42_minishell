@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/24 16:43:42 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/25 18:33:54 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef struct s_data
 	char	***command_split; // split by " " {{ls, -l, NULL}, {sort, NULL}, {grep, a, >, output.txt, NULL}}
 	char	**cmd_paths; // array of paths to commands
 	t_cmd	**cmds; // array of commands
+	int		**pipes; // array of pipes
+	pid_t	*pids_child; // array of child process ids
 	int		cmd_count; // 3 (number of commands in the line)
 	int		pipe_count; // 2 (number of pipes in the line)
 	int		exit_status;
@@ -75,8 +77,15 @@ int		replace_env_variable(t_data *data, int i);
 // File: src/input_check/quotes.c
 int		quotes_and_env_var(t_data *data);
 
+/* ************************************************************* Line parsing */
+// File: src/line_parsing/parse_line.c
+int		parse_line(t_data *data);
+// File: src/line_parsing/init_2.c
+int		init_2(t_data *data);
+
 /* ********************************************** Clean up and error handling */
 // File: src/clean_up.c
+void	main_loop_free(t_data *data);
 void	clean_up(t_data *data);
 // File: src/err_msg.c
 void	err_msg(char *msg);

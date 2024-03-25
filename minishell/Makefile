@@ -20,6 +20,7 @@ LIBFT				=	$(LIBFT_DIR)/libft.a
 OBJ_DIR				=	obj
 INCLUDE_DIR			=	include
 INPUT_CHECK_DIR		=	input_check
+LINE_PARSING_DIR	=	line_parsing
 
 # Compiler and flags
 CC = cc
@@ -34,7 +35,11 @@ SRC_INPUT_CHECK		=	check_line.c \
 						env_variables.c \
 						quotes.c
 
+SRC_LINE_PARSING	=	init_2.c \
+						parse_line.c \
+
 SRC 				=	$(addprefix $(INPUT_CHECK_DIR)/, $(SRC_INPUT_CHECK)) \
+						$(addprefix $(LINE_PARSING_DIR)/, $(SRC_LINE_PARSING)) \
 						clean_up.c \
 						env.c \
 						err_msg.c \
@@ -76,6 +81,7 @@ $(NAME): $(LIBFT) $(OBJ)
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)/input_check
+	@mkdir -p $(OBJ_DIR)/line_parsing
 
 # Library compilation
 $(LIBFT): $(LIBFT_DIR)

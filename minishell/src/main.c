@@ -6,30 +6,11 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:42:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/24 17:04:31 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/25 18:31:48 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	main_loop_free(t_data *data)
-{
-	if (data->line)
-	{
-		free(data->line);
-		data->line = NULL;
-	}
-	if (data->line_split)
-	{
-		ft_free_str_arr(data->line_split);
-		data->line_split = NULL;
-	}
-	if (data->command_split)
-	{
-		ft_free_str_arr_2d(data->command_split);
-		data->command_split = NULL;
-	}
-}
 
 // main loop for minishell
 // handle signals, read line, add it to history, parse, execute, and free line
@@ -47,8 +28,8 @@ static int	main_loop(t_data *data)
 			add_history(data->line);
 			if (check_line(data) == ERROR)
 				return (err_msg("check_line failed"), ERROR);
-			// if (parse_line(data) == ERROR)
-			// 	return (ERROR);
+			if (parse_line(data) == ERROR)
+				return (err_msg("parse_line failed"), ERROR);
 			// if (exec_line(data) == ERROR)
 			// 	return (ERROR);
 		}
