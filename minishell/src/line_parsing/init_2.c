@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:28:50 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/25 18:27:57 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/27 14:28:27 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ static int	create_pipes(t_data *data)
 				return (ERROR);
 			if (pipe(data->pipes[i]) == -1)
 				return (ERROR);
+			data->pipes[i][0] = -1;
+			data->pipes[i][1] = -1;
 			i++;
 		}
 	}

@@ -6,11 +6,27 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:03:36 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/25 18:33:39 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/27 15:38:09 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// free all allocated memory in the pipes array
+static void	free_pipes(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->pipe_count)
+	{
+		free(data->pipes[i]);
+		data->pipes[i] = NULL;
+		i++;
+	}
+	free(data->pipes);
+	data->pipes = NULL;
+}
 
 // free allocated memory in the main loop
 void	main_loop_free(t_data *data)
@@ -30,6 +46,8 @@ void	main_loop_free(t_data *data)
 		ft_free_str_arr_2d(data->command_split);
 		data->command_split = NULL;
 	}
+	if (data->pipes)
+		free_pipes(data);
 }
 
 // free allocated memory in the command structure
@@ -53,20 +71,6 @@ static void free_cmds(t_cmd **cmds)
 	free(cmds);
 }
 
-// free all allocated memory in the pipes array
-static void	free_pipes(int **pipes)
-{
-	int	i;
-
-	i = 0;
-	while (pipes[i])
-	{
-		free(pipes[i]);
-		i++;
-	}
-	free(pipes);
-}
-
 // free all allocated memory
 void	clean_up(t_data *data)
 {
@@ -85,7 +89,7 @@ void	clean_up(t_data *data)
 		if (data->cmds)
 			free_cmds(data->cmds);
 		if (data->pipes)
-			free_pipes(data->pipes);
+			free_pipes(data);
 		if (data->pids_child)
 			free(data->pids_child);
 	}

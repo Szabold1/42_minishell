@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:16:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/24 14:07:07 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/27 11:40:54 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	replace_env_variables_in_quotes(t_data *data, int q_start, int q_end)
 			value = ms_getenv(var_name + 1, data);
 			if (!value)
 				value = "";
-			data->line = ft_strreplace(data->line, var_name, value);
+			data->line = ft_strreplace(data->line, var_name, value, i);
 			if (!data->line)
 				return (err_msg("ft_strreplace failed"), ERROR);
 			i += ft_strlen(value) - 1;
@@ -68,7 +68,7 @@ int	replace_env_variable(t_data *data, int i)
 	value = ms_getenv(var_name + 1, data);
 	if (!value)
 		value = "";
-	data->line = ft_strreplace(data->line, var_name, value);
+	data->line = ft_strreplace(data->line, var_name, value, i);
 	free(var_name);
 	if (!data->line)
 		return (err_msg("ft_strreplace failed"), ERROR);
