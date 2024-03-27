@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 10:48:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/24 17:00:06 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/27 11:46:13 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	***ft_split_quotes_2d(char **arr, char c);
 char	**ft_split_quotes(char *str, char c);
 int		ft_strcmp(char *s1, char *s2);
 char	**ft_strdup_arr(char *arr[]);
-char	*ft_strreplace(char *str, char *old, char *new);
+char	*ft_strreplace(char *str, char *old_s, char *new_s, int start_i);
 
 // get_next_line functions
 // File: get_next_line.c

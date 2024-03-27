@@ -6,32 +6,34 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 14:56:07 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/24 14:09:25 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/27 15:41:52 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/libft.h"
+#include "libft.h"
 
-// replace 'old' substring with 'new' substring in 'str'
-// ft_strreplace("echo "$USER'", "$USER", "username") -> "echo username'"
+// replace first found 'old_s' substring with 'new_s' substring in 'str'
+// start searching from index 'start_i'
+// ft_strreplace("echo $USER'", "$USER", "username") -> "echo username'"
 // it will free the original string 'str' and return a new string, or NULL
-char	*ft_strreplace(char *str, char *old, char *new)
+char	*ft_strreplace(char *str, char *old_s, char *new_s, int start_i)
 {
 	int		result_len;
 	char	*ptr;
 	char	*result;
 
-	result_len = ft_strlen(str) - ft_strlen(old) + ft_strlen(new) + 1;
-	ptr = ft_strnstr(str, old, ft_strlen(str));
+	result_len = ft_strlen(str) - ft_strlen(old_s) + ft_strlen(new_s) + 1;
+	ptr = ft_strnstr(str + start_i, old_s, ft_strlen(str));
 	if (!ptr)
 		return (NULL);
 	result = (char *)malloc(result_len * sizeof(char));
 	if (!result)
 		return (NULL);
 	ft_strlcpy(result, str, ptr - str + 1);
-	ft_strlcat(result, new, result_len);
-	ft_strlcat(result, ptr + ft_strlen(old), result_len);
+	ft_strlcat(result, new_s, result_len);
+	ft_strlcat(result, ptr + ft_strlen(old_s), result_len);
 	free(str);
+	str = NULL;
 	return (result);
 }
 
@@ -47,7 +49,7 @@ int main(void)
 	printf("Original string: %s\n", str);
 	printf("Substring to replace: $USER\n");
 
-	char *result = ft_strreplace(str, "$USER", replace);
+	char *result = ft_strreplace(str, "$USER", replace, 0);
 	if (result == NULL) {
 		printf("Failed to replace. Memory allocation error.\n");
 		return 1;
