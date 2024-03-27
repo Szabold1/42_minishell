@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/25 18:33:54 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/27 15:30:13 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@
 # include <stdlib.h>
 # include <errno.h>
 # include <stdbool.h>
+# include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
 // Define return values
 # define OK 0
-# define ERROR 1
+# define ERROR -1
 
 // Define special characters
 # define S_QUOTE '\''
@@ -57,7 +58,7 @@ typedef struct s_data
 	char	***command_split; // split by " " {{ls, -l, NULL}, {sort, NULL}, {grep, a, >, output.txt, NULL}}
 	char	**cmd_paths; // array of paths to commands
 	t_cmd	**cmds; // array of commands
-	int		**pipes; // array of pipes
+	int		**pipes; // array of pipes to connect commands
 	pid_t	*pids_child; // array of child process ids
 	int		cmd_count; // 3 (number of commands in the line)
 	int		pipe_count; // 2 (number of pipes in the line)
@@ -75,7 +76,9 @@ int		check_line(t_data *data);
 int		replace_env_variables_in_quotes(t_data *data, int q_start, int q_end);
 int		replace_env_variable(t_data *data, int i);
 // File: src/input_check/quotes.c
-int		quotes_and_env_var(t_data *data);
+int		quotes_envvar_redir(t_data *data);
+// File: src/input_check/redirections_space.c
+int		separate_redirections(t_data *data, int i);
 
 /* ************************************************************* Line parsing */
 // File: src/line_parsing/parse_line.c

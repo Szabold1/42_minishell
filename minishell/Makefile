@@ -33,7 +33,8 @@ RM					=	rm -rf
 # Source files
 SRC_INPUT_CHECK		=	check_line.c \
 						env_variables.c \
-						quotes.c
+						quotes.c \
+						redirections_space.c
 
 SRC_LINE_PARSING	=	init_2.c \
 						parse_line.c \
