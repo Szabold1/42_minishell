@@ -20,7 +20,7 @@ LIBFT				=	$(LIBFT_DIR)/libft.a
 OBJ_DIR				=	obj
 INCLUDE_DIR			=	include
 INPUT_CHECK_DIR		=	input_check
-LINE_PARSING_DIR	=	line_parsing
+PARSE_EXECUTE_DIR	=	parse_and_execute
 HEADERS				=	$(INCLUDE_DIR)/minishell.h \
 						$(LIBFT_DIR)/include/libft.h
 
@@ -39,11 +39,11 @@ SRC_INPUT_CHECK		=	check_line.c \
 						quotes.c \
 						redirections_space.c
 
-SRC_LINE_PARSING	=	init_2.c \
+SRC_PARSE_EXECUTE	=	init_2.c \
 						parse_and_execute.c
 
 SRC 				=	$(addprefix $(INPUT_CHECK_DIR)/, $(SRC_INPUT_CHECK)) \
-						$(addprefix $(LINE_PARSING_DIR)/, $(SRC_LINE_PARSING)) \
+						$(addprefix $(PARSE_EXECUTE_DIR)/, $(SRC_PARSE_EXECUTE)) \
 						clean_up.c \
 						env.c \
 						err_msg.c \
@@ -80,8 +80,8 @@ $(NAME): $(LIBFT) $(OBJ)
 # Create directories for object files
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OBJ_DIR)/input_check
-	@mkdir -p $(OBJ_DIR)/line_parsing
+	@mkdir -p $(OBJ_DIR)/$(INPUT_CHECK_DIR)
+	@mkdir -p $(OBJ_DIR)/$(PARSE_EXECUTE_DIR)
 
 # Library compilation
 $(LIBFT): $(LIBFT_DIR)
