@@ -84,8 +84,8 @@ int		quotes_envvar_redir(t_data *data);
 int		separate_redirections(t_data *data, int i);
 
 /* ************************************************************* Line parsing */
-// File: src/line_parsing/parse_line.c
-int		parse_line(t_data *data);
+// File: src/line_parsing/parse_and_execute.c
+int		parse_and_execute(t_data *data);
 // File: src/line_parsing/init_2.c
 int		init_2(t_data *data);
 

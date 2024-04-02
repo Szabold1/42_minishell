@@ -38,7 +38,7 @@ SRC_INPUT_CHECK		=	check_line.c \
 						redirections_space.c
 
 SRC_LINE_PARSING	=	init_2.c \
-						parse_line.c \
+						parse_and_execute.c
 
 SRC 				=	$(addprefix $(INPUT_CHECK_DIR)/, $(SRC_INPUT_CHECK)) \
 						$(addprefix $(LINE_PARSING_DIR)/, $(SRC_LINE_PARSING)) \

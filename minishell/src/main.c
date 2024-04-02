@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:42:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/25 18:31:48 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/02 09:55:02 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@ static int	main_loop(t_data *data)
 {
 	while (1)
 	{
+		main_loop_free(data);
 		// handle_signals();
 		data->line = readline(PROMPT);
 		if (!data->line)
 			return (clean_up(data), ERROR);
 		if (ft_strlen(data->line) > 0)
 		{
+			if (ft_strcmp(data->line, "exit") == 0) // for testing
+				return (clean_up(data), data->exit_status); // for testing
 			add_history(data->line);
 			if (check_line(data) == ERROR)
-				return (err_msg("check_line failed"), ERROR);
-			if (parse_line(data) == ERROR)
-				return (err_msg("parse_line failed"), ERROR);
-			// if (exec_line(data) == ERROR)
-			// 	return (ERROR);
+				continue;
+			if (parse_and_execute(data) == ERROR)
+				continue;
 		}
-		main_loop_free(data);
 	}
 	return (OK);
 }
