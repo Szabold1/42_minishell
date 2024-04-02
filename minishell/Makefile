@@ -33,6 +33,7 @@ RM					=	rm -rf
 # Source files
 SRC_INPUT_CHECK		=	check_line.c \
 						env_variables.c \
+						exit_status.c \
 						quotes.c \
 						redirections_space.c
 
@@ -55,7 +56,7 @@ DEPS				=	$(OBJ:.o=.d)
 -include $(DEPS)
 
 # Compile individual source files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Phony targets

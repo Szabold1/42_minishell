@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:37:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/27 15:30:27 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/02 09:45:32 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	check_syntax(t_data *data)
 		|| data->line[0] == ';' || data->line[len - 1] == ';'
 		|| data->line[0] == '\\' || data->line[len - 1] == '\\'
 		|| data->line[0] == '>' || data->line[len - 1] == '>'
-		|| data->line[0] == '<' || data->line[len - 1] == '<')
+		|| data->line[len - 1] == '<')
 	{
 		data->exit_status = 2;
 		return (err_msg("syntax error"), ERROR);
@@ -31,6 +31,8 @@ static int	check_syntax(t_data *data)
 	return (OK);
 }
 
+// check line beginnings and endings, check quotes, replace environment
+// variables, replace '$?', and separate redirection symbols
 int	check_line(t_data *data)
 {
 	if (check_syntax(data) == ERROR)

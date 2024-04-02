@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/27 15:30:13 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/02 09:41:50 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <errno.h>
 # include <stdbool.h>
 # include <string.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -75,6 +76,8 @@ int		check_line(t_data *data);
 // File: src/input_check/env_variables.c
 int		replace_env_variables_in_quotes(t_data *data, int q_start, int q_end);
 int		replace_env_variable(t_data *data, int i);
+// File: src/input_check/exit_status.c
+int		replace_exit_status(t_data *data, int i, int *q_end);
 // File: src/input_check/quotes.c
 int		quotes_envvar_redir(t_data *data);
 // File: src/input_check/redirections_space.c
