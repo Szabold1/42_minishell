@@ -39,7 +39,9 @@ SRC_INPUT_CHECK		=	check_line.c \
 						quotes.c \
 						redirections_space.c
 
-SRC_PARSE_EXECUTE	=	init_2.c \
+SRC_PARSE_EXECUTE	=	cmds_array.c \
+						handle_commands.c \
+						init_2.c \
 						parse_and_execute.c
 
 SRC 				=	$(addprefix $(INPUT_CHECK_DIR)/, $(SRC_INPUT_CHECK)) \

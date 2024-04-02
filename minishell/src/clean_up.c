@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:03:36 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/27 15:38:09 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/03/29 21:32:00 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,35 @@ static void	free_pipes(t_data *data)
 	data->pipes = NULL;
 }
 
+// free allocated memory in the command structure
+static void	free_cmd(t_cmd *cmd)
+{
+	if (cmd->cmd_array)
+	{
+		ft_free_str_arr(cmd->cmd_array);
+		cmd->cmd_array = NULL;
+	}
+	if (cmd->cmd_path)
+	{
+		free(cmd->cmd_path);
+		cmd->cmd_path = NULL;
+	}
+	free(cmd);
+}
+
+// free all allocated memory in the cmds array
+static void free_cmds(t_cmd **cmds)
+{
+	int	i;
+
+	i = 0;
+	while (cmds[i])
+	{
+		free_cmd(cmds[i++]);
+	}
+	free(cmds);
+}
+
 // free allocated memory in the main loop
 void	main_loop_free(t_data *data)
 {
@@ -46,29 +75,13 @@ void	main_loop_free(t_data *data)
 		ft_free_str_arr_2d(data->command_split);
 		data->command_split = NULL;
 	}
+	if (data->cmds)
+	{
+		free_cmds(data->cmds);
+		data->cmds = NULL;
+	}
 	if (data->pipes)
 		free_pipes(data);
-}
-
-// free allocated memory in the command structure
-static void	free_cmd(t_cmd *cmd)
-{
-	if (cmd->cmd_array)
-		ft_free_str_arr(cmd->cmd_array);
-	if (cmd->cmd_path)
-		free(cmd->cmd_path);
-	free(cmd);
-}
-
-// free all allocated memory in the cmds array
-static void free_cmds(t_cmd **cmds)
-{
-	int	i;
-
-	i = 0;
-	while (cmds[i])
-		free_cmd(cmds[i++]);
-	free(cmds);
 }
 
 // free all allocated memory

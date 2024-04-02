@@ -41,7 +41,7 @@ int	parse_and_execute(t_data *data)
 		return (ERROR);
 	if (init_2(data) == ERROR)
 		return (ERROR);
-	// if (handle_commands(data) == ERROR)
-	// 	return (ERROR);
+	if (handle_commands(data) == ERROR)
+		return (ERROR);
 	return (OK);
 }

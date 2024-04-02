@@ -83,11 +83,15 @@ int		quotes_envvar_redir(t_data *data);
 // File: src/input_check/redirections_space.c
 int		separate_redirections(t_data *data, int i);
 
-/* ************************************************************* Line parsing */
-// File: src/parse_and_execute/parse_and_execute.c
-int		parse_and_execute(t_data *data);
+/* ******************************************************** Parse and execute */
+// File: src/parse_and_execute/cmds_array.c
+int		set_cmds_array(t_data *data, int i);
+// File: src/parse_and_execute/handle_commands.c
+int		handle_commands(t_data *data);
 // File: src/parse_and_execute/init_2.c
 int		init_2(t_data *data);
+// File: src/parse_and_execute/parse_and_execute.c
+int		parse_and_execute(t_data *data);
 
 /* ********************************************** Clean up and error handling */
 // File: src/clean_up.c
@@ -95,5 +99,6 @@ void	main_loop_free(t_data *data);
 void	clean_up(t_data *data);
 // File: src/err_msg.c
 void	err_msg(char *msg);
+void	err_msg2(char *msg1, char *msg2);
 
 # endif
