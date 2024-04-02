@@ -21,10 +21,12 @@ OBJ_DIR				=	obj
 INCLUDE_DIR			=	include
 INPUT_CHECK_DIR		=	input_check
 LINE_PARSING_DIR	=	line_parsing
+HEADERS				=	$(INCLUDE_DIR)/minishell.h \
+						$(LIBFT_DIR)/include/libft.h
 
 # Compiler and flags
 CC = cc
-CFLAGS				=	-Wall -Wextra -Werror -MMD -MP -I$(INCLUDE_DIR) -I$(LIBFT_DIR)/include
+CFLAGS				=	-Wall -Wextra -Werror -I$(INCLUDE_DIR) -I$(LIBFT_DIR)/include
 LFLAGS				=	-L$(LIBFT_DIR) -lft -lreadline
 
 # Remove command
@@ -50,13 +52,9 @@ SRC 				=	$(addprefix $(INPUT_CHECK_DIR)/, $(SRC_INPUT_CHECK)) \
 
 # Object files
 OBJ					=	$(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
-DEPS				=	$(OBJ:.o=.d)
-
-# Include dependency files
--include $(DEPS)
 
 # Compile individual source files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Phony targets

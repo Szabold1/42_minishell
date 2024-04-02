@@ -13,10 +13,11 @@ SRC_PRINTF_FD_DIR	=	$(SRC_DIR)/ft_printf_fd
 # Other directories
 OBJ_DIR				=	./obj
 INCLUDE_DIR			=	./include
+HEADERS				=	$(INCLUDE_DIR)/libft.h
 
 # Compiler and flags
 CC					=	cc
-CFLAGS				=	-Wall -Wextra -Werror -MMD -MP -I$(INCLUDE_DIR)
+CFLAGS				=	-Wall -Wextra -Werror -I$(INCLUDE_DIR)
 
 # Archiver
 AR					=	ar rcs
@@ -97,25 +98,21 @@ OBJ_GNL				=	$(addprefix $(OBJ_DIR)/, $(SRC_GNL:.c=.o))
 OBJ_PRINTF			=	$(addprefix $(OBJ_DIR)/, $(SRC_PRINTF:.c=.o))
 OBJ_PRINTF_FD		=	$(addprefix $(OBJ_DIR)/, $(SRC_PRINTF_FD:.c=.o))
 OBJ_FULL			=	$(OBJ) $(OBJ_BONUS) $(OBJ_OTHER) $(OBJ_GNL) $(OBJ_PRINTF) $(OBJ_PRINTF_FD)
-DEPS				=	$(OBJ_FULL:.o=.d)
-
-# Include dependency files
--include $(DEPS)
 
 # Compile individual source files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_BONUS_DIR)/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_BONUS_DIR)/%.c $(HEADERS) | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_GNL_DIR)/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_GNL_DIR)/%.c $(HEADERS) | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_PRINTF_DIR)/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_PRINTF_DIR)/%.c $(HEADERS) | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_PRINTF_FD_DIR)/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_PRINTF_FD_DIR)/%.c $(HEADERS) | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Phony Targets
