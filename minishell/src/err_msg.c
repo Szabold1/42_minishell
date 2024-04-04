@@ -12,9 +12,16 @@
 
 #include "minishell.h"
 
-// print error message to stderr with "minishell: " prefix
+// print error message with a custom message
 void	err_msg(char *msg)
 {
 	ft_printf_fd(2, RED "minishell: " RESET);
 	ft_printf_fd(2, "%s\n", msg);
+}
+
+// print error message with two custom messages
+void	err_msg2(char *msg1, char *msg2)
+{
+	ft_printf_fd(2, RED "minishell: " RESET);
+	ft_printf_fd(2, "%s: %s\n", msg1, msg2);
 }
