@@ -20,7 +20,7 @@ LIBFT				=	$(LIBFT_DIR)/libft.a
 OBJ_DIR				=	obj
 INCLUDE_DIR			=	include
 INPUT_CHECK_DIR		=	input_check
-PARSE_EXECUTE_DIR	=	parse_and_execute
+PARSE_LINE_DIR		=	parse_line
 HEADERS				=	$(INCLUDE_DIR)/minishell.h \
 						$(LIBFT_DIR)/include/libft.h
 
@@ -39,13 +39,16 @@ SRC_INPUT_CHECK		=	check_line.c \
 						quotes.c \
 						redirections_space.c
 
-SRC_PARSE_EXECUTE	=	cmds_array.c \
+SRC_PARSE_LINE		=	cmd_data.c \
 						handle_commands.c \
+						handle_input.c \
+						handle_output.c \
 						init_2.c \
-						parse_and_execute.c
+						parse_line.c
 
 SRC 				=	$(addprefix $(INPUT_CHECK_DIR)/, $(SRC_INPUT_CHECK)) \
-						$(addprefix $(PARSE_EXECUTE_DIR)/, $(SRC_PARSE_EXECUTE)) \
+						$(addprefix $(PARSE_LINE_DIR)/, $(SRC_PARSE_LINE)) \
+						clean_up_loop.c \
 						clean_up.c \
 						env.c \
 						err_msg.c \
@@ -83,7 +86,7 @@ $(NAME): $(LIBFT) $(OBJ)
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)/$(INPUT_CHECK_DIR)
-	@mkdir -p $(OBJ_DIR)/$(PARSE_EXECUTE_DIR)
+	@mkdir -p $(OBJ_DIR)/$(PARSE_LINE_DIR)
 
 # Library compilation
 $(LIBFT): $(LIBFT_DIR)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmds_array.c                                       :+:      :+:    :+:   */
+/*   cmd_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 19:40:17 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/29 21:34:01 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/06 09:12:18 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static char	*get_cmd_path(t_data *data, int i)
 
 // set 'cmd_array' and 'cmd_path' in the command structure
 // return ERROR if any of the steps fail, otherwise return OK
-int	set_cmds_array(t_data *data, int i)
+int	set_cmd_data(t_data *data, int i)
 {
 	int	start;
 
@@ -91,11 +91,5 @@ int	set_cmds_array(t_data *data, int i)
 		data->exit_status = 127;
 		err_msg2(data->cmds[i]->cmd_array[0], "command not found");
 	}
-	for (int j = 0; data->cmds[i]->cmd_array[j]; j++) // for testing
-		printf("cmd_array[%d]: %s\n", j, data->cmds[i]->cmd_array[j]); // for testing
-	if (data->cmds[i]->cmd_path) // for testing
-		printf("path: %s\n", data->cmds[i]->cmd_path); // for testing
-	else // for testing
-		printf("path: no path found\n"); // for testing
 	return (OK);
 }

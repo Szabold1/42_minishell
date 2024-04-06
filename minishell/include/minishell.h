@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/02 09:41:50 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/06 09:34:10 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdbool.h>
 # include <string.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -48,6 +49,8 @@ typedef struct s_cmd
 {
 	char	**cmd_array; // {"ls", "-l", NULL}
 	char	*cmd_path; // "/bin/ls"
+	int		fd_in; // fd to read from
+	int		fd_out; // fd to write to
 }	t_cmd;
 
 // Define the main data structure
@@ -63,6 +66,7 @@ typedef struct s_data
 	pid_t	*pids_child; // array of child process ids
 	int		cmd_count; // 3 (number of commands in the line)
 	int		pipe_count; // 2 (number of pipes in the line)
+	bool	no_infile; // true if no input file was found
 	int		exit_status;
 }	t_data;
 
@@ -83,19 +87,26 @@ int		quotes_envvar_redir(t_data *data);
 // File: src/input_check/redirections_space.c
 int		separate_redirections(t_data *data, int i);
 
-/* ******************************************************** Parse and execute */
-// File: src/parse_and_execute/cmds_array.c
-int		set_cmds_array(t_data *data, int i);
-// File: src/parse_and_execute/handle_commands.c
+/* *************************************************************** Parse line */
+// File: src/parse_line/cmd_data.c
+int		set_cmd_data(t_data *data, int i);
+// File: src/parse_line/handle_commands.c
 int		handle_commands(t_data *data);
-// File: src/parse_and_execute/init_2.c
+// File: src/parse_line/handle_input.c
+int		handle_input(t_data *data, int i, int j);
+// File: src/parse_line/handle_output.c
+int		handle_output(t_data *data, int i, int j);
+// File: src/parse_line/init_2.c
 int		init_2(t_data *data);
-// File: src/parse_and_execute/parse_and_execute.c
-int		parse_and_execute(t_data *data);
+// File: src/parse_line/parse_line.c
+int		parse_line(t_data *data);
 
 /* ********************************************** Clean up and error handling */
+// File: src/clean_up_loop.c
+void	clean_up_loop(t_data *data);
 // File: src/clean_up.c
-void	main_loop_free(t_data *data);
+void	clean_up_pipes(t_data *data);
+void	clean_up_cmds(t_cmd **cmds);
 void	clean_up(t_data *data);
 // File: src/err_msg.c
 void	err_msg(char *msg);

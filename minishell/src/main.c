@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:42:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/02 09:55:02 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/06 07:50:43 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	main_loop(t_data *data)
 {
 	while (1)
 	{
-		main_loop_free(data);
+		clean_up_loop(data);
 		// handle_signals();
 		data->line = readline(PROMPT);
 		if (!data->line)
@@ -31,8 +31,10 @@ static int	main_loop(t_data *data)
 			add_history(data->line);
 			if (check_line(data) == ERROR)
 				continue;
-			if (parse_and_execute(data) == ERROR)
+			if (parse_line(data) == ERROR)
 				continue;
+			// if (execute(data) == ERROR)
+			// 	continue;
 		}
 	}
 	return (OK);

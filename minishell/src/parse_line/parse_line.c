@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:27:38 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/01 19:22:16 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/06 06:37:29 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ static int	split_and_count(t_data *data)
 	return (OK);
 }
 
-int	parse_and_execute(t_data *data)
+// parse the line, prepare data for execution
+// return ERROR if any of the steps fail, OK otherwise
+int	parse_line(t_data *data)
 {
 	if (split_and_count(data) == ERROR)
 		return (ERROR);

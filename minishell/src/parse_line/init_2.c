@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:28:50 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/27 14:28:27 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/06 06:41:33 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static int	alloc_memory_cmds(t_data *data)
 				return (ERROR);
 			data->cmds[i]->cmd_array = NULL;
 			data->cmds[i]->cmd_path = NULL;
+			data->cmds[i]->fd_in = -1;
+			data->cmds[i]->fd_out = -1;
 			i++;
 		}
 		data->cmds[data->cmd_count] = NULL;
@@ -53,6 +55,7 @@ static int	alloc_memory_pids_child(t_data *data)
 		while (i < data->cmd_count)
 		{
 			data->pids_child[i] = -1;
+			printf("pids_child[%d]: %d\n", i, data->pids_child[i]); // for testing
 			i++;
 		}
 	}
@@ -78,10 +81,13 @@ static int	create_pipes(t_data *data)
 				return (ERROR);
 			if (pipe(data->pipes[i]) == -1)
 				return (ERROR);
-			data->pipes[i][0] = -1;
-			data->pipes[i][1] = -1;
 			i++;
 		}
+	}
+	for (int i = 0; i < data->pipe_count; i++) // for testing
+	{
+		printf("pipe %d[0]: %d\n", i, data->pipes[i][0]); // for testing
+		printf("pipe %d[1]: %d\n", i, data->pipes[i][1]); // for testing
 	}
 	return (OK);
 }

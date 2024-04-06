@@ -6,18 +6,41 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:03:36 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/29 21:32:00 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/06 07:44:58 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// free all allocated memory in the pipes array
-static void	free_pipes(t_data *data)
+// close the file descriptors in the pipes array
+static void	close_pipes(t_data *data)
 {
 	int	i;
 
 	i = 0;
+	while (i < data->pipe_count)
+	{
+		if (data->pipes[i][0] > 0)
+		{
+			close(data->pipes[i][0]);
+			data->pipes[i][0] = -1;
+		}
+		if (data->pipes[i][1] > 1)
+		{
+			close(data->pipes[i][1]);
+			data->pipes[i][1] = -1;
+		}
+		i++;
+	}
+}
+
+// free all allocated memory in the pipes array and close the file descriptors
+void	clean_up_pipes(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	close_pipes(data);
 	while (i < data->pipe_count)
 	{
 		free(data->pipes[i]);
@@ -28,8 +51,8 @@ static void	free_pipes(t_data *data)
 	data->pipes = NULL;
 }
 
-// free allocated memory in the command structure
-static void	free_cmd(t_cmd *cmd)
+// free allocated memory in the command structure and close file descriptors
+static void	clean_up_cmd(t_cmd *cmd)
 {
 	if (cmd->cmd_array)
 	{
@@ -41,50 +64,31 @@ static void	free_cmd(t_cmd *cmd)
 		free(cmd->cmd_path);
 		cmd->cmd_path = NULL;
 	}
+	if (cmd->fd_in > 0)
+	{
+		close(cmd->fd_in);
+		cmd->fd_in = -1;
+	}
+	if (cmd->fd_out > 1)
+	{
+		close(cmd->fd_out);
+		cmd->fd_out = -1;
+	}
 	free(cmd);
 }
 
-// free all allocated memory in the cmds array
-static void free_cmds(t_cmd **cmds)
+// free all allocated memory in the cmds array and close file descriptors
+void	clean_up_cmds(t_cmd **cmds)
 {
 	int	i;
 
 	i = 0;
 	while (cmds[i])
-	{
-		free_cmd(cmds[i++]);
-	}
+		clean_up_cmd(cmds[i++]);
 	free(cmds);
 }
 
-// free allocated memory in the main loop
-void	main_loop_free(t_data *data)
-{
-	if (data->line)
-	{
-		free(data->line);
-		data->line = NULL;
-	}
-	if (data->line_split)
-	{
-		ft_free_str_arr(data->line_split);
-		data->line_split = NULL;
-	}
-	if (data->command_split)
-	{
-		ft_free_str_arr_2d(data->command_split);
-		data->command_split = NULL;
-	}
-	if (data->cmds)
-	{
-		free_cmds(data->cmds);
-		data->cmds = NULL;
-	}
-	if (data->pipes)
-		free_pipes(data);
-}
-
-// free all allocated memory
+// free all allocated memory and close the file descriptors
 void	clean_up(t_data *data)
 {
 	if (data)
@@ -100,9 +104,9 @@ void	clean_up(t_data *data)
 		if (data->cmd_paths)
 			ft_free_str_arr(data->cmd_paths);
 		if (data->cmds)
-			free_cmds(data->cmds);
+			clean_up_cmds(data->cmds);
 		if (data->pipes)
-			free_pipes(data);
+			clean_up_pipes(data);
 		if (data->pids_child)
 			free(data->pids_child);
 	}
