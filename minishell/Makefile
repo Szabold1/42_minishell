@@ -22,6 +22,7 @@ INCLUDE_DIR			=	include
 INPUT_CHECK_DIR		=	input_check
 PARSE_LINE_DIR		=	parse_line
 EXECUTE_DIR			=	execute
+BUILTINS_DIR		=	builtins
 HEADERS				=	$(INCLUDE_DIR)/minishell.h \
 						$(LIBFT_DIR)/include/libft.h
 
@@ -51,12 +52,20 @@ SRC_EXECUTE			=	builtin.c \
 						child.c \
 						execute.c
 
+SRC_BUILTINS		=	cd.c \
+						echo.c \
+						env.c \
+						exit.c \
+						export.c \
+						pwd.c \
+						unset.c
+
 SRC 				=	$(addprefix $(INPUT_CHECK_DIR)/, $(SRC_INPUT_CHECK)) \
 						$(addprefix $(PARSE_LINE_DIR)/, $(SRC_PARSE_LINE)) \
 						$(addprefix $(EXECUTE_DIR)/, $(SRC_EXECUTE)) \
+						$(addprefix $(BUILTINS_DIR)/, $(SRC_BUILTINS)) \
 						clean_up_2.c \
 						clean_up.c \
-						env.c \
 						err_msg.c \
 						init.c \
 						main.c
@@ -94,6 +103,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/$(INPUT_CHECK_DIR)
 	@mkdir -p $(OBJ_DIR)/$(PARSE_LINE_DIR)
 	@mkdir -p $(OBJ_DIR)/$(EXECUTE_DIR)
+	@mkdir -p $(OBJ_DIR)/$(BUILTINS_DIR)
 
 # Library compilation
 $(LIBFT): $(LIBFT_DIR)

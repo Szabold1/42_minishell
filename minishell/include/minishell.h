@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 11:44:57 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/08 12:34:46 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ typedef struct s_data
 }	t_data;
 
 // Function prototypes
-char	*ms_getenv(char *name, t_data *data);
 int		init(t_data *data, char *env[]);
 
 /* *********************************************************** Input checking */
@@ -110,6 +109,24 @@ void	execute_builtin(char *cmd, t_data *data);
 void	child_process(t_data *data, int i);
 // File: src/execute/execute.c
 int		execute(t_data *data);
+
+/* ***************************************************************** Builtins */
+// ms stands for minishell
+// File: src/builtins/cd.c
+void	ms_cd(t_data *data);
+// File: src/builtins/echo.c
+void	ms_echo(t_data *data);
+// File: src/builtins/env.c
+char	*ms_getenv(char *name, t_data *data);
+void	ms_env(t_data *data);
+// File: src/builtins/exit.c
+void	ms_exit(t_data *data);
+// File: src/builtins/export.c
+void	ms_export(t_data *data);
+// File: src/builtins/pwd.c
+void	ms_pwd(t_data *data);
+// File: src/builtins/unset.c
+void	ms_unset(t_data *data);
 
 /* ********************************************** Clean up and error handling */
 // File: src/clean_up_2.c
