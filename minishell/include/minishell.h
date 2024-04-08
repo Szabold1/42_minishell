@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 08:10:44 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/08 11:25:59 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_cmd
 	char	*cmd_path; // "/bin/ls"
 	int		fd_in; // fd to read from
 	int		fd_out; // fd to write to
+	char	*infile; // input file name
 	bool	no_infile; // true if no input file was found for the command
 	pid_t	pid; // process id
 }	t_cmd;

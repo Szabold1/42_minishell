@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 05:05:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 10:51:27 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/08 11:31:30 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,14 @@ void	child_process(t_data *data, int i)
 		close_pipes(data), clean_up(data), exit(1);
 	close_pipes(data);
 	if (cmd->no_infile)
+	{
+		err_msg2(data->cmds[i]->infile, strerror(errno));
 		clean_up(data), exit(1);
+	}
 	if (cmd->cmd_path == NULL)
 	{
-		err_msg2(cmd->cmd_array[0], "command not found"), clean_up(data);
-		exit(127);
+		err_msg2(cmd->cmd_array[0], "command not found");
+		clean_up(data), exit(127);
 	}
 	execve(cmd->cmd_path, cmd->cmd_array, data->env);
 	err_msg(strerror(errno)), clean_up(data), exit(1);
