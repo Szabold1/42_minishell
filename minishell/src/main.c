@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:42:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/06 07:50:43 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/08 07:07:44 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static int	main_loop(t_data *data)
 				continue;
 			if (parse_line(data) == ERROR)
 				continue;
-			// if (execute(data) == ERROR)
-			// 	continue;
+			if (execute(data) == ERROR)
+				continue;
 		}
 	}
 	return (OK);

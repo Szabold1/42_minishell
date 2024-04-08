@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 08:57:39 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/06 09:09:04 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/08 11:03:43 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	set_output(t_data *data, int i, int j, int mode)
 	char	*file;
 
 	file = data->command_split[i][j + 1];
+	reset_fd(data->cmds[i]->fd_out);
 	if (!file)
 		return (err_msg("no output file after '>'"), ERROR);
 	if (mode == 1)

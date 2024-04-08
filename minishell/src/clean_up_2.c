@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean_up_loop.c                                    :+:      :+:    :+:   */
+/*   clean_up_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 07:41:24 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/06 07:41:49 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/08 08:10:29 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	clean_up_loop_1(t_data *data)
+// close file descriptor if it is not -1, and set it to -1
+void	reset_fd(int fd)
+{
+	if (fd != -1)
+	{
+		close(fd);
+		fd = -1;
+	}
+}
+
+// free allocated memory in the main loop and close the file descriptors
+void	clean_up_loop(t_data *data)
 {
 	if (data->line)
 	{
@@ -35,21 +46,5 @@ static void	clean_up_loop_1(t_data *data)
 		data->cmds = NULL;
 	}
 	if (data->pipes)
-		clean_up_pipes(data);
-}
-
-static void	clean_up_loop_2(t_data *data)
-{
-	if (data->pids_child)
-	{
-		free(data->pids_child);
-		data->pids_child = NULL;
-	}
-}
-
-// free allocated memory in the main loop and close the file descriptors
-void	clean_up_loop(t_data *data)
-{
-	clean_up_loop_1(data);
-	clean_up_loop_2(data);
+		free_pipes(data);
 }

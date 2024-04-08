@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 19:40:17 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/06 09:12:18 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/08 06:13:05 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,5 @@ int	set_cmd_data(t_data *data, int i)
 	if (!data->cmds[i]->cmd_array)
 		return (ERROR);
 	data->cmds[i]->cmd_path = get_cmd_path(data, i);
-	if (!data->cmds[i]->cmd_path)
-	{
-		data->exit_status = 127;
-		err_msg2(data->cmds[i]->cmd_array[0], "command not found");
-	}
 	return (OK);
 }
