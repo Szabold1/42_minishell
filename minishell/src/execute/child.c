@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 05:05:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 11:31:30 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/08 11:38:19 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ void	child_process(t_data *data, int i)
 	{
 		err_msg2(data->cmds[i]->infile, strerror(errno));
 		clean_up(data), exit(1);
+	}
+	if (is_builtin(cmd->cmd_array[0]))
+	{
+		execute_builtin(cmd->cmd_array, data);
+		clean_up(data), exit(data->exit_status);
 	}
 	if (cmd->cmd_path == NULL)
 	{

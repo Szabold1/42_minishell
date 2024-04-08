@@ -47,7 +47,8 @@ SRC_PARSE_LINE		=	cmd_data.c \
 						init_2.c \
 						parse_line.c
 
-SRC_EXECUTE			=	child.c \
+SRC_EXECUTE			=	builtin.c \
+						child.c \
 						execute.c
 
 SRC 				=	$(addprefix $(INPUT_CHECK_DIR)/, $(SRC_INPUT_CHECK)) \

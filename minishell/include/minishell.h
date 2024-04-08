@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 11:25:59 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/08 11:44:57 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ int		init_2(t_data *data);
 int		parse_line(t_data *data);
 
 /* ****************************************************************** Execute */
+// File: src/execute/builtin.c
+bool	is_builtin(char *cmd);
+void	execute_builtin(char *cmd, t_data *data);
 // File: src/execute/child.c
 void	child_process(t_data *data, int i);
 // File: src/execute/execute.c
