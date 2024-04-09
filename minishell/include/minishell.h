@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/06 09:34:10 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/08 12:34:46 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ typedef struct s_cmd
 	char	*cmd_path; // "/bin/ls"
 	int		fd_in; // fd to read from
 	int		fd_out; // fd to write to
+	char	*infile; // input file name
+	bool	no_infile; // true if no input file was found for the command
+	pid_t	pid; // process id
 }	t_cmd;
 
 // Define the main data structure
@@ -63,15 +66,12 @@ typedef struct s_data
 	char	**cmd_paths; // array of paths to commands
 	t_cmd	**cmds; // array of commands
 	int		**pipes; // array of pipes to connect commands
-	pid_t	*pids_child; // array of child process ids
 	int		cmd_count; // 3 (number of commands in the line)
 	int		pipe_count; // 2 (number of pipes in the line)
-	bool	no_infile; // true if no input file was found
 	int		exit_status;
 }	t_data;
 
 // Function prototypes
-char	*ms_getenv(char *name, t_data *data);
 int		init(t_data *data, char *env[]);
 
 /* *********************************************************** Input checking */
@@ -101,11 +101,40 @@ int		init_2(t_data *data);
 // File: src/parse_line/parse_line.c
 int		parse_line(t_data *data);
 
+/* ****************************************************************** Execute */
+// File: src/execute/builtin.c
+bool	is_builtin(char *cmd);
+void	execute_builtin(char *cmd, t_data *data);
+// File: src/execute/child.c
+void	child_process(t_data *data, int i);
+// File: src/execute/execute.c
+int		execute(t_data *data);
+
+/* ***************************************************************** Builtins */
+// ms stands for minishell
+// File: src/builtins/cd.c
+void	ms_cd(t_data *data);
+// File: src/builtins/echo.c
+void	ms_echo(t_data *data);
+// File: src/builtins/env.c
+char	*ms_getenv(char *name, t_data *data);
+void	ms_env(t_data *data);
+// File: src/builtins/exit.c
+void	ms_exit(t_data *data);
+// File: src/builtins/export.c
+void	ms_export(t_data *data);
+// File: src/builtins/pwd.c
+void	ms_pwd(t_data *data);
+// File: src/builtins/unset.c
+void	ms_unset(t_data *data);
+
 /* ********************************************** Clean up and error handling */
-// File: src/clean_up_loop.c
+// File: src/clean_up_2.c
+void	reset_fd(int fd);
 void	clean_up_loop(t_data *data);
 // File: src/clean_up.c
-void	clean_up_pipes(t_data *data);
+void	close_pipes(t_data *data);
+void	free_pipes(t_data *data);
 void	clean_up_cmds(t_cmd **cmds);
 void	clean_up(t_data *data);
 // File: src/err_msg.c

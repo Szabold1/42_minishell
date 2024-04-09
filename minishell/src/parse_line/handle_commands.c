@@ -6,42 +6,26 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:10:46 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/06 09:40:37 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/08 10:47:21 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// set the file descriptors for the command to stdin, stdout, or pipes
-// (or /dev/null if there is no input file)
-static void	set_pipes(t_data *data, int i)
-{
-	if (i == 0)
-		data->cmds[i]->fd_in = 0;
-	else
-		data->cmds[i]->fd_in = data->pipes[i - 1][0];
-	if (i == data->cmd_count - 1)
-		data->cmds[i]->fd_out = 1;
-	else
-		data->cmds[i]->fd_out = data->pipes[i][1];
-	if (data->no_infile)
-	{
-		data->cmds[i]->fd_in = open("/dev/null", O_RDONLY);
-		if (data->cmds[i]->fd_in == -1)
-			err_msg("failed to open /dev/null");
-		data->no_infile = false;
-	}
-}
-
-// set 'fd_in' and 'fd_out' for the command
-// first set the file descriptors for the command to stdin, stdout, or pipes
-// then check if there is a redirection and set 'fd_in', 'fd_out' accordingly
+// check redirections ('<', '<<', '>', '>>') and set fd_in, fd_out accordingly
+// return ERROR or OK
 static int	set_cmd_in_out(t_data *data, int i)
 {
 	int	j;
 
 	j = 0;
-	set_pipes(data, i);
+	if (i > 0 && data->cmds[i - 1]->no_infile)
+	{
+		data->cmds[i]->fd_in = open("/dev/null", O_RDONLY);
+		if (data->cmds[i]->fd_in == -1)
+			return (err_msg("failed to open /dev/null"), ERROR);
+		ft_printf_fd(2, "no infile fd: %d\n", data->cmds[i]->fd_in);
+	}
 	while (data->command_split[i][j])
 	{
 		if (handle_input(data, i, j) == ERROR)
@@ -62,10 +46,11 @@ static int	handle_command(t_data *data, int i)
 		return (ERROR);
 	if (set_cmd_data(data, i) == ERROR)
 		return (ERROR);
-	printf("cmd: %s\n", data->cmds[i]->cmd_array[0]); // for testing
-	printf("path: %s\n", data->cmds[i]->cmd_path); // for testing
-	printf("fd_in: %d\n", data->cmds[i]->fd_in); // for testing
-	printf("fd_out: %d\n", data->cmds[i]->fd_out); // for testing
+	printf("| cmd: %s\n", data->cmds[i]->cmd_array[0]); // for testing
+	printf("| path: %s\n", data->cmds[i]->cmd_path); // for testing
+	printf("| fd_in: %d\n", data->cmds[i]->fd_in); // for testing
+	printf("| fd_out: %d\n", data->cmds[i]->fd_out); // for testing
+	printf("|_pid: %d\n", data->cmds[i]->pid); // for testing
 	return (OK);
 }
 

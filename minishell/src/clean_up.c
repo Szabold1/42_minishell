@@ -6,26 +6,26 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:03:36 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/06 07:44:58 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/08 06:41:35 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // close the file descriptors in the pipes array
-static void	close_pipes(t_data *data)
+void	close_pipes(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (i < data->pipe_count)
 	{
-		if (data->pipes[i][0] > 0)
+		if (data->pipes[i][0] != -1)
 		{
 			close(data->pipes[i][0]);
 			data->pipes[i][0] = -1;
 		}
-		if (data->pipes[i][1] > 1)
+		if (data->pipes[i][1] != -1)
 		{
 			close(data->pipes[i][1]);
 			data->pipes[i][1] = -1;
@@ -35,12 +35,11 @@ static void	close_pipes(t_data *data)
 }
 
 // free all allocated memory in the pipes array and close the file descriptors
-void	clean_up_pipes(t_data *data)
+void	free_pipes(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	close_pipes(data);
 	while (i < data->pipe_count)
 	{
 		free(data->pipes[i]);
@@ -64,12 +63,12 @@ static void	clean_up_cmd(t_cmd *cmd)
 		free(cmd->cmd_path);
 		cmd->cmd_path = NULL;
 	}
-	if (cmd->fd_in > 0)
+	if (cmd->fd_in != -1)
 	{
 		close(cmd->fd_in);
 		cmd->fd_in = -1;
 	}
-	if (cmd->fd_out > 1)
+	if (cmd->fd_out != -1)
 	{
 		close(cmd->fd_out);
 		cmd->fd_out = -1;
@@ -106,8 +105,6 @@ void	clean_up(t_data *data)
 		if (data->cmds)
 			clean_up_cmds(data->cmds);
 		if (data->pipes)
-			clean_up_pipes(data);
-		if (data->pids_child)
-			free(data->pids_child);
+			free_pipes(data);
 	}
 }

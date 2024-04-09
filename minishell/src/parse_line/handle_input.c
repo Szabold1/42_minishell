@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:53:15 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/06 09:34:51 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/08 11:24:50 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,24 @@ static int	set_input(t_data *data, int i, int j)
 {
 	if (!data->command_split[i][j + 1])
 		return (err_msg("no input file after '<'"), ERROR);
+	reset_fd(data->cmds[i]->fd_in);
 	data->cmds[i]->fd_in = open(data->command_split[i][j + 1], O_RDONLY);
-	if (data->cmds[i]->fd_in == -1)
+	if (data->cmds[i]->fd_in == -1 && data->cmds[i]->no_infile == false)
 	{
 		data->cmds[i]->fd_in = open("/dev/null", O_RDONLY);
 		if (data->cmds[i]->fd_in == -1)
 			return (err_msg("failed to open /dev/null"), ERROR);
-		err_msg2(data->command_split[i][j + 1], strerror(errno));
-		data->no_infile = true;
+		data->cmds[i]->infile = data->command_split[i][j + 1];
+		data->cmds[i]->no_infile = true;
 	}
 	return (OK);
 }
 
-// set here document redirection
-// example: "grep a << EOF"
-// return ERROR or OK
-static int	set_heredoc(t_data *data, int i, int j)
+// loop for here document
+void	heredoc_loop(t_data *data, int i, int j)
 {
 	char	*line;
 
-	if (!data->command_split[i][j + 1])
-		return (err_msg("no delimiter after '<<'"), ERROR);
-	data->cmds[i]->fd_in = open("/tmp/heredoc", O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (data->cmds[i]->fd_in == -1)
-		return (err_msg("failed to open /tmp/heredoc"), ERROR);
 	while (1)
 	{
 		line = readline("> ");
@@ -56,6 +50,20 @@ static int	set_heredoc(t_data *data, int i, int j)
 		ft_printf_fd(data->cmds[i]->fd_in, "%s\n", line);
 		free(line);
 	}
+}
+
+// set here document redirection
+// example: "grep a << EOF"
+// return ERROR or OK
+static int	set_heredoc(t_data *data, int i, int j)
+{
+	if (!data->command_split[i][j + 1])
+		return (err_msg("no delimiter after '<<'"), ERROR);
+	reset_fd(data->cmds[i]->fd_in);
+	data->cmds[i]->fd_in = open("/tmp/heredoc", O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (data->cmds[i]->fd_in == -1)
+		return (err_msg("failed to open /tmp/heredoc"), ERROR);
+	heredoc_loop(data, i, j);
 	close(data->cmds[i]->fd_in);
 	data->cmds[i]->fd_in = open("/tmp/heredoc", O_RDONLY);
 	if (data->cmds[i]->fd_in == -1)
