@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:13:23 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 12:35:19 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/10 16:19:44 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ms_exit(t_data *data)
 {
-	ft_printf_fd(2, "ms_exit()\n");
-	ft_printf_fd(2, "%s\n", data->line);
+	clean_up(data);
+	printf("exit\n");
+	exit(data->exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:42:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 07:07:44 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/10 16:23:17 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ static int	main_loop(t_data *data)
 			return (clean_up(data), ERROR);
 		if (ft_strlen(data->line) > 0)
 		{
-			if (ft_strcmp(data->line, "exit") == 0) // for testing
-				return (clean_up(data), data->exit_status); // for testing
 			add_history(data->line);
 			if (check_line(data) == ERROR)
 				continue;

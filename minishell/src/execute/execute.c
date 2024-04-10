@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 18:15:04 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 10:52:19 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/10 16:16:35 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int execute(t_data *data)
 	i = 0;
 	while (i < data->cmd_count)
 	{
+		if (ft_strcmp(data->cmds[i]->cmd_array[0], "exit") == 0)
+			ms_exit(data);
 		if (execute_command(data, i) == ERROR)
 			return (ERROR);
 		i++;

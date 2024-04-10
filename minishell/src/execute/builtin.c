@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:38:29 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 11:46:06 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/10 16:16:11 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ bool	is_builtin(char *cmd)
 {
 	if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
 		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "export") == 0
-		|| ft_strcmp(cmd, "unset") == 0 || ft_strcmp(cmd, "env") == 0
-		|| ft_strcmp(cmd, "exit") == 0)
+		|| ft_strcmp(cmd, "unset") == 0 || ft_strcmp(cmd, "env") == 0)
 		return (true);
 	return (false);
 }
@@ -38,6 +37,4 @@ void	execute_builtin(char *cmd, t_data *data)
 		ms_unset(data);
 	else if (ft_strcmp(cmd, "env") == 0)
 		ms_env(data);
-	else if (ft_strcmp(cmd, "exit") == 0)
-		ms_exit(data);
 }
