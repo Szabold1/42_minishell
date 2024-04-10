@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:10:46 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 10:47:21 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/10 17:31:15 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int	set_cmd_in_out(t_data *data, int i)
 		data->cmds[i]->fd_in = open("/dev/null", O_RDONLY);
 		if (data->cmds[i]->fd_in == -1)
 			return (err_msg("failed to open /dev/null"), ERROR);
-		ft_printf_fd(2, "no infile fd: %d\n", data->cmds[i]->fd_in);
 	}
 	while (data->command_split[i][j])
 	{
@@ -34,6 +33,8 @@ static int	set_cmd_in_out(t_data *data, int i)
 			return (ERROR);
 		j++;
 	}
+	if (data->cmds[i]->no_infile)
+		err_msg2(data->cmds[i]->no_infile_name, "No such file or directory");
 	return (OK);
 }
 

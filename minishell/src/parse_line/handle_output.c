@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 08:57:39 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 11:03:43 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/10 17:02:48 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static int	set_output(t_data *data, int i, int j, int mode)
 // return ERROR or OK
 int	handle_output(t_data *data, int i, int j)
 {
+	if (data->cmds[i]->no_infile)
+		return (OK);
 	if (ft_strcmp(data->command_split[i][j], ">") == 0)
 	{
 		if (set_output(data, i, j, 1) == ERROR)
