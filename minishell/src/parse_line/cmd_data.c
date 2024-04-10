@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 19:40:17 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 06:13:05 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/10 15:44:19 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static char	*get_cmd_path(t_data *data, int i)
 	char	*path;
 
 	j = 0;
+	if (access(data->cmds[i]->cmd_array[0], F_OK) == 0)
+		return (ft_strdup(data->cmds[i]->cmd_array[0]));
 	while (data->cmd_paths[j])
 	{
 		temp = ft_strjoin(data->cmd_paths[j], "/");
