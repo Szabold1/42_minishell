@@ -6,11 +6,7 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/03/19 20:45:12 by seckhard         ###   ########.fr       */
-=======
-/*   Updated: 2024/04/08 12:34:46 by bszabo           ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2024/04/10 15:27:42 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +89,7 @@ int		init(t_data *data, char *env[]);
 
 // Signals
 void 	sig_cases(t_data *data, int sig_status);
+
 /* *********************************************************** Input checking */
 // File: src/input_check/check_line.c
 int		check_line(t_data *data);

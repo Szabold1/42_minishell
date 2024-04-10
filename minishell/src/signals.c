@@ -6,7 +6,7 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:55:39 by seckhard          #+#    #+#             */
-/*   Updated: 2024/03/19 20:46:36 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:00:19 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ void	sig_handler(int signal)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+}
+
+void	sig_quit(int signal)
+{
+	(void)signal;
+	ft_printf("Quit (core dumped)\n");
+	kill(0, SIGCHLD);
 }
 
 void	heredoc(int signal)
@@ -49,7 +56,7 @@ void	sig_cases(t_data *data, int sig_status)
 	else if (sig_status == NONINTERACTIVE)
 	{
 		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
+		signal(SIGQUIT, &sig_quit);
 	}
 	else if (sig_status == CHILD)
 	{
