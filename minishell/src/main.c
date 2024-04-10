@@ -6,7 +6,7 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:42:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/10 15:26:55 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/04/10 20:04:44 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,18 @@ static int	main_loop(t_data *data)
 		if (g_signal == CTRLC && g_signal--)
 			data->exit_status = 130;
 		if (!data->line)
-		{
-			printf("exit\n");
-			return (clean_up(data), OK);
-		}
+			return (printf("exit\n"), clean_up(data), OK);
 		if (ft_strlen(data->line) > 0)
 		{
 			if (ft_strcmp(data->line, "exit") == 0) // for testing
 				return (clean_up(data), data->exit_status); // for testing
 			add_history(data->line);
 			if (check_line(data) == ERROR)
-				continue;
+				continue ;
 			if (parse_line(data) == ERROR)
-				continue;
+				continue ;
 			if (execute(data) == ERROR)
-				continue;
+				continue ;
 		}
 	}
 	return (OK);
