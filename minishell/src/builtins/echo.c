@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:10:27 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/11 08:55:03 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/11 19:25:56 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,5 @@ void	ms_echo(t_data *data, int i)
 	}
 	if (newline)
 		printf("\n");
+	data->exit_status = 0;
 }
