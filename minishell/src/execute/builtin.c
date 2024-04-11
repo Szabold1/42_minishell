@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:38:29 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/10 16:16:11 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/11 08:17:15 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ bool	is_builtin(char *cmd)
 }
 
 // execute the builtin command
-void	execute_builtin(char *cmd, t_data *data)
+void	execute_builtin(char *cmd, t_data *data, int i)
 {
 	if (ft_strcmp(cmd, "echo") == 0)
-		ms_echo(data);
+		ms_echo(data, i);
 	else if (ft_strcmp(cmd, "cd") == 0)
 		ms_cd(data);
 	else if (ft_strcmp(cmd, "pwd") == 0)

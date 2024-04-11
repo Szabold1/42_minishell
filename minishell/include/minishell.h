@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/10 17:26:12 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/11 08:17:29 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int		parse_line(t_data *data);
 /* ****************************************************************** Execute */
 // File: src/execute/builtin.c
 bool	is_builtin(char *cmd);
-void	execute_builtin(char *cmd, t_data *data);
+void	execute_builtin(char *cmd, t_data *data, int i);
 // File: src/execute/child.c
 void	child_process(t_data *data, int i);
 // File: src/execute/execute.c
@@ -115,7 +115,7 @@ int		execute(t_data *data);
 // File: src/builtins/cd.c
 void	ms_cd(t_data *data);
 // File: src/builtins/echo.c
-void	ms_echo(t_data *data);
+void	ms_echo(t_data *data, int i);
 // File: src/builtins/env.c
 char	*ms_getenv(char *name, t_data *data);
 void	ms_env(t_data *data);
