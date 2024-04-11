@@ -6,7 +6,7 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:55:39 by seckhard          #+#    #+#             */
-/*   Updated: 2024/04/10 20:02:55 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/04/11 18:59:23 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,8 @@ void	sig_handler(int signal)
 
 void	sig_quit(int signal)
 {
-	t_data	*data;
-
 	(void)signal;
-	data = NULL;
 	ft_printf("Quit (core dumped)\n");
-	data->exit_status = 131;
 	kill(0, SIGCHLD);
 }
 
