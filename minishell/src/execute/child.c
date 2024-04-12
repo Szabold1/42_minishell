@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 05:05:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/11 08:16:06 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/12 08:44:20 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	child_process(t_data *data, int i)
 		execute_builtin(cmd->cmd_array[0], data, i);
 		clean_up(data), exit(data->exit_status);
 	}
+	if (cmd->cmd_array[0][0] == '\0')
+		clean_up(data), exit(0);
 	if (cmd->cmd_path == NULL)
 	{
 		err_msg2(cmd->cmd_array[0], "command not found");
