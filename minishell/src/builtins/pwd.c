@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:14:19 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 12:35:25 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/13 10:41:59 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 void	ms_pwd(t_data *data)
 {
-	ft_printf_fd(2, "ms_pwd()\n");
-	ft_printf_fd(2, "%s\n", data->line);
+	char	*pwd;
+
+	pwd = ms_getenv("PWD", data);
+	if (!pwd)
+	{
+		data->exit_status = 1;
+		return (err_msg("pwd: PWD not set"));
+	}
+	printf("%s\n", pwd);
+	data->exit_status = 0;
 }
