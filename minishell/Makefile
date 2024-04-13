@@ -19,9 +19,8 @@ LIBFT				=	$(LIBFT_DIR)/libft.a
 # Other directories
 OBJ_DIR				=	obj
 INCLUDE_DIR			=	include
-INPUT_CHECK_DIR		=	input_check
-PARSE_LINE_DIR		=	parse_line
-EXECUTE_DIR			=	execute
+CHECK_INPUT_DIR		=	check_input
+PARSE_EXECUTE_DIR	=	parse_execute
 BUILTINS_DIR		=	builtins
 HEADERS				=	$(INCLUDE_DIR)/minishell.h \
 						$(LIBFT_DIR)/include/libft.h
@@ -35,22 +34,21 @@ LFLAGS				=	-L$(LIBFT_DIR) -lft -lreadline
 RM					=	rm -rf
 
 # Source files
-SRC_INPUT_CHECK		=	check_line.c \
+SRC_CHECK_INPUT		=	check_line.c \
 						env_variables.c \
 						exit_status.c \
 						quotes.c \
 						redirections_space.c
 
-SRC_PARSE_LINE		=	cmd_data.c \
-						handle_commands.c \
-						handle_input.c \
-						handle_output.c \
-						init_2.c \
-						parse_line.c
-
-SRC_EXECUTE			=	builtin.c \
+SRC_PARSE_EXECUTE	=	builtin.c \
 						child.c \
-						execute.c
+						cmd_data.c \
+						cmd_in_out.c \
+						cmd_input.c \
+						cmd_output.c \
+						handle_commands.c \
+						init_2.c \
+						parse_execute.c
 
 SRC_BUILTINS		=	cd.c \
 						echo.c \
@@ -60,9 +58,8 @@ SRC_BUILTINS		=	cd.c \
 						pwd.c \
 						unset.c
 
-SRC 				=	$(addprefix $(INPUT_CHECK_DIR)/, $(SRC_INPUT_CHECK)) \
-						$(addprefix $(PARSE_LINE_DIR)/, $(SRC_PARSE_LINE)) \
-						$(addprefix $(EXECUTE_DIR)/, $(SRC_EXECUTE)) \
+SRC 				=	$(addprefix $(CHECK_INPUT_DIR)/, $(SRC_CHECK_INPUT)) \
+						$(addprefix $(PARSE_EXECUTE_DIR)/, $(SRC_PARSE_EXECUTE)) \
 						$(addprefix $(BUILTINS_DIR)/, $(SRC_BUILTINS)) \
 						clean_up_2.c \
 						clean_up.c \
@@ -100,9 +97,8 @@ $(NAME): $(LIBFT) $(OBJ)
 # Create directories for object files
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OBJ_DIR)/$(INPUT_CHECK_DIR)
-	@mkdir -p $(OBJ_DIR)/$(PARSE_LINE_DIR)
-	@mkdir -p $(OBJ_DIR)/$(EXECUTE_DIR)
+	@mkdir -p $(OBJ_DIR)/$(CHECK_INPUT_DIR)
+	@mkdir -p $(OBJ_DIR)/$(PARSE_EXECUTE_DIR)
 	@mkdir -p $(OBJ_DIR)/$(BUILTINS_DIR)
 
 # Library compilation

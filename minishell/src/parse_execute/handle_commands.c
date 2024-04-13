@@ -6,35 +6,39 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:10:46 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/10 17:31:15 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/13 10:14:00 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// check redirections ('<', '<<', '>', '>>') and set fd_in, fd_out accordingly
-// return ERROR or OK
-static int	set_cmd_in_out(t_data *data, int i)
+// wait for all child processes to finish, and set the exit status if needed
+static void	wait_for_processes(t_data *data)
 {
-	int	j;
+	int	i;
+	int	status;
 
-	j = 0;
-	if (i > 0 && data->cmds[i - 1]->no_infile)
+	i = 0;
+	while (i < data->cmd_count && data->cmds[i]->pid != -1)
 	{
-		data->cmds[i]->fd_in = open("/dev/null", O_RDONLY);
-		if (data->cmds[i]->fd_in == -1)
-			return (err_msg("failed to open /dev/null"), ERROR);
+		waitpid(data->cmds[i]->pid, &status, 0);
+		if (WIFEXITED(status))
+			data->exit_status = WEXITSTATUS(status);
+		i++;
 	}
-	while (data->command_split[i][j])
-	{
-		if (handle_input(data, i, j) == ERROR)
-			return (ERROR);
-		if (handle_output(data, i, j) == ERROR)
-			return (ERROR);
-		j++;
-	}
-	if (data->cmds[i]->no_infile)
-		err_msg2(data->cmds[i]->no_infile_name, "No such file or directory");
+}
+
+// execute a single command
+static int	execute_command(t_data *data, int i)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+		return (err_msg(strerror(errno)), ERROR);
+	if (pid == 0)
+		child_process(data, i);
+	data->cmds[i]->pid = pid;
 	return (OK);
 }
 
@@ -44,14 +48,20 @@ static int	set_cmd_in_out(t_data *data, int i)
 static int	handle_command(t_data *data, int i)
 {
 	if (set_cmd_in_out(data, i) == ERROR)
-		return (ERROR);
+		return (err_msg("set_cmd_in_out failed"), ERROR);
 	if (set_cmd_data(data, i) == ERROR)
-		return (ERROR);
+		return (err_msg("set_cmd_data failed"), ERROR);
+
 	printf("| cmd: %s\n", data->cmds[i]->cmd_array[0]); // for testing
 	printf("| path: %s\n", data->cmds[i]->cmd_path); // for testing
 	printf("| fd_in: %d\n", data->cmds[i]->fd_in); // for testing
 	printf("| fd_out: %d\n", data->cmds[i]->fd_out); // for testing
 	printf("|_pid: %d\n", data->cmds[i]->pid); // for testing
+
+	if (ft_strcmp(data->cmds[i]->cmd_array[0], "exit") == 0)
+		ms_exit(data);
+	if (execute_command(data, i) == ERROR)
+		return (ERROR);
 	return (OK);
 }
 
@@ -69,5 +79,7 @@ int	handle_commands(t_data *data)
 			return (ERROR);
 		i++;
 	}
+	close_pipes(data);
+	wait_for_processes(data);
 	return (OK);
 }

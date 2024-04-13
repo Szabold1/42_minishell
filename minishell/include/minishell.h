@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/11 08:17:29 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/13 09:57:57 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_cmd
 	int		fd_out; // fd to write to
 	char	*no_infile_name; // input file name if not found
 	bool	no_infile; // true if couldn't open input file
+	bool	no_outfile; // true if couldn't open output file
 	pid_t	pid; // process id
 }	t_cmd;
 
@@ -72,43 +73,45 @@ typedef struct s_data
 }	t_data;
 
 // Function prototypes
+/* ****************************************************************** General */
+// File: src/init.c
 int		init(t_data *data, char *env[]);
+// File: src/main.c
+int		main(int argc, char *argv[], char *env[]);
 
-/* *********************************************************** Input checking */
-// File: src/input_check/check_line.c
+/* ************************************************************** Check input */
+// File: src/check_input/check_line.c
 int		check_line(t_data *data);
-// File: src/input_check/env_variables.c
+// File: src/check_input/env_variables.c
 int		replace_env_variables_in_quotes(t_data *data, int q_start, int q_end);
 int		replace_env_variable(t_data *data, int i);
-// File: src/input_check/exit_status.c
+// File: src/check_input/exit_status.c
 int		replace_exit_status(t_data *data, int i, int *q_end);
-// File: src/input_check/quotes.c
+// File: src/check_input/quotes.c
 int		quotes_envvar_redir(t_data *data);
-// File: src/input_check/redirections_space.c
+// File: src/check_input/redirections_space.c
 int		separate_redirections(t_data *data, int i);
 
-/* *************************************************************** Parse line */
-// File: src/parse_line/cmd_data.c
-int		set_cmd_data(t_data *data, int i);
-// File: src/parse_line/handle_commands.c
-int		handle_commands(t_data *data);
-// File: src/parse_line/handle_input.c
-int		handle_input(t_data *data, int i, int j);
-// File: src/parse_line/handle_output.c
-int		handle_output(t_data *data, int i, int j);
-// File: src/parse_line/init_2.c
-int		init_2(t_data *data);
-// File: src/parse_line/parse_line.c
-int		parse_line(t_data *data);
-
-/* ****************************************************************** Execute */
-// File: src/execute/builtin.c
+/* ******************************************************** Parse and execute */
+// File: src/parse_execute/builtin.c
 bool	is_builtin(char *cmd);
 void	execute_builtin(char *cmd, t_data *data, int i);
-// File: src/execute/child.c
+// File: src/parse_execute/child.c
 void	child_process(t_data *data, int i);
-// File: src/execute/execute.c
-int		execute(t_data *data);
+// File: src/parse_execute/cmd_data.c
+int		set_cmd_data(t_data *data, int i);
+// File: src/parse_execute/cmd_in_out.c
+int		set_cmd_in_out(t_data *data, int i);
+// File: src/parse_execute/cmd_input.c
+int		handle_input(t_data *data, int i, int j);
+// File: src/parse_execute/cmd_output.c
+int		handle_output(t_data *data, int i, int j);
+// File: src/parse_execute/handle_commands.c
+int		handle_commands(t_data *data);
+// File: src/parse_execute/init_2.c
+int		init_2(t_data *data);
+// File: src/parse_execute/parse_execute.c
+int		parse_execute_line(t_data *data);
 
 /* ***************************************************************** Builtins */
 // ms stands for minishell

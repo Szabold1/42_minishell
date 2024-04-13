@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 05:05:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/12 08:44:20 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/13 09:59:51 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	child_process(t_data *data, int i)
 	if (set_redirections(data, i) == ERROR)
 		close_pipes(data), clean_up(data), exit(1);
 	close_pipes(data);
-	if (cmd->no_infile)
+	if (cmd->no_infile || cmd->no_outfile)
 		clean_up(data), exit(1);
 	if (is_builtin(cmd->cmd_array[0]))
 	{

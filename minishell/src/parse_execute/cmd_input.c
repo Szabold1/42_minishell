@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_input.c                                     :+:      :+:    :+:   */
+/*   cmd_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:53:15 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/10 17:28:55 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/13 10:01:23 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,16 @@ static int	set_input(t_data *data, int i, int j)
 		data->exit_status = 1;
 		if (data->cmds[i]->no_infile == false)
 		{
-			data->cmds[i]->no_infile_name = data->command_split[i][j + 1];
+			data->exit_status = 1;
 			data->cmds[i]->no_infile = true;
+			err_msg2(data->command_split[i][j + 1], strerror(errno));
 		}
 	}
 	return (OK);
 }
 
 // loop for here document
-void	heredoc_loop(t_data *data, int i, int j)
+static void	heredoc_loop(t_data *data, int i, int j)
 {
 	char	*line;
 

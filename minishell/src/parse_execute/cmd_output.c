@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_output.c                                    :+:      :+:    :+:   */
+/*   cmd_output.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 08:57:39 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/10 17:02:48 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/13 10:01:47 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,14 @@ static int	set_output(t_data *data, int i, int j, int mode)
 	else if (mode == 2)
 		data->cmds[i]->fd_out = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (data->cmds[i]->fd_out == -1)
-		return (err_msg2(file, strerror(errno)), ERROR);
+	{
+		data->cmds[i]->fd_out = open("/dev/null", O_WRONLY);
+		if (data->cmds[i]->fd_out == -1)
+			return (err_msg("failed to open /dev/null"), ERROR);
+		data->exit_status = 1;
+		data->cmds[i]->no_outfile = 1;
+		err_msg2(file, strerror(errno));
+	}
 	return (OK);
 }
 
