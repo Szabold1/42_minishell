@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:53:52 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 12:35:15 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/13 11:12:38 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ char	*ms_getenv(char *name, t_data *data)
 
 void	ms_env(t_data *data)
 {
-	ft_printf_fd(2, "ms_env()\n");
-	ft_printf_fd(2, "%s\n", data->line);
+	int	i;
+
+	i = 0;
+	while (data->env[i])
+		printf("%s\n", data->env[i++]);
+	data->exit_status = 0;
 }
