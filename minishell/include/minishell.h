@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 14:50:00 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 19:39:08 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void	ms_exit(t_data *data);
 // File: src/builtins/export.c
 void	ms_export(t_data *data);
 // File: src/builtins/pwd.c
-void	ms_pwd(t_data *data);
+void	ms_pwd(t_data *data, int i);
 // File: src/builtins/unset.c
 void	ms_unset(t_data *data);
 
