@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 05:05:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 19:39:14 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 19:51:44 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	execute_builtin(t_data *data, int i)
 	else if (ft_strcmp(cmd, "unset") == 0)
 		ms_unset(data);
 	else if (ft_strcmp(cmd, "env") == 0)
-		ms_env(data);
+		ms_env(data, i);
 	else if (ft_strcmp(cmd, "exit") == 0)
 		ms_exit(data);
 	if (reset_stdin_out(data) == ERROR)

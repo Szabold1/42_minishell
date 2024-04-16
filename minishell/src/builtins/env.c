@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:53:52 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 19:21:24 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 19:51:13 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,17 @@ void	ms_setenv(char *name, char *value, t_data *data)
 }
 
 // print the environment
-void	ms_env(t_data *data)
+void	ms_env(t_data *data, int i)
 {
-	int	i;
+	int	j;
 
-	i = 0;
-	while (data->env[i])
-		printf("%s\n", data->env[i++]);
+	j = 0;
+	if (data->cmds[i]->cmd_array[1] != NULL)
+	{
+		data->exit_status = 1;
+		return (err_msg2("env", "too many arguments"));
+	}
+	while (data->env[j])
+		printf("%s\n", data->env[j++]);
 	data->exit_status = 0;
 }
