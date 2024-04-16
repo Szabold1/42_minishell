@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/13 09:57:57 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 10:12:08 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef struct s_cmd
 	char	*cmd_path; // "/bin/ls"
 	int		fd_in; // fd to read from
 	int		fd_out; // fd to write to
-	char	*no_infile_name; // input file name if not found
 	bool	no_infile; // true if couldn't open input file
 	bool	no_outfile; // true if couldn't open output file
 	pid_t	pid; // process id
@@ -70,6 +69,8 @@ typedef struct s_data
 	int		cmd_count; // 3 (number of commands in the line)
 	int		pipe_count; // 2 (number of pipes in the line)
 	int		exit_status;
+	int		fd_stdin; // copy of stdin
+	int		fd_stdout; // copy of stdout
 }	t_data;
 
 // Function prototypes
@@ -95,12 +96,13 @@ int		separate_redirections(t_data *data, int i);
 /* ******************************************************** Parse and execute */
 // File: src/parse_execute/builtin.c
 bool	is_builtin(char *cmd);
-void	execute_builtin(char *cmd, t_data *data, int i);
+void	execute_builtin(t_data *data, int i);
 // File: src/parse_execute/child.c
 void	child_process(t_data *data, int i);
 // File: src/parse_execute/cmd_data.c
 int		set_cmd_data(t_data *data, int i);
 // File: src/parse_execute/cmd_in_out.c
+int		set_redirections(t_data *data, int i);
 int		set_cmd_in_out(t_data *data, int i);
 // File: src/parse_execute/cmd_input.c
 int		handle_input(t_data *data, int i, int j);

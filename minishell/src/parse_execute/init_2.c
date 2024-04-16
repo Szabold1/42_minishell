@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:28:50 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/13 10:14:48 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 10:12:04 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static int	init_cmd(t_data *data, int i)
 	data->cmds[i]->cmd_path = NULL;
 	data->cmds[i]->fd_in = -1;
 	data->cmds[i]->fd_out = -1;
-	data->cmds[i]->no_infile_name = NULL;
 	data->cmds[i]->no_infile = false;
 	data->cmds[i]->no_outfile = false;
 	data->cmds[i]->pid = -1;

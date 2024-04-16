@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:10:46 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/13 10:14:00 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 10:18:49 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,22 @@ static void	wait_for_processes(t_data *data)
 static int	execute_command(t_data *data, int i)
 {
 	pid_t	pid;
+	ft_printf_fd(2, "-------- execute_command --------\n"); // for testing
+	ft_printf_fd(2, "%s fd_in: %d | fd_out: %d\n", data->cmds[i]->cmd_array[0], data->cmds[i]->fd_in, data->cmds[i]->fd_out); // for testing
 
-	pid = fork();
-	if (pid == -1)
-		return (err_msg(strerror(errno)), ERROR);
-	if (pid == 0)
-		child_process(data, i);
-	data->cmds[i]->pid = pid;
+	if (data->cmds[i]->no_infile || data->cmds[i]->no_outfile)
+		data->exit_status = 1;
+	else if (is_builtin(data->cmds[i]->cmd_array[0]))
+		execute_builtin(data, i);
+	else
+	{
+		pid = fork();
+		if (pid == -1)
+			return (err_msg(strerror(errno)), ERROR);
+		if (pid == 0)
+			child_process(data, i);
+		data->cmds[i]->pid = pid;
+	}
 	return (OK);
 }
 
@@ -52,14 +61,11 @@ static int	handle_command(t_data *data, int i)
 	if (set_cmd_data(data, i) == ERROR)
 		return (err_msg("set_cmd_data failed"), ERROR);
 
-	printf("| cmd: %s\n", data->cmds[i]->cmd_array[0]); // for testing
-	printf("| path: %s\n", data->cmds[i]->cmd_path); // for testing
-	printf("| fd_in: %d\n", data->cmds[i]->fd_in); // for testing
-	printf("| fd_out: %d\n", data->cmds[i]->fd_out); // for testing
-	printf("|_pid: %d\n", data->cmds[i]->pid); // for testing
+	// ft_printf_fd(2, "| cmd: %s\n", data->cmds[i]->cmd_array[0]); // for testing
+	// ft_printf_fd(2, "| path: %s\n", data->cmds[i]->cmd_path); // for testing
+	// ft_printf_fd(2, "| fd_in: %d\n", data->cmds[i]->fd_in); // for testing
+	// ft_printf_fd(2, "|_fd_out: %d\n", data->cmds[i]->fd_out); // for testing
 
-	if (ft_strcmp(data->cmds[i]->cmd_array[0], "exit") == 0)
-		ms_exit(data);
 	if (execute_command(data, i) == ERROR)
 		return (ERROR);
 	return (OK);

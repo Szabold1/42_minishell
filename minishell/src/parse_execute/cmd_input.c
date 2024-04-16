@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:53:15 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/13 10:01:23 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 08:19:19 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static int	set_input(t_data *data, int i, int j)
 		data->exit_status = 1;
 		if (data->cmds[i]->no_infile == false)
 		{
-			data->exit_status = 1;
 			data->cmds[i]->no_infile = true;
 			err_msg2(data->command_split[i][j + 1], strerror(errno));
 		}

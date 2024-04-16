@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:38:29 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/11 08:17:15 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 10:09:43 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,20 @@ bool	is_builtin(char *cmd)
 {
 	if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
 		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "export") == 0
-		|| ft_strcmp(cmd, "unset") == 0 || ft_strcmp(cmd, "env") == 0)
+		|| ft_strcmp(cmd, "unset") == 0 || ft_strcmp(cmd, "env") == 0
+		|| ft_strcmp(cmd, "exit") == 0)
 		return (true);
 	return (false);
 }
 
 // execute the builtin command
-void	execute_builtin(char *cmd, t_data *data, int i)
+void	execute_builtin(t_data *data, int i)
 {
+	char	*cmd;
+
+	cmd = data->cmds[i]->cmd_array[0];
+	if (set_redirections(data, i) == ERROR)
+		return ;
 	if (ft_strcmp(cmd, "echo") == 0)
 		ms_echo(data, i);
 	else if (ft_strcmp(cmd, "cd") == 0)
@@ -37,4 +43,6 @@ void	execute_builtin(char *cmd, t_data *data, int i)
 		ms_unset(data);
 	else if (ft_strcmp(cmd, "env") == 0)
 		ms_env(data);
+	else if (ft_strcmp(cmd, "exit") == 0)
+		ms_exit(data);
 }
