@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 19:51:39 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 20:01:07 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ char	*ms_getenv(char *name, t_data *data);
 void	ms_setenv(char *name, char *value, t_data *data);
 void	ms_env(t_data *data, int i);
 // File: src/builtins/exit.c
-void	ms_exit(t_data *data);
+void	ms_exit(t_data *data, int i);
 // File: src/builtins/export.c
 void	ms_export(t_data *data);
 // File: src/builtins/pwd.c
