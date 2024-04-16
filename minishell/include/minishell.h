@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 14:20:56 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 14:50:00 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 // Define return values
 # define OK 0
 # define ERROR -1
+
+// Define the maximum path length
+# define PATH_MAX 2048
 
 // Define special characters
 # define S_QUOTE '\''
@@ -118,11 +121,12 @@ void	wait_for_processes(t_data *data);
 /* ***************************************************************** Builtins */
 // ms stands for minishell
 // File: src/builtins/cd.c
-void	ms_cd(t_data *data);
+void	ms_cd(t_data *data, int i);
 // File: src/builtins/echo.c
 void	ms_echo(t_data *data, int i);
 // File: src/builtins/env.c
 char	*ms_getenv(char *name, t_data *data);
+void	ms_setenv(char *name, char *value, t_data *data);
 void	ms_env(t_data *data);
 // File: src/builtins/exit.c
 void	ms_exit(t_data *data);
@@ -146,5 +150,6 @@ void	clean_up(t_data *data);
 // File: src/err_msg.c
 void	err_msg(char *msg);
 void	err_msg2(char *msg1, char *msg2);
+void	err_msg3(char *msg1, char *msg2, char *msg3);
 
 # endif
