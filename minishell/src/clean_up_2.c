@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 07:41:24 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 10:08:08 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 11:11:53 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ void	clean_up_loop(t_data *data)
 	}
 	if (data->pipes)
 		free_pipes(data);
+	if (data->pids)
+	{
+		free(data->pids);
+		data->pids = NULL;
+	}
 	if (reset_stdin_out(data) == ERROR)
 		err_msg("reset_stdin_out failed");
 }

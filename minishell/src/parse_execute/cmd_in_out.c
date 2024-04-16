@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:03:50 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 07:52:35 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 14:18:02 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	set_cmd_in_out(t_data *data, int i)
 	int	j;
 
 	j = 0;
+	set_default_fds(data, i);
 	if (i > 0
 		&& (data->cmds[i - 1]->no_infile || data->cmds[i - 1]->no_outfile))
 	{
@@ -49,7 +50,6 @@ int	set_cmd_in_out(t_data *data, int i)
 		if (data->cmds[i]->fd_in == -1)
 			return (err_msg("failed to open /dev/null"), ERROR);
 	}
-	set_default_fds(data, i);
 	while (data->command_split[i][j])
 	{
 		if (handle_input(data, i, j) == ERROR)

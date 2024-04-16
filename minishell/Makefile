@@ -40,15 +40,15 @@ SRC_CHECK_INPUT		=	check_line.c \
 						quotes.c \
 						redirections_space.c
 
-SRC_PARSE_EXECUTE	=	builtin.c \
-						child.c \
-						cmd_data.c \
+SRC_PARSE_EXECUTE	=	cmd_data.c \
 						cmd_in_out.c \
 						cmd_input.c \
 						cmd_output.c \
+						execute.c \
 						handle_commands.c \
 						init_2.c \
-						parse_execute.c
+						parse_execute.c \
+						pid.c
 
 SRC_BUILTINS		=	cd.c \
 						echo.c \

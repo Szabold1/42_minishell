@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 10:12:08 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 14:20:56 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ typedef struct s_cmd
 	int		fd_out; // fd to write to
 	bool	no_infile; // true if couldn't open input file
 	bool	no_outfile; // true if couldn't open output file
-	pid_t	pid; // process id
 }	t_cmd;
 
 // Define the main data structure
@@ -66,6 +65,7 @@ typedef struct s_data
 	char	**cmd_paths; // array of paths to commands
 	t_cmd	**cmds; // array of commands
 	int		**pipes; // array of pipes to connect commands
+	pid_t	*pids; // array of child process ids
 	int		cmd_count; // 3 (number of commands in the line)
 	int		pipe_count; // 2 (number of pipes in the line)
 	int		exit_status;
@@ -94,11 +94,6 @@ int		quotes_envvar_redir(t_data *data);
 int		separate_redirections(t_data *data, int i);
 
 /* ******************************************************** Parse and execute */
-// File: src/parse_execute/builtin.c
-bool	is_builtin(char *cmd);
-void	execute_builtin(t_data *data, int i);
-// File: src/parse_execute/child.c
-void	child_process(t_data *data, int i);
 // File: src/parse_execute/cmd_data.c
 int		set_cmd_data(t_data *data, int i);
 // File: src/parse_execute/cmd_in_out.c
@@ -108,12 +103,17 @@ int		set_cmd_in_out(t_data *data, int i);
 int		handle_input(t_data *data, int i, int j);
 // File: src/parse_execute/cmd_output.c
 int		handle_output(t_data *data, int i, int j);
+// File: src/parse_execute/execute.c
+int		execute_command(t_data *data, int i);
 // File: src/parse_execute/handle_commands.c
 int		handle_commands(t_data *data);
 // File: src/parse_execute/init_2.c
 int		init_2(t_data *data);
 // File: src/parse_execute/parse_execute.c
 int		parse_execute_line(t_data *data);
+// File: src/parse_execute/pid.c
+void	add_pid(t_data *data, pid_t pid);
+void	wait_for_processes(t_data *data);
 
 /* ***************************************************************** Builtins */
 // ms stands for minishell
@@ -136,6 +136,7 @@ void	ms_unset(t_data *data);
 /* ********************************************** Clean up and error handling */
 // File: src/clean_up_2.c
 void	reset_fd(int fd);
+int		reset_stdin_out(t_data *data);
 void	clean_up_loop(t_data *data);
 // File: src/clean_up.c
 void	close_pipes(t_data *data);

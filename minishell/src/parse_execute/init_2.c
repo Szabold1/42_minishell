@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:28:50 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 10:12:04 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 10:25:54 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int	init_cmd(t_data *data, int i)
 	data->cmds[i]->fd_out = -1;
 	data->cmds[i]->no_infile = false;
 	data->cmds[i]->no_outfile = false;
-	data->cmds[i]->pid = -1;
 	return (OK);
 }
 
@@ -78,6 +77,25 @@ static int	create_pipes(t_data *data)
 	return (OK);
 }
 
+// allocate memory for the pids, and initialize them with -1
+// return ERROR if malloc fails, OK otherwise
+static int	init_pids(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->pids == NULL)
+	{
+		data->pids = (pid_t *)malloc(sizeof(pid_t) * (data->cmd_count + 1));
+		if (!data->pids)
+			return (ERROR);
+		while (i < data->cmd_count)
+			data->pids[i++] = -1;
+		data->pids[data->cmd_count] = -1;
+	}
+	return (OK);
+}
+
 // second part of initialization
 // allocate memory for the commands, for the pids_child, and create pipes
 int	init_2(t_data *data)
@@ -85,6 +103,8 @@ int	init_2(t_data *data)
 	if (init_cmds(data) == ERROR)
 		return (ERROR);
 	if (create_pipes(data) == ERROR)
+		return (ERROR);
+	if (init_pids(data) == ERROR)
 		return (ERROR);
 	return (OK);
 }

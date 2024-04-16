@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 09:39:28 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 08:37:15 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 10:26:09 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	init(t_data *data, char *env[])
 		return (ERROR);
 	data->cmds = NULL;
 	data->pipes = NULL;
+	data->pids = NULL;
 	data->cmd_count = 0;
 	data->pipe_count = 0;
 	data->exit_status = 0;
