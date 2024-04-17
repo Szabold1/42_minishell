@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:03:36 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 06:41:35 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 09:52:47 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,7 @@ void	clean_up(t_data *data)
 			clean_up_cmds(data->cmds);
 		if (data->pipes)
 			free_pipes(data);
+		close(data->fd_stdin);
+		close(data->fd_stdout);
 	}
 }

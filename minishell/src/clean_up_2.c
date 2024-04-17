@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 07:41:24 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 08:10:29 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 11:11:53 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ void	reset_fd(int fd)
 		close(fd);
 		fd = -1;
 	}
+}
+
+// reset stdin and stdout file descriptors to their original values
+int	reset_stdin_out(t_data *data)
+{
+	if (dup2(data->fd_stdin, STDIN_FILENO) == -1
+		|| dup2(data->fd_stdout, STDOUT_FILENO) == -1)
+		return (ERROR);
+	return (OK);
 }
 
 // free allocated memory in the main loop and close the file descriptors
@@ -47,4 +56,11 @@ void	clean_up_loop(t_data *data)
 	}
 	if (data->pipes)
 		free_pipes(data);
+	if (data->pids)
+	{
+		free(data->pids);
+		data->pids = NULL;
+	}
+	if (reset_stdin_out(data) == ERROR)
+		err_msg("reset_stdin_out failed");
 }

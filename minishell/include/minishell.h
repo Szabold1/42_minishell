@@ -6,7 +6,7 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/10 15:27:42 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/04/16 20:01:07 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@
 // Define return values
 # define OK 0
 # define ERROR -1
+
+// Define the maximum path length
+# define PATH_MAX 2048
 
 // Define special characters
 # define S_QUOTE '\''
@@ -64,9 +67,8 @@ typedef struct s_cmd
 	char	*cmd_path; // "/bin/ls"
 	int		fd_in; // fd to read from
 	int		fd_out; // fd to write to
-	char	*infile; // input file name
-	bool	no_infile; // true if no input file was found for the command
-	pid_t	pid; // process id
+	bool	no_infile; // true if couldn't open input file
+	bool	no_outfile; // true if couldn't open output file
 }	t_cmd;
 
 // Define the main data structure
@@ -79,74 +81,82 @@ typedef struct s_data
 	char	**cmd_paths; // array of paths to commands
 	t_cmd	**cmds; // array of commands
 	int		**pipes; // array of pipes to connect commands
+	pid_t	*pids; // array of child process ids
 	int		cmd_count; // 3 (number of commands in the line)
 	int		pipe_count; // 2 (number of pipes in the line)
 	int		exit_status;
+	int		fd_stdin; // copy of stdin
+	int		fd_stdout; // copy of stdout
 }	t_data;
 
 // Function prototypes
+/* ****************************************************************** General */
+// File: src/init.c
 int		init(t_data *data, char *env[]);
+// File: src/main.c
+int		main(int argc, char *argv[], char *env[]);
 
 // Signals
 void 	sig_cases(t_data *data, int sig_status);
 
-/* *********************************************************** Input checking */
-// File: src/input_check/check_line.c
+/* ************************************************************** Check input */
+// File: src/check_input/check_line.c
 int		check_line(t_data *data);
-// File: src/input_check/env_variables.c
+// File: src/check_input/env_variables.c
 int		replace_env_variables_in_quotes(t_data *data, int q_start, int q_end);
 int		replace_env_variable(t_data *data, int i);
-// File: src/input_check/exit_status.c
+// File: src/check_input/exit_status.c
 int		replace_exit_status(t_data *data, int i, int *q_end);
-// File: src/input_check/quotes.c
+// File: src/check_input/quotes.c
 int		quotes_envvar_redir(t_data *data);
-// File: src/input_check/redirections_space.c
+// File: src/check_input/redirections_space.c
 int		separate_redirections(t_data *data, int i);
 
-/* *************************************************************** Parse line */
-// File: src/parse_line/cmd_data.c
+/* ******************************************************** Parse and execute */
+// File: src/parse_execute/cmd_data.c
 int		set_cmd_data(t_data *data, int i);
-// File: src/parse_line/handle_commands.c
-int		handle_commands(t_data *data);
-// File: src/parse_line/handle_input.c
+// File: src/parse_execute/cmd_in_out.c
+int		set_redirections(t_data *data, int i);
+int		set_cmd_in_out(t_data *data, int i);
+// File: src/parse_execute/cmd_input.c
 int		handle_input(t_data *data, int i, int j);
-// File: src/parse_line/handle_output.c
+// File: src/parse_execute/cmd_output.c
 int		handle_output(t_data *data, int i, int j);
-// File: src/parse_line/init_2.c
+// File: src/parse_execute/execute.c
+int		execute_command(t_data *data, int i);
+// File: src/parse_execute/handle_commands.c
+int		handle_commands(t_data *data);
+// File: src/parse_execute/init_2.c
 int		init_2(t_data *data);
-// File: src/parse_line/parse_line.c
-int		parse_line(t_data *data);
-
-/* ****************************************************************** Execute */
-// File: src/execute/builtin.c
-bool	is_builtin(char *cmd);
-void	execute_builtin(char *cmd, t_data *data);
-// File: src/execute/child.c
-void	child_process(t_data *data, int i);
-// File: src/execute/execute.c
-int		execute(t_data *data);
+// File: src/parse_execute/parse_execute.c
+int		parse_execute_line(t_data *data);
+// File: src/parse_execute/pid.c
+void	add_pid(t_data *data, pid_t pid);
+void	wait_for_processes(t_data *data);
 
 /* ***************************************************************** Builtins */
 // ms stands for minishell
 // File: src/builtins/cd.c
-void	ms_cd(t_data *data);
+void	ms_cd(t_data *data, int i);
 // File: src/builtins/echo.c
-void	ms_echo(t_data *data);
+void	ms_echo(t_data *data, int i);
 // File: src/builtins/env.c
 char	*ms_getenv(char *name, t_data *data);
-void	ms_env(t_data *data);
+void	ms_setenv(char *name, char *value, t_data *data);
+void	ms_env(t_data *data, int i);
 // File: src/builtins/exit.c
-void	ms_exit(t_data *data);
+void	ms_exit(t_data *data, int i);
 // File: src/builtins/export.c
 void	ms_export(t_data *data);
 // File: src/builtins/pwd.c
-void	ms_pwd(t_data *data);
+void	ms_pwd(t_data *data, int i);
 // File: src/builtins/unset.c
 void	ms_unset(t_data *data);
 
 /* ********************************************** Clean up and error handling */
 // File: src/clean_up_2.c
 void	reset_fd(int fd);
+int		reset_stdin_out(t_data *data);
 void	clean_up_loop(t_data *data);
 // File: src/clean_up.c
 void	close_pipes(t_data *data);
@@ -156,5 +166,6 @@ void	clean_up(t_data *data);
 // File: src/err_msg.c
 void	err_msg(char *msg);
 void	err_msg2(char *msg1, char *msg2);
+void	err_msg3(char *msg1, char *msg2, char *msg3);
 
 # endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_input.c                                     :+:      :+:    :+:   */
+/*   cmd_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:53:15 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 11:24:50 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 08:19:19 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,29 @@
 // return ERROR or OK
 static int	set_input(t_data *data, int i, int j)
 {
+	if (data->cmds[i]->no_infile)
+		return (OK);
 	if (!data->command_split[i][j + 1])
 		return (err_msg("no input file after '<'"), ERROR);
 	reset_fd(data->cmds[i]->fd_in);
 	data->cmds[i]->fd_in = open(data->command_split[i][j + 1], O_RDONLY);
-	if (data->cmds[i]->fd_in == -1 && data->cmds[i]->no_infile == false)
+	if (data->cmds[i]->fd_in == -1)
 	{
 		data->cmds[i]->fd_in = open("/dev/null", O_RDONLY);
 		if (data->cmds[i]->fd_in == -1)
 			return (err_msg("failed to open /dev/null"), ERROR);
-		data->cmds[i]->infile = data->command_split[i][j + 1];
-		data->cmds[i]->no_infile = true;
+		data->exit_status = 1;
+		if (data->cmds[i]->no_infile == false)
+		{
+			data->cmds[i]->no_infile = true;
+			err_msg2(data->command_split[i][j + 1], strerror(errno));
+		}
 	}
 	return (OK);
 }
 
 // loop for here document
-void	heredoc_loop(t_data *data, int i, int j)
+static void	heredoc_loop(t_data *data, int i, int j)
 {
 	char	*line;
 

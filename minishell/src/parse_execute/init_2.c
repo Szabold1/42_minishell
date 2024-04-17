@@ -6,15 +6,31 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:28:50 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 11:26:13 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/16 10:25:54 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// allocate memory for the commands array and its members
-// return ERROR if malloc fails, OK if successful
-static int	alloc_memory_cmds(t_data *data)
+// allocate memory for a command, and initialize its values
+// return ERROR if malloc fails, OK otherwise
+static int	init_cmd(t_data *data, int i)
+{
+	data->cmds[i] = (t_cmd *)malloc(sizeof(t_cmd));
+	if (!data->cmds[i])
+		return (ERROR);
+	data->cmds[i]->cmd_array = NULL;
+	data->cmds[i]->cmd_path = NULL;
+	data->cmds[i]->fd_in = -1;
+	data->cmds[i]->fd_out = -1;
+	data->cmds[i]->no_infile = false;
+	data->cmds[i]->no_outfile = false;
+	return (OK);
+}
+
+// allocate memory for the commands, and initialize them
+// return ERROR if malloc fails, OK otherwise
+static int	init_cmds(t_data *data)
 {
 	int	i;
 
@@ -25,19 +41,7 @@ static int	alloc_memory_cmds(t_data *data)
 		if (!data->cmds)
 			return (ERROR);
 		while (i < data->cmd_count)
-		{
-			data->cmds[i] = (t_cmd *)malloc(sizeof(t_cmd));
-			if (!data->cmds[i])
-				return (ERROR);
-			data->cmds[i]->cmd_array = NULL;
-			data->cmds[i]->cmd_path = NULL;
-			data->cmds[i]->fd_in = -1;
-			data->cmds[i]->fd_out = -1;
-			data->cmds[i]->infile = NULL;
-			data->cmds[i]->no_infile = false;
-			data->cmds[i]->pid = -1;
-			i++;
-		}
+			init_cmd(data, i++);
 		data->cmds[data->cmd_count] = NULL;
 	}
 	return (OK);
@@ -73,13 +77,34 @@ static int	create_pipes(t_data *data)
 	return (OK);
 }
 
+// allocate memory for the pids, and initialize them with -1
+// return ERROR if malloc fails, OK otherwise
+static int	init_pids(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->pids == NULL)
+	{
+		data->pids = (pid_t *)malloc(sizeof(pid_t) * (data->cmd_count + 1));
+		if (!data->pids)
+			return (ERROR);
+		while (i < data->cmd_count)
+			data->pids[i++] = -1;
+		data->pids[data->cmd_count] = -1;
+	}
+	return (OK);
+}
+
 // second part of initialization
 // allocate memory for the commands, for the pids_child, and create pipes
 int	init_2(t_data *data)
 {
-	if (alloc_memory_cmds(data) == ERROR)
+	if (init_cmds(data) == ERROR)
 		return (ERROR);
 	if (create_pipes(data) == ERROR)
+		return (ERROR);
+	if (init_pids(data) == ERROR)
 		return (ERROR);
 	return (OK);
 }
