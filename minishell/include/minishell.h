@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/17 09:28:46 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/17 17:25:22 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,18 @@ void	wait_for_processes(t_data *data);
 
 /* ***************************************************************** Builtins */
 // ms stands for minishell
+// File: src/builtins/builtin_utils_2.c
+char	*remove_quotes(char *str);
+int		ms_getenv_index(t_data *data, char *var_name);
+// File: src/builtins/builtin_utils.c
+void	ms_addenv(char *name, char *value, t_data *data);
+void	ms_setenv(char *name, char *value, t_data *data);
+char	*ms_getenv(char *name, t_data *data);
 // File: src/builtins/cd.c
 void	ms_cd(t_data *data, int i);
 // File: src/builtins/echo.c
 void	ms_echo(t_data *data, int i);
 // File: src/builtins/env.c
-char	*ms_getenv(char *name, t_data *data);
-void	ms_setenv(char *name, char *value, t_data *data);
 void	ms_env(t_data *data, int i);
 // File: src/builtins/exit.c
 void	ms_exit(t_data *data, int i);
