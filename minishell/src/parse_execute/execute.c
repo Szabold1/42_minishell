@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 05:05:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 20:01:14 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/17 09:29:05 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	execute_builtin(t_data *data, int i)
 	else if (ft_strcmp(cmd, "export") == 0)
 		ms_export(data);
 	else if (ft_strcmp(cmd, "unset") == 0)
-		ms_unset(data);
+		ms_unset(data, i);
 	else if (ft_strcmp(cmd, "env") == 0)
 		ms_env(data, i);
 	else if (ft_strcmp(cmd, "exit") == 0)

@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:28:50 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 10:25:54 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/17 09:43:43 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,11 @@ static int	init_pids(t_data *data)
 // allocate memory for the commands, for the pids_child, and create pipes
 int	init_2(t_data *data)
 {
+	char	*path;
+
+	path = ms_getenv("PATH", data);
+	if (path)
+		data->cmd_paths = ft_split(path, ':');
 	if (init_cmds(data) == ERROR)
 		return (ERROR);
 	if (create_pipes(data) == ERROR)
