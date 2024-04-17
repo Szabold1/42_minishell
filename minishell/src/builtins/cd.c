@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:11:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 19:31:46 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/17 17:18:12 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,11 @@ static void	ms_cd_home(t_data *data)
 }
 
 // change to the given directory
-static void	ms_cd_path(t_data *data, int i)
+static void	ms_cd_path(t_data *data, char *path)
 {
-	char	*path;
 	char	*old_pwd;
 	char	pwd[PATH_MAX];
 
-	path = data->cmds[i]->cmd_array[1];
 	old_pwd = ms_getenv("PWD", data);
 	if (chdir(path) == -1)
 		err_msg3("cd", path, strerror(errno));
@@ -51,16 +49,19 @@ static void	ms_cd_path(t_data *data, int i)
 // if no arguments are given, or argument is '~', change to home directory
 void	ms_cd(t_data *data, int i)
 {
+	char	*cd_arg;
+
+	cd_arg = data->cmds[i]->cmd_array[1];
+	cd_arg = remove_quotes(cd_arg);
 	if (i == 0 && data->cmd_count == 1)
 	{
-		if (data->cmds[i]->cmd_array[1] == NULL
-			|| (ft_strcmp(data->cmds[i]->cmd_array[1], "~") == 0
+		if (cd_arg == NULL || (ft_strcmp(cd_arg, "~") == 0
 			&& data->cmds[i]->cmd_array[2] == NULL))
 			ms_cd_home(data);
 		else if (data->cmds[i]->cmd_array[2])
 			err_msg2("cd", "too many arguments");
 		else
-			ms_cd_path(data, i);
+			ms_cd_path(data, cd_arg);
 	}
 	data->exit_status = 0;
 }
