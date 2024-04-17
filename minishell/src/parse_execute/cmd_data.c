@@ -6,11 +6,23 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 19:40:17 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/10 15:44:19 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/13 10:00:19 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	set_cmd_empty(t_data *data, int i)
+{
+	data->cmds[i]->cmd_array = malloc(sizeof(char *) * 2);
+	if (!data->cmds[i]->cmd_array)
+		return (err_msg("malloc failed"), ERROR);
+	data->cmds[i]->cmd_array[0] = ft_strdup("");
+	if (!data->cmds[i]->cmd_array[0])
+		return (err_msg("ft_strdup failed"), ERROR);
+	data->cmds[i]->cmd_array[1] = NULL;
+	return (OK);
+}
 
 // extract the command array from the command split
 // return 'cmd_array' if successful, otherwise return NULL
@@ -82,7 +94,7 @@ int	set_cmd_data(t_data *data, int i)
 	{
 		start += 2;
 		if (data->command_split[i][start] == NULL)
-			return (ERROR);
+			return (set_cmd_empty(data, i));
 	}
 	data->cmds[i]->cmd_array = get_cmd_array(data, i, start);
 	if (!data->cmds[i]->cmd_array)

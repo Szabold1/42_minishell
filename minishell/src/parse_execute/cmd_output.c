@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_output.c                                    :+:      :+:    :+:   */
+/*   cmd_output.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 08:57:39 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/08 11:03:43 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/15 19:14:25 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,22 @@ static int	set_output(t_data *data, int i, int j, int mode)
 	char	*file;
 
 	file = data->command_split[i][j + 1];
-	reset_fd(data->cmds[i]->fd_out);
 	if (!file)
 		return (err_msg("no output file after '>'"), ERROR);
+	reset_fd(data->cmds[i]->fd_out);
 	if (mode == 1)
 		data->cmds[i]->fd_out = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	else if (mode == 2)
 		data->cmds[i]->fd_out = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (data->cmds[i]->fd_out == -1)
-		return (err_msg2(file, strerror(errno)), ERROR);
+	{
+		data->cmds[i]->fd_out = open("/dev/null", O_WRONLY);
+		if (data->cmds[i]->fd_out == -1)
+			return (err_msg("failed to open /dev/null"), ERROR);
+		data->exit_status = 1;
+		data->cmds[i]->no_outfile = 1;
+		err_msg2(file, strerror(errno));
+	}
 	return (OK);
 }
 
@@ -36,6 +43,8 @@ static int	set_output(t_data *data, int i, int j, int mode)
 // return ERROR or OK
 int	handle_output(t_data *data, int i, int j)
 {
+	if (data->cmds[i]->no_infile)
+		return (OK);
 	if (ft_strcmp(data->command_split[i][j], ">") == 0)
 	{
 		if (set_output(data, i, j, 1) == ERROR)
