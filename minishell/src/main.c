@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:42:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/13 09:58:15 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/18 18:06:08 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@ static int	main_loop(t_data *data)
 	while (1)
 	{
 		clean_up_loop(data);
-		// handle_signals();
+		sig_cases(data, INTERACTIVE);
 		data->line = readline(PROMPT);
+		sig_cases(data, NONINTERACTIVE);
+		if (g_signal == CTRLC && g_signal--)
+			data->exit_status = 130;
 		if (!data->line)
 			return (clean_up(data), ERROR);
 		if (ft_strlen(data->line) > 0)
