@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:16:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/29 10:40:50 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/18 06:44:58 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,18 @@ static char	*replace_env_var(char *var_name, t_data *data, int i)
 {
 	char	*value;
 
-	value = ms_getenv(var_name + 1, data);
-	if (value)
-		value = ft_strdup(value);
-	if (!value)
-		value = ft_strdup("");
-	if (!value)
-		return (err_msg("ft_strdup failed"), NULL);
+	if (ft_strcmp(var_name, "$") == 0)
+		value = ft_strdup("$");
+	else
+	{
+		value = ms_getenv(var_name + 1, data);
+		if (value)
+			value = ft_strdup(value);
+		if (!value)
+			value = ft_strdup("");
+		if (!value)
+			return (err_msg("ft_strdup failed"), NULL);
+	}
 	data->line = ft_strreplace(data->line, var_name, value, i);
 	if (!data->line)
 		return (err_msg("ft_strreplace failed"), NULL);
