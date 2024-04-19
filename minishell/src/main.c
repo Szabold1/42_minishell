@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:42:31 by bszabo            #+#    #+#             */
 /*   Updated: 2024/04/18 18:06:08 by bszabo           ###   ########.fr       */
@@ -26,7 +26,7 @@ static int	main_loop(t_data *data)
 		if (g_signal == CTRLC && g_signal--)
 			data->exit_status = 130;
 		if (!data->line)
-			return (clean_up(data), ERROR);
+			return (printf("exit\n"), clean_up(data), OK);
 		if (ft_strlen(data->line) > 0)
 		{
 			add_history(data->line);

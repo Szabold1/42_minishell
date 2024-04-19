@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
 /*   Updated: 2024/04/18 18:02:42 by bszabo           ###   ########.fr       */
@@ -96,6 +96,9 @@ int		init(t_data *data, char *env[]);
 // File: src/main.c
 int		main(int argc, char *argv[], char *env[]);
 // File: src/signal.c
+void 	sig_cases(t_data *data, int sig_status);
+
+// Signals
 void 	sig_cases(t_data *data, int sig_status);
 
 /* ************************************************************** Check input */
