@@ -6,25 +6,34 @@
 /*   By: seckhard <seckhard@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:13:23 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/20 17:14:10 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/04/20 18:09:27 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // Check if string is a valid integer
-static bool	is_valid_int(const char *str)
+static bool	is_valid_int(char *str)
 {
+	char		*llong_max_str;
+	const char	*p;
+
+	llong_max_str = "9223372036854775807";
+	p = str;
 	if (!str || *str == '\0')
 		return (false);
-	if (*str == '-' || *str == '+')
-		str++;
-	while (*str)
+	if (*p == '-' || *p == '+')
+		p++;
+	while (*p)
 	{
-		if (*str < '0' || *str > '9')
+		if (*p < '0' || *p > '9')
 			return (false);
-		str++;
+		p++;
 	}
+	if (ft_strlen(str) > ft_strlen(llong_max_str) || \
+		(ft_strlen(str) == ft_strlen(llong_max_str) \
+			&& ft_strcmp(str, llong_max_str) > 0))
+		return (false);
 	return (true);
 }
 
@@ -46,7 +55,7 @@ static void	handle_exit_logic(t_data *data, int i)
 			exit(data->exit_status);
 		}
 		ft_printf_fd(2, "bash: exit: %s: numeric argument required\n", \
-		 data->cmds[i]->cmd_array[1]);
+			data->cmds[i]->cmd_array[1]);
 		data->exit_status = 2;
 		clean_up(data);
 		exit(data->exit_status);
@@ -55,7 +64,7 @@ static void	handle_exit_logic(t_data *data, int i)
 	exit(data->exit_status);
 }
 
-void ms_exit(t_data *data, int i)
+void	ms_exit(t_data *data, int i)
 {
 	printf("exit\n");
 	handle_exit_logic(data, i);
