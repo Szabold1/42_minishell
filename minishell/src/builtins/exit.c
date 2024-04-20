@@ -6,7 +6,7 @@
 /*   By: seckhard <seckhard@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:13:23 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/20 16:58:48 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/04/20 17:14:10 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,14 @@ static bool	is_valid_int(const char *str)
 static void	handle_exit_logic(t_data *data, int i)
 {
 	if (data->cmds[i]->cmd_array[2] != NULL)
-	{											// Another if statement for: "exit echo smth" or "exit cd .." 
+	{
 		err_msg2("exit", "too many arguments");
 		data->exit_status = 1;
 		return ;
 	}
 	if (data->cmds[i]->cmd_array[1] != NULL)
 	{
-		strip_quotes2(data->cmds[i]->cmd_array[1]);
-		strip_quotes(data->cmds[i]->cmd_array[1]);
+		remove_quotes(data->cmds[i]->cmd_array[1]);
 		if (is_valid_int(data->cmds[i]->cmd_array[1]))
 		{
 			data->exit_status = ft_atoi(data->cmds[i]->cmd_array[1]);
