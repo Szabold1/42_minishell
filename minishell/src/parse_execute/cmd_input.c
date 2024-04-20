@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:53:15 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 08:19:19 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/19 09:49:03 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static int	set_input(t_data *data, int i, int j)
 		return (OK);
 	if (!data->command_split[i][j + 1])
 		return (err_msg("no input file after '<'"), ERROR);
-	reset_fd(data->cmds[i]->fd_in);
+	if (data->cmds[i]->fd_in > 0)
+		reset_fd(data->cmds[i]->fd_in);
 	data->cmds[i]->fd_in = open(data->command_split[i][j + 1], O_RDONLY);
 	if (data->cmds[i]->fd_in == -1)
 	{
@@ -65,7 +66,8 @@ static int	set_heredoc(t_data *data, int i, int j)
 {
 	if (!data->command_split[i][j + 1])
 		return (err_msg("no delimiter after '<<'"), ERROR);
-	reset_fd(data->cmds[i]->fd_in);
+	if (data->cmds[i]->fd_in > 0)
+		reset_fd(data->cmds[i]->fd_in);
 	data->cmds[i]->fd_in = open("/tmp/heredoc", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (data->cmds[i]->fd_in == -1)
 		return (err_msg("failed to open /tmp/heredoc"), ERROR);

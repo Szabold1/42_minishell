@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 07:41:24 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 11:11:53 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/17 09:56:40 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	reset_stdin_out(t_data *data)
 	return (OK);
 }
 
-// free allocated memory in the main loop and close the file descriptors
-void	clean_up_loop(t_data *data)
+// first part of the clean_up_loop function
+static void	clean_up_loop_1(t_data *data)
 {
 	if (data->line)
 	{
@@ -49,11 +49,22 @@ void	clean_up_loop(t_data *data)
 		ft_free_str_arr_2d(data->command_split);
 		data->command_split = NULL;
 	}
+	if (data->cmd_paths)
+	{
+		ft_free_str_arr(data->cmd_paths);
+		data->cmd_paths = NULL;
+	}
 	if (data->cmds)
 	{
 		clean_up_cmds(data->cmds);
 		data->cmds = NULL;
 	}
+}
+
+// free allocated memory in the main loop and close the file descriptors
+void	clean_up_loop(t_data *data)
+{
+	clean_up_loop_1(data);
 	if (data->pipes)
 		free_pipes(data);
 	if (data->pids)

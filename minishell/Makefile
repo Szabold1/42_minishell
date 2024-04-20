@@ -50,7 +50,9 @@ SRC_PARSE_EXECUTE	=	cmd_data.c \
 						parse_execute.c \
 						pid.c
 
-SRC_BUILTINS		=	cd.c \
+SRC_BUILTINS		=	builtin_utils_2.c \
+						builtin_utils.c \
+						cd.c \
 						echo.c \
 						env.c \
 						exit.c \

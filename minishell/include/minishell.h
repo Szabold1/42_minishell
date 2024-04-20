@@ -6,7 +6,7 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 20:01:07 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/18 18:02:42 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ typedef struct s_data
 int		init(t_data *data, char *env[]);
 // File: src/main.c
 int		main(int argc, char *argv[], char *env[]);
+// File: src/signal.c
+void 	sig_cases(t_data *data, int sig_status);
 
 // Signals
 void 	sig_cases(t_data *data, int sig_status);
@@ -136,22 +138,27 @@ void	wait_for_processes(t_data *data);
 
 /* ***************************************************************** Builtins */
 // ms stands for minishell
+// File: src/builtins/builtin_utils_2.c
+char	*remove_quotes(char *str);
+int		ms_getenv_index(t_data *data, char *var_name);
+// File: src/builtins/builtin_utils.c
+void	ms_addenv(char *name, char *value, t_data *data);
+void	ms_setenv(char *name, char *value, t_data *data);
+char	*ms_getenv(char *name, t_data *data);
 // File: src/builtins/cd.c
 void	ms_cd(t_data *data, int i);
 // File: src/builtins/echo.c
 void	ms_echo(t_data *data, int i);
 // File: src/builtins/env.c
-char	*ms_getenv(char *name, t_data *data);
-void	ms_setenv(char *name, char *value, t_data *data);
 void	ms_env(t_data *data, int i);
 // File: src/builtins/exit.c
 void	ms_exit(t_data *data, int i);
 // File: src/builtins/export.c
-void	ms_export(t_data *data);
+void	ms_export(t_data *data, int i);
 // File: src/builtins/pwd.c
 void	ms_pwd(t_data *data, int i);
 // File: src/builtins/unset.c
-void	ms_unset(t_data *data);
+void	ms_unset(t_data *data, int i);
 
 /* ********************************************** Clean up and error handling */
 // File: src/clean_up_2.c
