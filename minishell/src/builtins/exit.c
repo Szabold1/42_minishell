@@ -6,7 +6,7 @@
 /*   By: seckhard <seckhard@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:13:23 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/20 18:09:27 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/04/20 19:44:20 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,28 @@ static bool	is_valid_int(char *str)
 	return (true);
 }
 
-static void	handle_exit_logic(t_data *data, int i)
+static bool	execive_check(t_data *data, int i)
 {
-	if (data->cmds[i]->cmd_array[2] != NULL)
+	if (data->cmds[i]->cmd_array[2] != NULL
+		&& (ft_strcmp(data->cmds[i]->cmd_array[1], "echo") != 0)
+		&& (ft_strcmp(data->cmds[i]->cmd_array[1], "cd") != 0)
+		&& (ft_strcmp(data->cmds[i]->cmd_array[1], "env") != 0)
+		&& (ft_strcmp(data->cmds[i]->cmd_array[1], "export") != 0)
+		&& (ft_strcmp(data->cmds[i]->cmd_array[1], "pwd") != 0)
+		&& (ft_strcmp(data->cmds[i]->cmd_array[1], "unset") != 0)
+		&& (ft_strcmp(data->cmds[i]->cmd_array[1], "exit") != 0))
 	{
 		err_msg2("exit", "too many arguments");
 		data->exit_status = 1;
-		return ;
+		return (true);
 	}
+	return (false);
+}
+
+static void	handle_exit_logic(t_data *data, int i)
+{
+	if (execive_check(data, i))
+		return ;
 	if (data->cmds[i]->cmd_array[1] != NULL)
 	{
 		remove_quotes(data->cmds[i]->cmd_array[1]);
