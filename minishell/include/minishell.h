@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/18 18:02:42 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/20 07:41:36 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,9 @@ void 	sig_cases(t_data *data, int sig_status);
 int		check_line(t_data *data);
 // File: src/check_input/env_variables.c
 int		replace_env_variables_in_quotes(t_data *data, int q_start, int q_end);
-int		replace_env_variable(t_data *data, int i);
+int		replace_env_variable(t_data *data, char **line, int i);
 // File: src/check_input/exit_status.c
-int		replace_exit_status(t_data *data, int i, int *q_end);
+int		replace_exit_status(t_data *data, char **line, int i, int *q_end);
 // File: src/check_input/quotes.c
 int		quotes_envvar_redir(t_data *data);
 // File: src/check_input/redirections_space.c

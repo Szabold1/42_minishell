@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:19:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/27 15:33:42 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/19 20:17:58 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	envvar_redir(t_data *data, int i)
 {
 	if (data->line[i] == '$' && data->line[i + 1])
 	{
-		i = replace_env_variable(data, i);
+		i = replace_env_variable(data, &(data->line), i);
 		if (i == ERROR)
 			return (err_msg("replace_env_variable failed"), ERROR);
 	}

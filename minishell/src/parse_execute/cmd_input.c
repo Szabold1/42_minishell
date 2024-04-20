@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:53:15 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/19 09:49:03 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/20 09:20:35 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,24 @@ static int	set_input(t_data *data, int i, int j)
 	return (OK);
 }
 
+// replace environment variables in a line of a here document
+static void	replace_env_variables_in_heredoc(t_data *data, char **line_p)
+{
+	int		i;
+
+	i = 0;
+	while (line_p[0][i])
+	{
+		if (line_p[0][i] == '$' && line_p[0][i + 1])
+		{
+			i = replace_env_variable(data, line_p, i);
+			if (i == ERROR)
+				return (err_msg("replace_env_variable failed"));
+		}
+		i++;
+	}
+}
+
 // loop for here document
 static void	heredoc_loop(t_data *data, int i, int j)
 {
@@ -54,6 +72,7 @@ static void	heredoc_loop(t_data *data, int i, int j)
 			free(line);
 			break ;
 		}
+		replace_env_variables_in_heredoc(data, &line);
 		ft_printf_fd(data->cmds[i]->fd_in, "%s\n", line);
 		free(line);
 	}
