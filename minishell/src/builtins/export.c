@@ -6,25 +6,23 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:13:47 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/20 14:53:07 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/21 12:33:00 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// get the name of the environment variable
-static char	*get_var_name(char *env_var)
+// part of check_env_var function
+static int	check_after_loop(char *env_var, int i, t_data *data)
 {
-	int		i;
-	char	*name;
-
-	i = 0;
-	while (env_var[i] && env_var[i] != '=')
-		i++;
-	name = ft_substr(env_var, 0, i);
-	if (name == NULL)
-		err_msg("ft_substr failed");
-	return (name);
+	if (i == 0 && env_var[i] == '=')
+	{
+		data->exit_status = 1;
+		return (err_msg3("export", env_var, "not a valid identifier"), ERROR);
+	}
+	if (env_var[i] == '\0')
+		return (ERROR);
+	return (OK);
 }
 
 // check if the environment variable is valid
@@ -50,7 +48,7 @@ static int	check_env_var(char *env_var, t_data *data)
 		}
 		i++;
 	}
-	if (env_var[i] == '\0')
+	if (check_after_loop(env_var, i, data) == ERROR)
 		return (ERROR);
 	return (OK);
 }
@@ -77,23 +75,24 @@ static int	check_flag(char *env_var, int j, t_data *data)
 
 // handle the export command
 // if the environment variable is valid, add it to the env or update it
-static void	handle_export(t_data *data, int j, char *env_var)
+static int	handle_export(t_data *data, int j, char *env_var)
 {
 	char	*name;
 	char	*value;
 
 	env_var = remove_quotes(env_var);
 	if (check_flag(env_var, j, data) == ERROR)
-		return ;
+		return (ERROR);
 	if (check_env_var(env_var, data) == ERROR)
-		return ;
-	name = get_var_name(env_var);
+		return (OK);
+	name = get_env_name(env_var);
 	value = ft_strchr(env_var, '=') + 1;
 	if (ms_getenv_index(data, name) == ERROR)
 		ms_addenv(name, value, data);
 	else
 		ms_setenv(name, value, data);
 	free(name);
+	return (OK);
 }
 
 // export the environment variable to the data structure env
@@ -110,7 +109,8 @@ void	ms_export(t_data *data, int i)
 	{
 		while (export_arg[j])
 		{
-			handle_export(data, j, export_arg[j]);
+			if (handle_export(data, j, export_arg[j]) == ERROR)
+				return ;
 			j++;
 		}
 	}

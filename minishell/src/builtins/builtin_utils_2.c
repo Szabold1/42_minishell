@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:22:41 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/17 17:23:30 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/21 12:32:21 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,20 @@ int	ms_getenv_index(t_data *data, char *var_name)
 		i++;
 	}
 	return (ERROR);
+}
+
+// get the name of the environment variable 'env_var'
+// example: VAR_NAME=VAR_VALUE will return VAR_NAME
+char	*get_env_name(char *env_var)
+{
+	int		i;
+	char	*name;
+
+	i = 0;
+	while (env_var[i] && env_var[i] != '=')
+		i++;
+	name = ft_substr(env_var, 0, i);
+	if (name == NULL)
+		err_msg("ft_substr failed");
+	return (name);
 }
