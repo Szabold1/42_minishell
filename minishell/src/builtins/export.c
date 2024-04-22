@@ -6,23 +6,20 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:13:47 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/21 12:33:00 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/22 18:38:39 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// part of check_env_var function
-static int	check_after_loop(char *env_var, int i, t_data *data)
+// print the environment in export with "declare -x" in front of each variable
+static void	export_env(t_data *data)
 {
-	if (i == 0 && env_var[i] == '=')
-	{
-		data->exit_status = 1;
-		return (err_msg3("export", env_var, "not a valid identifier"), ERROR);
-	}
-	if (env_var[i] == '\0')
-		return (ERROR);
-	return (OK);
+	int	i;
+
+	i = 0;
+	while (data->env[i])
+		printf("declare -x %s\n", data->env[i++]);
 }
 
 // check if the environment variable is valid
@@ -48,8 +45,11 @@ static int	check_env_var(char *env_var, t_data *data)
 		}
 		i++;
 	}
-	if (check_after_loop(env_var, i, data) == ERROR)
-		return (ERROR);
+	if (i == 0 && env_var[i] == '=')
+	{
+		data->exit_status = 1;
+		return (err_msg3("export", env_var, "not a valid identifier"), ERROR);
+	}
 	return (OK);
 }
 
@@ -86,11 +86,17 @@ static int	handle_export(t_data *data, int j, char *env_var)
 	if (check_env_var(env_var, data) == ERROR)
 		return (OK);
 	name = get_env_name(env_var);
-	value = ft_strchr(env_var, '=') + 1;
+	if (ft_strchr(env_var, '=') == NULL)
+		value = NULL;
+	else
+		value = ft_strchr(env_var, '=') + 1;
 	if (ms_getenv_index(data, name) == ERROR)
 		ms_addenv(name, value, data);
 	else
+	{
+		ft_printf_fd(2, "name: %s\n", name);
 		ms_setenv(name, value, data);
+	}
 	free(name);
 	return (OK);
 }
@@ -105,6 +111,11 @@ void	ms_export(t_data *data, int i)
 	data->exit_status = 0;
 	export_arg = data->cmds[i]->cmd_array;
 	j = 1;
+	if (export_arg[1] == NULL)
+	{
+		export_env(data);
+		return ;
+	}
 	if (i == 0 && data->cmd_count == 1)
 	{
 		while (export_arg[j])
