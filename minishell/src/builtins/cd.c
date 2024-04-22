@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:11:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/22 14:10:08 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/22 17:54:33 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,10 @@ void	ms_cd(t_data *data, int i)
 	char	*cd_arg;
 
 	data->exit_status = 0;
-	cd_arg = data->cmds[i]->cmd_array[1];
-	cd_arg = remove_quotes(cd_arg);
+	if (data->cmds[i]->cmd_array[1])
+		cd_arg = remove_quotes(data->cmds[i]->cmd_array[1]);
+	else
+		cd_arg = NULL;
 	if (i == 0 && data->cmd_count == 1)
 	{
 		if (cd_arg == NULL || (ft_strcmp(cd_arg, "~") == 0
@@ -79,7 +81,7 @@ void	ms_cd(t_data *data, int i)
 		else
 			ms_cd_path(data, cd_arg);
 	}
-	if (access(cd_arg, F_OK) != 0)
+	if (cd_arg && access(cd_arg, F_OK) != 0)
 	{
 		err_msg3("cd", cd_arg, strerror(errno));
 		data->exit_status = 1;
