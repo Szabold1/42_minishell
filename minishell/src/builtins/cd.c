@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:11:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/17 18:12:53 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/22 13:41:04 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,10 @@ void	ms_cd(t_data *data, int i)
 		}
 		else
 			ms_cd_path(data, cd_arg);
+	}
+	if (access(cd_arg, F_OK) != 0)
+	{
+		err_msg3("cd", cd_arg, strerror(errno));
+		data->exit_status = 1;
 	}
 }
