@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:11:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/22 13:41:04 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/22 14:10:08 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void	ms_cd_home(t_data *data)
 	getcwd(pwd, PATH_MAX);
 	ms_setenv("OLDPWD", old_pwd, data);
 	ms_setenv("PWD", pwd, data);
-	data->exit_status = 0;
 }
 
 // change to the given directory
@@ -55,7 +54,6 @@ static void	ms_cd_path(t_data *data, char *path)
 	getcwd(pwd, PATH_MAX);
 	ms_setenv("OLDPWD", old_pwd, data);
 	ms_setenv("PWD", pwd, data);
-	data->exit_status = 0;
 }
 
 // change directory
@@ -65,6 +63,7 @@ void	ms_cd(t_data *data, int i)
 {
 	char	*cd_arg;
 
+	data->exit_status = 0;
 	cd_arg = data->cmds[i]->cmd_array[1];
 	cd_arg = remove_quotes(cd_arg);
 	if (i == 0 && data->cmd_count == 1)
