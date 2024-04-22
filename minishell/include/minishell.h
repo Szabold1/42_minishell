@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/20 07:41:36 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/21 12:32:31 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ void	wait_for_processes(t_data *data);
 // File: src/builtins/builtin_utils_2.c
 char	*remove_quotes(char *str);
 int		ms_getenv_index(t_data *data, char *var_name);
+char	*get_env_name(char *env_var);
 // File: src/builtins/builtin_utils.c
 void	ms_addenv(char *name, char *value, t_data *data);
 void	ms_setenv(char *name, char *value, t_data *data);
