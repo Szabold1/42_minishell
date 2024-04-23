@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:42:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/18 18:06:08 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/23 12:50:47 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static int	main_loop(t_data *data)
 	while (1)
 	{
 		clean_up_loop(data);
-		sig_cases(data, INTERACTIVE);
+		sig_cases(INTERACTIVE);
 		data->line = readline(PROMPT);
-		sig_cases(data, NONINTERACTIVE);
-		if (g_signal == CTRLC && g_signal--)
+		sig_cases(NON_INTERACTIVE);
+		if (g_signal == CTRL_C && g_signal--)
 			data->exit_status = 130;
 		if (!data->line)
-			return (printf("exit\n"), clean_up(data), OK);
+			return (printf("exit\n"), ERROR);
 		if (ft_strlen(data->line) > 0)
 		{
 			add_history(data->line);
@@ -51,5 +51,5 @@ int	main(int argc, char *argv[], char *env[])
 	if (init(&data, env) == ERROR)
 		return (clean_up(&data), ERROR);
 	if (main_loop(&data) == ERROR)
-		return (err_msg("main_loop failed"), clean_up(&data), ERROR);
+		return (clean_up(&data), data.exit_status);
 }

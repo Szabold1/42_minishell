@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:55:39 by seckhard          #+#    #+#             */
-/*   Updated: 2024/04/11 18:59:23 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/04/23 13:15:42 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 int	g_signal = 0;
 
-void	sig_handler(int signal)
+// handle SIGINT signal (ctrl + c) in interactive mode
+static void	sig_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
+		g_signal = CTRL_C;
 		write(STDERR_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -25,38 +27,30 @@ void	sig_handler(int signal)
 	}
 }
 
-void	sig_quit(int signal)
-{
-	(void)signal;
-	ft_printf("Quit (core dumped)\n");
-	kill(0, SIGCHLD);
-}
-
-void	heredoc(int signal)
+// handle SIGINT signal (ctrl + c) in heredoc
+static void	heredoc(int signal)
 {
 	if (signal == SIGINT)
 	{
-		g_signal = CTRLC;
+		g_signal = CTRL_C;
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
 	}
 }
 
-// Sets signals for different modes
-void	sig_cases(t_data *data, int sig_status)
+// handle different signals (SIGINT - ctrl + c, SIGQUIT - ctrl + \)
+void	sig_cases(int sig_status)
 {
-	if (!data)
-		return ;
 	if (sig_status == INTERACTIVE)
 	{
 		signal(SIGINT, &sig_handler);
 		signal(SIGQUIT, SIG_IGN);
 	}
-	else if (sig_status == NONINTERACTIVE)
+	else if (sig_status == NON_INTERACTIVE)
 	{
 		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, &sig_quit);
+		signal(SIGQUIT, SIG_IGN);
 	}
 	else if (sig_status == CHILD)
 	{

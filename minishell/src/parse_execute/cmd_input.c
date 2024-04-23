@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:53:15 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/20 09:20:35 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/23 13:06:10 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,17 @@ static void	heredoc_loop(t_data *data, int i, int j)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
+		if (g_signal == CTRL_C && g_signal--)
+		{
+			data->exit_status = 130;
+			free(line);
 			break ;
+		}
+		if (!line)
+		{
+			err_msg2("warning", "here-document delimited by end-of-file");
+			break ;
+		}
 		if (ft_strcmp(line, data->command_split[i][j + 1]) == 0)
 		{
 			free(line);
@@ -90,7 +99,9 @@ static int	set_heredoc(t_data *data, int i, int j)
 	data->cmds[i]->fd_in = open("/tmp/heredoc", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (data->cmds[i]->fd_in == -1)
 		return (err_msg("failed to open /tmp/heredoc"), ERROR);
+	sig_cases(HEREDOC);
 	heredoc_loop(data, i, j);
+	sig_cases(NON_INTERACTIVE);
 	close(data->cmds[i]->fd_in);
 	data->cmds[i]->fd_in = open("/tmp/heredoc", O_RDONLY);
 	if (data->cmds[i]->fd_in == -1)
