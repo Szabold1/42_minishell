@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:28:50 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/17 09:43:43 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/24 12:35:09 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ static int	create_pipes(t_data *data)
 			i++;
 		}
 	}
-	for (int i = 0; i < data->pipe_count; i++) // for testing
-	{
-		printf("pipe %d[0]: %d\n", i, data->pipes[i][0]); // for testing
-		printf("pipe %d[1]: %d\n", i, data->pipes[i][1]); // for testing
-	}
+	// for (int i = 0; i < data->pipe_count; i++) // for testing
+	// {
+	// 	printf("pipe %d[0]: %d\n", i, data->pipes[i][0]); // for testing
+	// 	printf("pipe %d[1]: %d\n", i, data->pipes[i][1]); // for testing
+	// }
 	return (OK);
 }
 
