@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:53:15 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/23 13:06:10 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/24 11:13:13 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,25 @@
 // return ERROR or OK
 static int	set_input(t_data *data, int i, int j)
 {
+	char	*file;
+
 	if (data->cmds[i]->no_infile)
 		return (OK);
-	if (!data->command_split[i][j + 1])
+	file = remove_quotes(data->command_split[i][j + 1]);
+	if (!file)
 		return (err_msg("no input file after '<'"), ERROR);
 	if (data->cmds[i]->fd_in > 0)
 		reset_fd(data->cmds[i]->fd_in);
-	data->cmds[i]->fd_in = open(data->command_split[i][j + 1], O_RDONLY);
+	data->cmds[i]->fd_in = open(file, O_RDONLY);
 	if (data->cmds[i]->fd_in == -1)
 	{
 		data->cmds[i]->fd_in = open("/dev/null", O_RDONLY);
 		if (data->cmds[i]->fd_in == -1)
 			return (err_msg("failed to open /dev/null"), ERROR);
-		data->exit_status = 1;
 		if (data->cmds[i]->no_infile == false)
 		{
 			data->cmds[i]->no_infile = true;
-			err_msg2(data->command_split[i][j + 1], strerror(errno));
+			err_msg2(file, strerror(errno));
 		}
 	}
 	return (OK);

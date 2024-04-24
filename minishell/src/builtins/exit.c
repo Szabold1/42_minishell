@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:13:23 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/22 14:45:14 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/23 19:11:25 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static void	handle_exit_logic(t_data *data, int i)
 {
 	if (data->cmds[i]->cmd_array[1])
 	{
-		remove_quotes(data->cmds[i]->cmd_array[1]);
 		if (is_valid_int(data->cmds[i]->cmd_array[1]))
 			data->exit_status = ft_atoi(data->cmds[i]->cmd_array[1]);
 		else

@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:13:47 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/22 18:38:39 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/23 19:11:38 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ static int	handle_export(t_data *data, int j, char *env_var)
 	char	*name;
 	char	*value;
 
-	env_var = remove_quotes(env_var);
 	if (check_flag(env_var, j, data) == ERROR)
 		return (ERROR);
 	if (check_env_var(env_var, data) == ERROR)

@@ -6,38 +6,11 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:22:41 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/21 12:32:21 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/23 19:09:38 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// remove necessary quotes from string, return the modified string
-// example: test_"hello'world" -> test_hello'world
-char	*remove_quotes(char *str)
-{
-	int		i;
-	int		j;
-	bool	in_s_quote;
-	bool	in_d_quote;
-
-	i = 0;
-	j = 0;
-	in_s_quote = false;
-	in_d_quote = false;
-	while (str[i])
-	{
-		if (str[i] == S_QUOTE && !in_d_quote)
-			in_s_quote = !in_s_quote;
-		else if (str[i] == D_QUOTE && !in_s_quote)
-			in_d_quote = !in_d_quote;
-		else
-			str[j++] = str[i];
-		i++;
-	}
-	str[j] = '\0';
-	return (str);
-}
 
 // get the index of the environment variable in the data structure env
 // return ERROR if the variable is not found

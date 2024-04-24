@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 19:40:17 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/17 09:50:35 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/24 09:20:31 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,33 @@ static int	set_cmd_empty(t_data *data, int i)
 	return (OK);
 }
 
+// create the command array, excluding the redirections
+// example: echo hi < infile bye bye -> cmd_array = {"echo", "hi", "bye", "bye"}
+static int	create_cmd_array(char **command_split, int start, char **cmd_array)
+{
+	int	i;
+
+	i = 0;
+	while (command_split[start])
+	{
+		if (ft_strcmp(command_split[start], "<") == 0
+			|| ft_strcmp(command_split[start], "<<") == 0
+			|| ft_strcmp(command_split[start], ">") == 0
+			|| ft_strcmp(command_split[start], ">>") == 0)
+		{
+			start += 2;
+			continue ;
+		}
+		cmd_array[i] = ft_strdup(command_split[start]);
+		if (!cmd_array[i])
+			return (err_msg("ft_strdup failed"), ERROR);
+		start++;
+		i++;
+	}
+	cmd_array[i] = NULL;
+	return (OK);
+}
+
 // extract the command array from the command split
 // return 'cmd_array' if successful, otherwise return NULL
 static char	**get_cmd_array(t_data *data, int i, int start)
@@ -34,23 +61,14 @@ static char	**get_cmd_array(t_data *data, int i, int start)
 
 	j = start;
 	len = 0;
-	while (data->command_split[i][j] && data->command_split[i][j][0] != '<'
-		&& data->command_split[i][j][0] != '>')
+	while (data->command_split[i][j])
 		j++;
 	len = j - start;
 	cmd_array = malloc(sizeof(char *) * (len + 1));
 	if (!cmd_array)
 		return (err_msg("malloc failed"), NULL);
-	j = 0;
-	while (j < len && data->command_split[i][start + j][0] != '<'
-		&& data->command_split[i][start + j][0] != '>')
-	{
-		cmd_array[j] = ft_strdup(data->command_split[i][start + j]);
-		if (!cmd_array[j])
-			return (err_msg("ft_strdup failed"), NULL);
-		j++;
-	}
-	cmd_array[j] = NULL;
+	if (create_cmd_array(data->command_split[i], start, cmd_array) == ERROR)
+		return (NULL);
 	return (cmd_array);
 }
 
@@ -63,10 +81,10 @@ static char	*get_cmd_path(t_data *data, int i)
 	char	*path;
 
 	j = 0;
-	if (data->cmd_paths == NULL)
-		return (NULL);
 	if (access(data->cmds[i]->cmd_array[0], F_OK) == 0)
 		return (ft_strdup(data->cmds[i]->cmd_array[0]));
+	if (data->cmd_paths == NULL)
+		return (NULL);
 	while (data->cmd_paths[j])
 	{
 		temp = ft_strjoin(data->cmd_paths[j], "/");

@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 05:05:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/23 13:18:32 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/24 11:10:23 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	execute_command(t_data *data, int i)
 		execute_builtin(data, i);
 	else
 	{
+		data->exit_status = 0;
 		pid = fork();
 		if (pid == -1)
 			return (err_msg(strerror(errno)), ERROR);

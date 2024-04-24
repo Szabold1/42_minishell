@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:14:40 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/20 15:29:11 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/23 19:11:45 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static int	handle_unset(t_data *data, int j, char *var_name)
 {
 	int	index;
 
-	var_name = remove_quotes(var_name);
 	if (check_flag(var_name, j, data) == ERROR)
 		return (ERROR);
 	if (check_var_name(var_name, data) == ERROR)

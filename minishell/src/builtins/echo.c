@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:10:27 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/18 09:01:12 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/23 20:02:28 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	print_arg(char **echo_arg, int i, bool *newline, bool *check_flag)
 	{
 		while (echo_arg[i][j] == 'n')
 			j++;
-		if (echo_arg[i][j] == '\0')
+		if (echo_arg[i][j] == '\0' && j > 1)
 		{
 			*newline = false;
 			return ;
