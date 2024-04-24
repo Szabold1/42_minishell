@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 05:05:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/24 11:10:23 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/24 19:26:42 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ static void	child_process(t_data *data, int i)
 		clean_up(data), exit(127);
 	}
 	sig_cases(CHILD);
+	close(data->fd_stdin);
+	close(data->fd_stdout);
 	execve(cmd->cmd_path, cmd->cmd_array, data->env);
 	err_msg(strerror(errno)), clean_up(data), exit(1);
 }

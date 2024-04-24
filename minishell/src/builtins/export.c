@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:13:47 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/23 19:11:38 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/24 18:40:42 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static int	handle_export(t_data *data, int j, char *env_var)
 		ms_addenv(name, value, data);
 	else
 	{
-		ft_printf_fd(2, "name: %s\n", name);
+		//ft_printf_fd(2, "name: %s\n", name);
 		ms_setenv(name, value, data);
 	}
 	free(name);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pid.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 19:19:45 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/22 13:53:49 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/24 19:03:45 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	wait_for_processes(t_data *data)
 		waitpid(data->pids[i], &status, 0);
 		if (WIFEXITED(status) && i == data->cmd_count - 1)
 			data->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status) && i == data->cmd_count - 1)
+			data->exit_status = WTERMSIG(status) + 128;
 		i++;
 	}
 }
