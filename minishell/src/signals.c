@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:55:39 by seckhard          #+#    #+#             */
-/*   Updated: 2024/04/23 13:15:42 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/24 21:12:42 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ static void	sig_handler(int signal)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+}
+
+static void	sig_quit(int signal)
+{
+	(void)signal;
+	ft_printf("Quit (core dumped)\n");
+	kill(0, SIGCHLD);
 }
 
 // handle SIGINT signal (ctrl + c) in heredoc
@@ -50,7 +57,7 @@ void	sig_cases(int sig_status)
 	else if (sig_status == NON_INTERACTIVE)
 	{
 		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
+		signal(SIGQUIT, &sig_quit);
 	}
 	else if (sig_status == CHILD)
 	{
