@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 19:19:45 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 14:15:07 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/22 13:53:49 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	wait_for_processes(t_data *data)
 	while (i < data->cmd_count && data->pids[i] != -1)
 	{
 		waitpid(data->pids[i], &status, 0);
-		if (WIFEXITED(status))
+		if (WIFEXITED(status) && i == data->cmd_count - 1)
 			data->exit_status = WEXITSTATUS(status);
 		i++;
 	}

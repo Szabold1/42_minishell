@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 05:05:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/17 11:32:00 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/24 11:10:23 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static void	child_process(t_data *data, int i)
 		err_msg2(cmd->cmd_array[0], "command not found");
 		clean_up(data), exit(127);
 	}
+	sig_cases(CHILD);
 	execve(cmd->cmd_path, cmd->cmd_array, data->env);
 	err_msg(strerror(errno)), clean_up(data), exit(1);
 }
@@ -73,8 +74,8 @@ static void	child_process(t_data *data, int i)
 int	execute_command(t_data *data, int i)
 {
 	pid_t	pid;
-	ft_printf_fd(2, "-------- execute_command --------\n"); // for testing
-	ft_printf_fd(2, "%s fd_in: %d | fd_out: %d\n", data->cmds[i]->cmd_array[0], data->cmds[i]->fd_in, data->cmds[i]->fd_out); // for testing
+	// ft_printf_fd(2, "-------- execute_command --------\n"); // for testing
+	// ft_printf_fd(2, "%s fd_in: %d | fd_out: %d\n", data->cmds[i]->cmd_array[0], data->cmds[i]->fd_in, data->cmds[i]->fd_out); // for testing
 
 	if (data->cmds[i]->no_infile || data->cmds[i]->no_outfile)
 		data->exit_status = 1;
@@ -82,6 +83,7 @@ int	execute_command(t_data *data, int i)
 		execute_builtin(data, i);
 	else
 	{
+		data->exit_status = 0;
 		pid = fork();
 		if (pid == -1)
 			return (err_msg(strerror(errno)), ERROR);

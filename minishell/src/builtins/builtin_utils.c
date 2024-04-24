@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 14:14:29 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/17 17:07:56 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/22 18:32:03 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ static char	*create_env_var(char *name, char *value)
 	char	*env_var;
 	char	*tmp;
 
+	if (value == NULL)
+	{
+		env_var = ft_strdup(name);
+		if (env_var == NULL)
+			return (err_msg("ft_strdup failed"), NULL);
+		return (env_var);
+	}
 	tmp = ft_strjoin(name, "=");
 	if (tmp == NULL)
 		return (err_msg("ft_strjoin failed"), NULL);
@@ -44,7 +51,8 @@ static char	**dup_env(char **env, char **new_env, int env_len)
 	return (new_env);
 }
 
-// add a new environment variable to env (name=value)
+// add a new environment variable to env
+// (name=value or just name if value is NULL)
 void	ms_addenv(char *name, char *value, t_data *data)
 {
 	char	**new_env;

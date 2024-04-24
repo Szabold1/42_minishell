@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:53:15 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/20 09:20:35 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/24 11:13:13 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,25 @@
 // return ERROR or OK
 static int	set_input(t_data *data, int i, int j)
 {
+	char	*file;
+
 	if (data->cmds[i]->no_infile)
 		return (OK);
-	if (!data->command_split[i][j + 1])
+	file = remove_quotes(data->command_split[i][j + 1]);
+	if (!file)
 		return (err_msg("no input file after '<'"), ERROR);
 	if (data->cmds[i]->fd_in > 0)
 		reset_fd(data->cmds[i]->fd_in);
-	data->cmds[i]->fd_in = open(data->command_split[i][j + 1], O_RDONLY);
+	data->cmds[i]->fd_in = open(file, O_RDONLY);
 	if (data->cmds[i]->fd_in == -1)
 	{
 		data->cmds[i]->fd_in = open("/dev/null", O_RDONLY);
 		if (data->cmds[i]->fd_in == -1)
 			return (err_msg("failed to open /dev/null"), ERROR);
-		data->exit_status = 1;
 		if (data->cmds[i]->no_infile == false)
 		{
 			data->cmds[i]->no_infile = true;
-			err_msg2(data->command_split[i][j + 1], strerror(errno));
+			err_msg2(file, strerror(errno));
 		}
 	}
 	return (OK);
@@ -65,8 +67,17 @@ static void	heredoc_loop(t_data *data, int i, int j)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
+		if (g_signal == CTRL_C && g_signal--)
+		{
+			data->exit_status = 130;
+			free(line);
 			break ;
+		}
+		if (!line)
+		{
+			err_msg2("warning", "here-document delimited by end-of-file");
+			break ;
+		}
 		if (ft_strcmp(line, data->command_split[i][j + 1]) == 0)
 		{
 			free(line);
@@ -90,7 +101,9 @@ static int	set_heredoc(t_data *data, int i, int j)
 	data->cmds[i]->fd_in = open("/tmp/heredoc", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (data->cmds[i]->fd_in == -1)
 		return (err_msg("failed to open /tmp/heredoc"), ERROR);
+	sig_cases(HEREDOC);
 	heredoc_loop(data, i, j);
+	sig_cases(NON_INTERACTIVE);
 	close(data->cmds[i]->fd_in);
 	data->cmds[i]->fd_in = open("/tmp/heredoc", O_RDONLY);
 	if (data->cmds[i]->fd_in == -1)

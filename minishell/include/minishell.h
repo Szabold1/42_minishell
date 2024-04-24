@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/21 12:32:31 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/23 19:26:31 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@
 
 // Define mode
 # define INTERACTIVE 0
-# define NONINTERACTIVE 1
+# define NON_INTERACTIVE 1
 # define CHILD 2
 # define HEREDOC 3
 
 // Signals
-# define CTRLC 1
+# define CTRL_C 1
 
 // Define error messages
 # define ARGS_ERROR RED "error:" RESET " minishell cannot take any arguments\n"
@@ -96,10 +96,7 @@ int		init(t_data *data, char *env[]);
 // File: src/main.c
 int		main(int argc, char *argv[], char *env[]);
 // File: src/signal.c
-void 	sig_cases(t_data *data, int sig_status);
-
-// Signals
-void 	sig_cases(t_data *data, int sig_status);
+void 	sig_cases(int sig_status);
 
 /* ************************************************************** Check input */
 // File: src/check_input/check_line.c
@@ -131,6 +128,7 @@ int		handle_commands(t_data *data);
 // File: src/parse_execute/init_2.c
 int		init_2(t_data *data);
 // File: src/parse_execute/parse_execute.c
+char	*remove_quotes(char *str);
 int		parse_execute_line(t_data *data);
 // File: src/parse_execute/pid.c
 void	add_pid(t_data *data, pid_t pid);
@@ -139,7 +137,6 @@ void	wait_for_processes(t_data *data);
 /* ***************************************************************** Builtins */
 // ms stands for minishell
 // File: src/builtins/builtin_utils_2.c
-char	*remove_quotes(char *str);
 int		ms_getenv_index(t_data *data, char *var_name);
 char	*get_env_name(char *env_var);
 // File: src/builtins/builtin_utils.c
