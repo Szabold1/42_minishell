@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 05:05:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/24 19:26:42 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/04/25 07:24:35 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	child_process(t_data *data, int i)
 	if (cmd->cmd_path == NULL)
 	{
 		err_msg2(cmd->cmd_array[0], "command not found");
-		clean_up(data), exit(127);
+		clean_up(data), close(1), exit(127);
 	}
 	sig_cases(CHILD);
 	close(data->fd_stdin);
