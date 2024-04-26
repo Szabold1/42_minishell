@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:53:15 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/26 12:38:42 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/26 12:53:23 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static int	set_heredoc(t_data *data, int i, int j)
 		return (err_msg("failed to open /tmp/heredoc"), ERROR);
 	sig_cases(HEREDOC);
 	heredoc_loop(data, i, j);
-	sig_cases(NON_INTERACTIVE);
+	//sig_cases(NON_INTERACTIVE);
 	close(data->cmds[i]->fd_in);
 	data->cmds[i]->fd_in = open("/tmp/heredoc", O_RDONLY);
 	if (data->cmds[i]->fd_in == -1)
