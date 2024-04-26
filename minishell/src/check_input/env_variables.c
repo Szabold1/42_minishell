@@ -6,33 +6,34 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:16:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/20 09:19:06 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/26 12:22:52 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// get the name of the environment variable starting at index 'i'
+// get the name of the environment variable starting at index 'i' in the 'str'
 // return the name of the environment variable with $ prefix
 // return value has to be freed
-static char	*get_var_name(char *line, int i)
+static char	*get_var_name(char *str, int i)
 {
 	int		j;
 	char	*var_name;
 
 	j = i + 1;
-	while (line[j] && (ft_isalnum(line[j]) || line[j] == '_' || line[j] == '?'))
+	while (str[j] && (ft_isalnum(str[j]) || str[j] == '_' || str[j] == '?'))
 		j++;
-	var_name = ft_substr(line, i, j - i);
+	var_name = ft_substr(str, i, j - i);
 	return (var_name);
 }
 
 // replace environment variable name with its value
-// 'line' is a pointer to the string where the replacement is done
+// 'var_name' is the name of the environment variable (with $ prefix)
+// 'str_p' is a pointer to the string where the replacement is done
 // 'i' is the index of '$'
 // return the value of the environment variable, or NULL if malloc fails
 // example: ($USER -> user) ($nonexistent -> "")
-static char	*replace_env_var(char *var_name, char **line, t_data *data, int i)
+static char	*replace_name_with_value(char *var_name, char **str_p, t_data *data, int i)
 {
 	char	*value;
 
@@ -48,77 +49,82 @@ static char	*replace_env_var(char *var_name, char **line, t_data *data, int i)
 		if (!value)
 			return (err_msg("ft_strdup failed"), NULL);
 	}
-	*line = ft_strreplace(*line, var_name, value, i);
-	if (!(*line))
+	*str_p = ft_strreplace(*str_p, var_name, value, i);
+	if (!(*str_p))
 		return (err_msg("ft_strreplace failed"), NULL);
 	return (value);
 }
 
-// replace environment variable name with its value in double quotes
-static int	handle_env_var_in_quotes(t_data *data, int *i, int *q_end)
-{
-	char	*var_name;
-	char	*value;
-
-	var_name = get_var_name(data->line, *i);
-	value = replace_env_var(var_name, &(data->line), data, *i);
-	if (value == NULL)
-		return (free(var_name), ERROR);
-	*i += ft_strlen(value) - 1;
-	*q_end += ft_strlen(value) - ft_strlen(var_name);
-	free(var_name);
-	free(value);
-	return (OK);
-}
-
-// replace environment variables with their values in double quotes
-// return index of next double quote or index of null terminator
-// example: echo "Hello $USER $PWD" -> echo "Hello user /home/user"
-int	replace_env_variables_in_quotes(t_data *data, int q_start, int q_end)
-{
-	int		i;
-
-	i = q_start;
-	while (i < q_end)
-	{
-		if (data->line[i] == '$' && data->line[i + 1])
-		{
-			if (data->line[i + 1] == '?')
-			{
-				i = replace_exit_status(data, &(data->line), i, &q_end);
-				if (i == ERROR)
-					return (ERROR);
-				continue;
-			}
-			handle_env_var_in_quotes(data, &i, &q_end);
-		}
-		i++;
-	}
-	return (q_end);
-}
-
-// this function is called when a '$' is found in the line,
+// this function is called when a '$' is found in the string,
 // and replaces the environment variable or exit status with its value
 // 'i' is the index of the '$'
-// return index of last character of the value or ERROR
-int	replace_env_variable(t_data *data, char **line_p, int i)
+// 'str_p' is a pointer to the string where the replacement is done
+// return index of last character of the value in the string or ERROR
+static int	replace_env_variable(t_data *data, char **str_p, int i)
 {
 	char	*var_name;
 	char	*value;
-	char	*line;
 
-	line = *line_p;
-	if (line[i] == '$' && line[i + 1] == '?')
-		return (replace_exit_status(data, line_p, i, 0));
-	var_name = get_var_name(line, i);
-	value = replace_env_var(var_name, line_p, data, i);
+	if ((*str_p)[i] == '$' && (*str_p)[i + 1] == '?')
+		return (replace_exit_status(data, str_p, i));
+	var_name = get_var_name(*str_p, i);
+	if (!var_name)
+		return (ERROR);
+	value = replace_name_with_value(var_name, str_p, data, i);
 	if (value == NULL)
 		return (free(var_name), ERROR);
 	if (ft_strlen(value) == 0 && i == 0)
-		i += ft_strlen(value);
+		i += 0;
 	else
 		i += ft_strlen(value) - 1;
 	free(var_name);
 	free(value);
 	return (i);
+}
+
+// replace environment variables in a string
+// it won't check quotes, so it will replace all environment variables
+// 'str_p' is a pointer to the string where the replacement is done
+void	replace_envvars_in_str(t_data *data, char **str_p)
+{
+	int	i;
+
+	i = 0;
+	if (!str_p || !*str_p || !**str_p)
+		return ;
+	while ((*str_p)[i])
+	{
+		if ((*str_p)[i] == '$' && (*str_p)[i + 1])
+		{
+			i = replace_env_variable(data, str_p, i);
+			if (i == ERROR)
+				return (err_msg("replace_env_variable failed"));
+		}
+		i++;
+	}
+}
+
+// go through the command_split array and
+// replace environment variables with their values
+// return ERROR or OK
+int	replace_envvars(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (data->command_split[i])
+	{
+		j = 0;
+		while (data->command_split[i][j])
+		{
+			if (data->command_split[i][j][0] == D_QUOTE
+				|| data->command_split[i][j][0] == '$')
+				replace_envvars_in_str(data, &(data->command_split[i][j]));
+			j++;
+		}
+		i++;
+	}
+	return (OK);
 }

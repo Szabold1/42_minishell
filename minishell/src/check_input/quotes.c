@@ -6,96 +6,76 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:19:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/19 20:17:58 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/26 12:23:17 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// find next occurrence of 'quote' in 'data->line' starting at index 'i'
-// replace environment variables with their values if in double quotes
+// find next occurrence of 'quote' in 'str' starting at index 'i'
 // return index of next 'quote' or index of null terminator
-static int	find_next_quote(t_data *data, int i, char quote)
+int	find_next_quote(char *str, int i, char quote)
 {
-	int		start;
-	bool	has_env_var;
-	char	*line;
-
-	start = i;
-	has_env_var = false;
-	line = data->line;
 	i++;
-	while (line[i] && line[i] != quote)
-	{
-		if (line[i] == '$' && quote == D_QUOTE)
-			has_env_var = true;
+	while (str[i] && str[i] != quote)
 		i++;
-	}
-	if (has_env_var)
-	{
-		i = replace_env_variables_in_quotes(data, start, i);
-		if (i == ERROR)
-			return (ERROR);
-	}
 	return (i);
 }
 
-// check if the line has unclosed quotes,
-// and replace environment variables in double quotes
-static int	quotes(t_data *data, int i)
-{
-	if (data->line[i] == S_QUOTE)
-	{
-		i = find_next_quote(data, i, S_QUOTE);
-		if (!data->line[i])
-			return (err_msg("unclosed single quote"), ERROR);
-	}
-	else if (data->line[i] == D_QUOTE)
-	{
-		i = find_next_quote(data, i, D_QUOTE);
-		if (!data->line[i])
-			return (err_msg("unclosed double quote"), ERROR);
-	}
-	return (i);
-}
-
-// replace environment variables where necessary,
-// and separate redirections with spaces
-static int	envvar_redir(t_data *data, int i)
-{
-	if (data->line[i] == '$' && data->line[i + 1])
-	{
-		i = replace_env_variable(data, &(data->line), i);
-		if (i == ERROR)
-			return (err_msg("replace_env_variable failed"), ERROR);
-	}
-	else if (data->line[i] == '<' || data->line[i] == '>')
-	{
-		i = separate_redirections(data, i);
-		if (i == ERROR)
-			return (err_msg("separate_redirections failed"), ERROR);
-	}
-	return i;
-}
-
-// check if the line has unclosed quotes,
-// replace environment variables where necessary,
-// and separate redirections with spaces
-// return ERROR, or OK if successful
-int	quotes_envvar_redir(t_data *data)
+// check if the line has unclosed quotes
+// return ERROR if it does, OK otherwise
+int	check_quotes_and_redirections(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (data->line[i])
 	{
-		i = quotes(data, i);
-		if (i == ERROR)
-			return (ERROR);
-		i = envvar_redir(data, i);
-		if (i == ERROR)
-			return (ERROR);
+		if (data->line[i] == S_QUOTE || data->line[i] == D_QUOTE)
+		{
+			if (data->line[i] == S_QUOTE)
+				i = find_next_quote(data->line, i, S_QUOTE);
+			else if (data->line[i] == D_QUOTE)
+				i = find_next_quote(data->line, i, D_QUOTE);
+			if (!data->line[i])
+				return (err_msg("unclosed quotes"), ERROR);
+		}
+		else if (data->line[i] == '<' || data->line[i] == '>')
+		{
+			i = separate_redirections(data, i);
+			if (i == ERROR)
+				return (ERROR);
+		}
 		i++;
 	}
 	return (OK);
+}
+
+// remove necessary quotes from string, return the modified string
+// example: test_"hello'world" -> test_hello'world
+char	*remove_quotes(char *str)
+{
+	int		i;
+	int		j;
+	bool	in_s_quote;
+	bool	in_d_quote;
+
+	if (!str)
+		return (NULL);
+	i = 0;
+	j = 0;
+	in_s_quote = false;
+	in_d_quote = false;
+	while (str[i])
+	{
+		if (str[i] == S_QUOTE && !in_d_quote)
+			in_s_quote = !in_s_quote;
+		else if (str[i] == D_QUOTE && !in_s_quote)
+			in_d_quote = !in_d_quote;
+		else
+			str[j++] = str[i];
+		i++;
+	}
+	str[j] = '\0';
+	return (str);
 }

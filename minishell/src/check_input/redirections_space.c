@@ -6,21 +6,22 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:37:54 by bszabo            #+#    #+#             */
-/*   Updated: 2024/03/28 18:56:39 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/25 17:55:47 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // surround first 'substr' with spaces in 'str' starting at index 'start_i'
+// 'str' is a pointer to the string where the replacement is done
 // return ERROR or OK
 // example: ("hello>>file", ">>", 5) -> "hello >> file"
-int	surround_with_spaces(t_data *data, char *substr, int start_i)
+int	surround_with_spaces(char **str, char *substr, int start_i)
 {
 	char	*temp;
 	char	*new_substr;
 
-	if (!ft_strnstr(data->line + start_i, substr, 2))
+	if (!ft_strnstr(*str + start_i, substr, 2))
 		return (ERROR);
 	temp = ft_strjoin(" ", substr);
 	if (!temp)
@@ -29,9 +30,9 @@ int	surround_with_spaces(t_data *data, char *substr, int start_i)
 	free(temp);
 	if (!new_substr)
 		return (ERROR);
-	data->line = ft_strreplace(data->line, substr, new_substr, start_i);
+	*str = ft_strreplace(*str, substr, new_substr, start_i);
 	free(new_substr);
-	if (!data->line)
+	if (!*str)
 		return (ERROR);
 	return (OK);
 }
@@ -44,13 +45,13 @@ static int	separate_redirections_in(t_data *data, int i)
 	{
 		if (data->line[i + 2] == '<' || data->line[i + 2] == '>')
 			return (err_msg("syntax error"), ERROR);
-		if (surround_with_spaces(data, "<<", i) == ERROR)
+		if (surround_with_spaces(&(data->line), "<<", i) == ERROR)
 			return (ERROR);
 		i += 3;
 	}
 	else
 	{
-		if (surround_with_spaces(data, "<", i) == ERROR)
+		if (surround_with_spaces(&(data->line), "<", i) == ERROR)
 			return (ERROR);
 		i += 2;
 	}
@@ -65,22 +66,22 @@ static int	separate_redirections_out(t_data *data, int i)
 	{
 		if (data->line[i + 2] == '<' || data->line[i + 2] == '>')
 			return (err_msg("syntax error"), ERROR);
-		if (surround_with_spaces(data, ">>", i) == ERROR)
+		if (surround_with_spaces(&(data->line), ">>", i) == ERROR)
 			return (ERROR);
 		i += 3;
 	}
 	else
 	{
-		if (surround_with_spaces(data, ">", i) == ERROR)
+		if (surround_with_spaces(&(data->line), ">", i) == ERROR)
 			return (ERROR);
 		i += 2;
 	}
 	return (i);
 }
 
-// separate redirections in the line
-// example: ls>file -> ls > file
-// return ERROR or the index of space after the redirections
+// separate redirections in the line starting at index 'i'
+// example: (i = 2) ls>file -> ls > file (return 4)
+// return ERROR or the index of space after the redirection symbol
 int	separate_redirections(t_data *data, int i)
 {
 	if (data->line[i] == '<')

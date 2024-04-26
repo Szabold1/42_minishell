@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/23 19:26:31 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/26 10:22:09 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <string.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/ioctl.h>
@@ -97,17 +98,22 @@ int		init(t_data *data, char *env[]);
 int		main(int argc, char *argv[], char *env[]);
 // File: src/signal.c
 void 	sig_cases(int sig_status);
+// File: src/utils.c
+bool	is_directory(char *path);
+bool	is_builtin(char *cmd);
 
 /* ************************************************************** Check input */
 // File: src/check_input/check_line.c
 int		check_line(t_data *data);
 // File: src/check_input/env_variables.c
-int		replace_env_variables_in_quotes(t_data *data, int q_start, int q_end);
-int		replace_env_variable(t_data *data, char **line, int i);
+void	replace_envvars_in_str(t_data *data, char **str_p);
+int		replace_envvars(t_data *data);
 // File: src/check_input/exit_status.c
-int		replace_exit_status(t_data *data, char **line, int i, int *q_end);
+int		replace_exit_status(t_data *data, char **line, int i);
 // File: src/check_input/quotes.c
-int		quotes_envvar_redir(t_data *data);
+int		find_next_quote(char *str, int i, char quote);
+int		check_quotes_and_redirections(t_data *data);
+char	*remove_quotes(char *str);
 // File: src/check_input/redirections_space.c
 int		separate_redirections(t_data *data, int i);
 
@@ -128,7 +134,6 @@ int		handle_commands(t_data *data);
 // File: src/parse_execute/init_2.c
 int		init_2(t_data *data);
 // File: src/parse_execute/parse_execute.c
-char	*remove_quotes(char *str);
 int		parse_execute_line(t_data *data);
 // File: src/parse_execute/pid.c
 void	add_pid(t_data *data, pid_t pid);

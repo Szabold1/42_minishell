@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:37:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/25 07:05:35 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/26 11:39:05 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,13 @@ static int	check_pipe_symbols(t_data *data)
 	i = 0;
 	while (data->line[i])
 	{
-		if (data->line[i++] == '|')
+		if (data->line[i] == S_QUOTE)
+			i = find_next_quote(data->line, i, S_QUOTE);
+		else if (data->line[i] == D_QUOTE)
+			i = find_next_quote(data->line, i, D_QUOTE);
+		if (data->line[i] == '|')
 		{
+			i++;
 			while (data->line[i] == ' ')
 				i++;
 			if (data->line[i] == '|')
@@ -31,6 +36,7 @@ static int	check_pipe_symbols(t_data *data)
 				return (err_msg("syntax error"), ERROR);
 			}
 		}
+		i++;
 	}
 	return (OK);
 }
@@ -56,13 +62,64 @@ static int	check_syntax(t_data *data)
 	return (OK);
 }
 
-// check line beginnings and endings, check quotes, replace environment
-// variables, replace '$?', and separate redirection symbols
+// split the line by pipes and spaces,
+// and count the number of commands and pipes
+// return ERROR if malloc fails, OK otherwise
+static int	split_and_count(t_data *data)
+{
+	data->line_split = ft_split_quotes(data->line, '|');
+	if (!data->line_split)
+		return (ERROR);
+	data->command_split = ft_split_quotes_2d(data->line_split, ' ');
+	data->cmd_count = ft_arrlen(data->line_split);
+	data->pipe_count = data->cmd_count - 1;
+	return (OK);
+}
+
+// remove quotes around the strings in the command_split array
+static void	remove_quotes_around(t_data *data)
+{
+	int		i;
+	int		j;
+	char	*temp;
+
+	temp = NULL;
+	i = 0;
+	while (data->command_split[i])
+	{
+		j = 0;
+		while (data->command_split[i][j])
+		{
+			temp = data->command_split[i][j];
+			data->command_split[i][j] = remove_quotes(temp);
+			j++;
+		}
+		i++;
+	}
+}
+
+// check line beginnings and endings, check quotes, split up the line,
+// replace environment variables, and remove necessary quotes
 int	check_line(t_data *data)
 {
 	if (check_syntax(data) == ERROR)
 		return (ERROR);
-	if (quotes_envvar_redir(data) == ERROR)
+	if (check_quotes_and_redirections(data) == ERROR)
 		return (ERROR);
+	if (split_and_count(data) == ERROR)
+		return (ERROR);
+	if (replace_envvars(data) == ERROR)
+		return (ERROR);
+	remove_quotes_around(data);
+	// if (quotes_envvar_redir(data) == ERROR)
+	// 	return (ERROR);
+	// printf("line: %s\n", data->line); // for testing
+	// for (int i = 0; i < data->cmd_count; i++) // for testing
+	// 	printf("line_split[%d]: %s\n", i, data->line_split[i]); // for testing
+	// for (int i = 0; i < data->cmd_count; i++) // for testing
+	// {
+	// 	for (int j = 0; data->command_split[i][j]; j++) // for testing
+	// 		printf("command_split[%d][%d]: %s\n", i, j, data->command_split[i][j]); // for testing
+	// }
 	return (OK);
 }

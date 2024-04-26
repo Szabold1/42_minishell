@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:10:27 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/23 20:02:28 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/25 18:51:08 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	print_arg(char **echo_arg, int i, bool *newline, bool *check_flag)
 	int	j;
 
 	j = 1;
-	echo_arg[i] = remove_quotes(echo_arg[i]);
 	if (*check_flag && echo_arg[i][0] == '-')
 	{
 		while (echo_arg[i][j] == 'n')
@@ -31,7 +30,7 @@ static void	print_arg(char **echo_arg, int i, bool *newline, bool *check_flag)
 	}
 	*check_flag = false;
 	printf("%s", echo_arg[i]);
-	if (echo_arg[i + 1])
+	if (echo_arg[i][0] != '\0' && echo_arg[i + 1])
 		printf(" ");
 }
 

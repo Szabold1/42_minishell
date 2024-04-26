@@ -68,7 +68,8 @@ SRC 				=	$(addprefix $(CHECK_INPUT_DIR)/, $(SRC_CHECK_INPUT)) \
 						err_msg.c \
 						init.c \
 						main.c \
-						signals.c
+						signals.c \
+						utils.c
 
 # Object files
 OBJ					=	$(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
