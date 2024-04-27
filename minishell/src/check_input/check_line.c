@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:37:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/26 11:39:05 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/27 08:00:25 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static int	check_pipe_symbols(t_data *data)
 				return (err_msg("syntax error"), ERROR);
 			}
 		}
-		i++;
+		if (data->line[i])
+			i++;
 	}
 	return (OK);
 }
@@ -72,7 +73,10 @@ static int	split_and_count(t_data *data)
 		return (ERROR);
 	data->command_split = ft_split_quotes_2d(data->line_split, ' ');
 	data->cmd_count = ft_arrlen(data->line_split);
-	data->pipe_count = data->cmd_count - 1;
+	if (data->cmd_count < 1)
+		data->pipe_count = 0;
+	else
+		data->pipe_count = data->cmd_count - 1;
 	return (OK);
 }
 
@@ -106,13 +110,11 @@ int	check_line(t_data *data)
 		return (ERROR);
 	if (check_quotes_and_redirections(data) == ERROR)
 		return (ERROR);
+	if (replace_envvars_in_str(data, &(data->line)) == ERROR)
+		return (ERROR);
 	if (split_and_count(data) == ERROR)
 		return (ERROR);
-	if (replace_envvars(data) == ERROR)
-		return (ERROR);
 	remove_quotes_around(data);
-	// if (quotes_envvar_redir(data) == ERROR)
-	// 	return (ERROR);
 	// printf("line: %s\n", data->line); // for testing
 	// for (int i = 0; i < data->cmd_count; i++) // for testing
 	// 	printf("line_split[%d]: %s\n", i, data->line_split[i]); // for testing

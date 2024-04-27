@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seckhard <seckhard@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/26 15:51:21 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/04/27 07:38:57 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,7 @@ bool	is_builtin(char *cmd);
 // File: src/check_input/check_line.c
 int		check_line(t_data *data);
 // File: src/check_input/env_variables.c
-void	replace_envvars_in_str(t_data *data, char **str_p);
-int		replace_envvars(t_data *data);
+int		replace_envvars_in_str(t_data *data, char **str_p);
 // File: src/check_input/exit_status.c
 int		replace_exit_status(t_data *data, char **line, int i);
 // File: src/check_input/quotes.c

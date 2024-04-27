@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:16:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/26 12:22:52 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/27 07:56:48 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static char	*replace_name_with_value(char *var_name, char **str_p, t_data *data,
 // 'i' is the index of the '$'
 // 'str_p' is a pointer to the string where the replacement is done
 // return index of last character of the value in the string or ERROR
-static int	replace_env_variable(t_data *data, char **str_p, int i)
+static int	replace_envvar(t_data *data, char **str_p, int i)
 {
 	char	*var_name;
 	char	*value;
@@ -82,49 +82,32 @@ static int	replace_env_variable(t_data *data, char **str_p, int i)
 	return (i);
 }
 
-// replace environment variables in a string
-// it won't check quotes, so it will replace all environment variables
+// go through the string and replace all environment variables with their values
 // 'str_p' is a pointer to the string where the replacement is done
-void	replace_envvars_in_str(t_data *data, char **str_p)
+// return ERROR or OK
+int	replace_envvars_in_str(t_data *data, char **str_p)
 {
-	int	i;
+	int		i;
+	bool	in_dq;
+	bool	in_sq;
 
 	i = 0;
-	if (!str_p || !*str_p || !**str_p)
-		return ;
+	in_dq = false;
+	in_sq = false;
 	while ((*str_p)[i])
 	{
-		if ((*str_p)[i] == '$' && (*str_p)[i + 1])
+		if ((*str_p)[i] == D_QUOTE && !in_sq)
+			in_dq = !in_dq;
+		else if ((*str_p)[i] == S_QUOTE && !in_dq)
+			in_sq = !in_sq;
+		else if ((*str_p)[i] == '$' && (*str_p)[i + 1] && !in_sq)
 		{
-			i = replace_env_variable(data, str_p, i);
+			i = replace_envvar(data, str_p, i);
 			if (i == ERROR)
-				return (err_msg("replace_env_variable failed"));
+				return (ERROR);
 		}
-		i++;
-	}
-}
-
-// go through the command_split array and
-// replace environment variables with their values
-// return ERROR or OK
-int	replace_envvars(t_data *data)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (data->command_split[i])
-	{
-		j = 0;
-		while (data->command_split[i][j])
-		{
-			if (data->command_split[i][j][0] == D_QUOTE
-				|| data->command_split[i][j][0] == '$')
-				replace_envvars_in_str(data, &(data->command_split[i][j]));
-			j++;
-		}
-		i++;
+		if ((*str_p)[i])
+			i++;
 	}
 	return (OK);
 }
