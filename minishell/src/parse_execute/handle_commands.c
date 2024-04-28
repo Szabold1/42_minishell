@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:10:46 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 10:30:20 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/28 11:55:20 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@
 static int	handle_command(t_data *data, int i)
 {
 	if (set_cmd_in_out(data, i) == ERROR)
-		return (err_msg("set_cmd_in_out failed"), ERROR);
+	{
+		data->exit_status = 2;
+		return (ERROR);
+	}
 	if (set_cmd_data(data, i) == ERROR)
 		return (err_msg("set_cmd_data failed"), ERROR);
 

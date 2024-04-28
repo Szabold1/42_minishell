@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:19:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/26 12:23:17 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/28 07:58:24 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	find_next_quote(char *str, int i, char quote)
 	return (i);
 }
 
-// check if the line has unclosed quotes
-// return ERROR if it does, OK otherwise
+// check if the line has unclosed quotes and separate redirection symbols
+// return ERROR or OK
 int	check_quotes_and_redirections(t_data *data)
 {
 	int	i;
