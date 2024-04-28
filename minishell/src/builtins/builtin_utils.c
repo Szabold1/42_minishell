@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 14:14:29 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/22 18:32:03 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/28 10:53:40 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	ms_setenv(char *name, char *value, t_data *data)
 	{
 		if (ft_strncmp(data->env[i], name, len) == 0)
 		{
-			if (data->env[i][len] == '=')
+			if (data->env[i][len] == '=' || data->env[i][len] == '\0')
 			{
 				free(data->env[i]);
 				temp = ft_strjoin("=", value);

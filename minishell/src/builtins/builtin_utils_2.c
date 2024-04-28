@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:22:41 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/23 19:09:38 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/28 10:50:48 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ms_getenv_index(t_data *data, char *var_name)
 	{
 		if (ft_strncmp(data->env[i], var_name, len) == 0)
 		{
-			if (data->env[i][len] == '=')
+			if (data->env[i][len] == '=' || data->env[i][len] == '\0')
 				return (i);
 		}
 		i++;
