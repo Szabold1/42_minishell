@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 19:40:17 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/26 12:23:39 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/28 08:13:42 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,7 @@ static char	*get_cmd_path(t_data *data, int i)
 	char	*cmd_name;
 
 	cmd_name = data->cmds[i]->cmd_array[0];
-	if (access(cmd_name, F_OK) == 0 && cmd_name[0] == '/'
-		&& !is_directory(cmd_name))
+	if (access(cmd_name, F_OK) == 0 && !is_directory(cmd_name))
 		return (ft_strdup(cmd_name));
 	if (data->cmd_paths == NULL)
 		return (NULL);
