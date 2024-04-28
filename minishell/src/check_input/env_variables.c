@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:16:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/27 07:56:48 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/04/28 07:00:19 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,30 @@ static char	*get_var_name(char *str, int i)
 	return (var_name);
 }
 
+// wrap the string in quotes
+// 'str_p' is a pointer to the string that is wrapped in quotes
+// 'quote' is the quote character that was found in the string
+// return ERROR or OK
+static int	wrap_in_quotes(char **str_p, char quote)
+{
+	char	*new_str;
+	char	*outer_quote;
+
+	if (quote == S_QUOTE)
+		outer_quote = "\"";
+	else
+		outer_quote = "'";
+	new_str = ft_strjoin(outer_quote, *str_p);
+	if (!new_str)
+		return (err_msg("ft_strjoin failed"), ERROR);
+	free(*str_p);
+	*str_p = ft_strjoin(new_str, outer_quote);
+	if (!(*str_p))
+		return (err_msg("ft_strjoin failed"), ERROR);
+	free(new_str);
+	return (OK);
+}
+
 // replace environment variable name with its value
 // 'var_name' is the name of the environment variable (with $ prefix)
 // 'str_p' is a pointer to the string where the replacement is done
@@ -44,6 +68,10 @@ static char	*replace_name_with_value(char *var_name, char **str_p, t_data *data,
 		value = ms_getenv(var_name + 1, data);
 		if (value)
 			value = ft_strdup(value);
+		if (ft_strchr(value, S_QUOTE))
+			wrap_in_quotes(&value, S_QUOTE);
+		else if (ft_strchr(value, D_QUOTE))
+			wrap_in_quotes(&value, D_QUOTE);
 		if (!value)
 			value = ft_strdup("");
 		if (!value)
