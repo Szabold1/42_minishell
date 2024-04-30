@@ -27,7 +27,8 @@ static int	main_loop(t_data *data)
 		{
 			char *line;
 			line = get_next_line(fileno(stdin));
-			data->line = ft_strtrim(line, "\n");
+			if (line)
+				data->line = ft_strtrim(line, "\n");
 			free(line);
 		}
 		sig_cases(NON_INTERACTIVE);
