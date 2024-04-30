@@ -16,6 +16,7 @@ runs:
     - run: valgrind --version
       shell: bash
     - run: cd minishell
+      shell: bash
     - run: |
         git clone https://github.com/LeaYeh/42_minishell_tester.git ${{ env.home }}/42_minishell_tester
         chmod +x ${{ env.home }}/42_minishell_tester/tester.sh
