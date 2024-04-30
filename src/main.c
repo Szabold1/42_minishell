@@ -21,7 +21,15 @@ static int	main_loop(t_data *data)
 	{
 		clean_up_loop(data);
 		sig_cases(INTERACTIVE);
-		data->line = readline(PROMPT);
+		if (isatty(fileno(stdin)))
+			data->line = readline(PROMPT);
+		else
+		{
+			char *line;
+			line = get_next_line(fileno(stdin));
+			data->line = ft_strtrim(line, "\n");
+			free(line);
+		}
 		sig_cases(NON_INTERACTIVE);
 		if (g_signal == CTRL_C && g_signal--)
 			data->exit_status = 130;
