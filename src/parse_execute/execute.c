@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 05:05:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/26 12:40:52 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/02 14:28:40 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void	child_process(t_data *data, int i)
 		close_pipes(data), clean_up(data), exit(1);
 	close_pipes(data);
 	if (cmd->cmd_array[0][0] == '\0')
-		clean_up(data), exit(0);
+		clean_up(data), close(0), exit(0);
 	if (cmd->cmd_path == NULL)
 		handle_no_path(data, i);
 	sig_cases(CHILD);
@@ -96,8 +96,6 @@ static void	child_process(t_data *data, int i)
 int	execute_command(t_data *data, int i)
 {
 	pid_t	pid;
-	// ft_printf_fd(2, "-------- execute_command --------\n"); // for testing
-	// ft_printf_fd(2, "%s fd_in: %d | fd_out: %d\n", data->cmds[i]->cmd_array[0], data->cmds[i]->fd_in, data->cmds[i]->fd_out); // for testing
 
 	if (data->cmds[i]->no_infile || data->cmds[i]->no_outfile)
 		data->exit_status = 1;
