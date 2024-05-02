@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:37:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/02 10:25:22 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/02 13:44:27 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,30 +80,6 @@ static int	split_and_count(t_data *data)
 	return (OK);
 }
 
-// remove quotes around the strings in the command_split array
-static void	remove_quotes_around(t_data *data)
-{
-	int		i;
-	int		j;
-	char	*temp;
-
-	temp = NULL;
-	i = 0;
-	while (data->command_split[i])
-	{
-		j = 0;
-		while (data->command_split[i][j])
-		{
-			temp = data->command_split[i][j];
-			if (ft_strcmp(temp, "echo") == 0)
-				break ;
-			data->command_split[i][j] = remove_quotes(temp);
-			j++;
-		}
-		i++;
-	}
-}
-
 // check line beginnings and endings, check quotes, split up the line,
 // replace environment variables, and remove necessary quotes
 int	check_line(t_data *data)
@@ -116,14 +92,5 @@ int	check_line(t_data *data)
 		return (ERROR);
 	if (split_and_count(data) == ERROR)
 		return (ERROR);
-	remove_quotes_around(data);
-	// printf("line: %s\n", data->line); // for testing
-	// for (int i = 0; i < data->cmd_count; i++) // for testing
-	// 	printf("line_split[%d]: %s\n", i, data->line_split[i]); // for testing
-	// for (int i = 0; i < data->cmd_count; i++) // for testing
-	// {
-	// 	for (int j = 0; data->command_split[i][j]; j++) // for testing
-	// 		printf("command_split[%d][%d]: %s\n", i, j, data->command_split[i][j]); // for testing
-	// }
 	return (OK);
 }

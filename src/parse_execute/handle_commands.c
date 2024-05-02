@@ -6,11 +6,36 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:10:46 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/28 11:55:20 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/02 13:37:22 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// remove quotes around the strings in command_split and in cmd_array
+static void	remove_quotes_around(t_data *data, int i)
+{
+	int		j;
+	char	*temp;
+
+	temp = NULL;
+	j = 0;
+	if (ft_strcmp(data->cmds[i]->cmd_array[0], "echo") == 0)
+		return ;
+	while (data->command_split[i][j])
+	{
+		temp = data->command_split[i][j];
+		data->command_split[i][j] = remove_quotes(temp);
+		j++;
+	}
+	j = 0;
+	while (data->cmds[i]->cmd_array[j])
+	{
+		temp = data->cmds[i]->cmd_array[j];
+		data->cmds[i]->cmd_array[j] = remove_quotes(temp);
+		j++;
+	}
+}
 
 // handle one command
 // example: "grep a > output.txt"
@@ -24,6 +49,7 @@ static int	handle_command(t_data *data, int i)
 	}
 	if (set_cmd_data(data, i) == ERROR)
 		return (err_msg("set_cmd_data failed"), ERROR);
+	remove_quotes_around(data, i);
 
 	// ft_printf_fd(2, "| cmd: %s\n", data->cmds[i]->cmd_array[0]); // for testing
 	// ft_printf_fd(2, "| path: %s\n", data->cmds[i]->cmd_path); // for testing

@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 19:40:17 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/28 08:13:42 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/02 13:47:37 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ static char	*find_path(t_data *data, char *cmd_name)
 	int		i;
 
 	i = 0;
+	cmd_name = remove_quotes(cmd_name);
 	while (data->cmd_paths[i])
 	{
 		temp = ft_strjoin(data->cmd_paths[i], "/");
@@ -108,10 +109,24 @@ static char	*find_path(t_data *data, char *cmd_name)
 static char	*get_cmd_path(t_data *data, int i)
 {
 	char	*cmd_name;
+	int		len;
 
 	cmd_name = data->cmds[i]->cmd_array[0];
+	len = ft_strlen(cmd_name);
 	if (access(cmd_name, F_OK) == 0 && !is_directory(cmd_name))
+	{
+		len = ft_strlen(cmd_name);
+		if (ft_strcmp(cmd_name, "echo") == 0 || (ft_strchr(cmd_name, '/')
+			&& len >= 4 && ft_strncmp(cmd_name + len - 4, "echo", 4) == 0))
+		{
+			free(data->cmds[i]->cmd_array[0]);
+			data->cmds[i]->cmd_array[0] = ft_strdup("echo");
+			if (!data->cmds[i]->cmd_array[0])
+				return (err_msg("ft_strdup failed"), NULL);
+			return (ft_strdup("echo"));
+		}
 		return (ft_strdup(cmd_name));
+	}
 	if (data->cmd_paths == NULL)
 		return (NULL);
 	return (find_path(data, cmd_name));
