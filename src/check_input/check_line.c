@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:37:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/27 08:00:25 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/02 10:25:22 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ static void	remove_quotes_around(t_data *data)
 		while (data->command_split[i][j])
 		{
 			temp = data->command_split[i][j];
+			if (ft_strcmp(temp, "echo") == 0)
+				break ;
 			data->command_split[i][j] = remove_quotes(temp);
 			j++;
 		}
