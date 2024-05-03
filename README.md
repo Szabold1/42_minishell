@@ -99,5 +99,5 @@ Additionally, the following libraries were allowed:
 <br>
 
 <div align="center">
-  Made by <a href="https://github.com/Szabold1" target="_blank">Boldizsar Szabo</a>
+  Made by <a href="https://github.com/Szabold1" target="_blank">Boldi</a> and <a href="https://github.com/SamuelLeanderEckhard" target="_blank">Samuel</a>
 </div>
