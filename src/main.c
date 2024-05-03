@@ -35,7 +35,7 @@ static int	main_loop(t_data *data)
 		if (g_signal == CTRL_C && g_signal--)
 			data->exit_status = 130;
 		if (!data->line)
-			return (close(0), close(1), ERROR); // printf("exit\n"), ... 
+			return (printf("exit\n"), close(0), close(1), ERROR);
 		if (ft_strlen(data->line) > 0)
 		{
 			add_history(data->line);
