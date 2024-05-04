@@ -3,6 +3,7 @@
 <p align="center">
   <a href="#about">About</a> &#xa0; | &#xa0;
   <a href="#features">Features</a> &#xa0; | &#xa0;
+  <a href="#usage">Usage</a> &#xa0; | &#xa0;
   <a href="#used-functions">Used functions</a> &#xa0; | &#xa0;
   <a href="#resources">Resources</a> &#xa0;
 </p>
