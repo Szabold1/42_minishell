@@ -39,6 +39,12 @@ Minishell is a simple shell implementation written in C that provides basic shel
   - env with no options or arguments
   - exit with no options
 
+## Usage
+
+```shell
+make && ./minishell
+```
+
 ## Used functions
 
 The following functions were used in this project:
