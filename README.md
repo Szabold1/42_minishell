@@ -22,10 +22,10 @@ Minishell is a simple shell implementation written in C that provides basic shel
 - Handle ’ (single quote) which should prevent the shell from interpreting the metacharacters in the quoted sequence.
 - Handle " (double quote) which should prevent the shell from interpreting the metacharacters in the quoted sequence except for $ (dollar sign).
 - Implement redirections:
-  - < should redirect input.
-  - > should redirect output.
-  - << should be given a delimiter, then read the input until a line containing the delimiter is seen.
-  - >> should redirect output in append mode.
+  - '<' should redirect input.
+  - '>' should redirect output.
+  - '<<' should be given a delimiter, then read the input until a line containing the delimiter is seen.
+  - '>>' should redirect output in append mode.
 - Implement pipes (| character). The output of each command in the pipeline is connected to the input of the next command via a pipe.
 - Handle environment variables ($ followed by a sequence of characters) which should expand to their values.
 - Handle $? which should expand to the exit status of the most recently executed foreground pipeline.
