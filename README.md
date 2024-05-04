@@ -4,7 +4,7 @@
   <a href="#about">About</a> &#xa0; | &#xa0;
   <a href="#features">Features</a> &#xa0; | &#xa0;
   <a href="#used-functions">Used functions</a> &#xa0; | &#xa0;
-  <a href="#resources">Resources</a> &#xa0; | &#xa0;
+  <a href="#resources">Resources</a> &#xa0;
 </p>
 
 <br>
@@ -15,14 +15,33 @@ Minishell is a simple shell implementation written in C that provides basic shel
 
 ## Features
 
-- Displays a prompt when waiting for a new command.
-- Maintains a working history of previously executed commands.
-- Searches and launches the right executable based on the PATH variable or using a relative or absolute path.
-- ...
+- Display a prompt when waiting for a new command.
+- Maintain a working history of previously executed commands.
+- Search and launch the right executable based on the PATH variable or using a relative or absolute path.
+- Not interpret unclosed quotes or special characters such as \ (backslash) or ; (semicolon).
+- Handle ’ (single quote) which should prevent the shell from interpreting the metacharacters in the quoted sequence.
+- Handle " (double quote) which should prevent the shell from interpreting the metacharacters in the quoted sequence except for $ (dollar sign).
+- Implement redirections:
+  - < should redirect input.
+  - > should redirect output.
+  - << should be given a delimiter, then read the input until a line containing the delimiter is seen.
+  - >> should redirect output in append mode.
+- Implement pipes (| character). The output of each command in the pipeline is connected to the input of the next command via a pipe.
+- Handle environment variables ($ followed by a sequence of characters) which should expand to their values.
+- Handle $? which should expand to the exit status of the most recently executed foreground pipeline.
+- Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
+- Implement the following builtins:
+  - echo with option -n
+  - cd with only a relative or absolute path
+  - pwd with no options
+  - export with no options
+  - unset with no options
+  - env with no options or arguments
+  - exit with no options
 
 ## Used functions
 
-The following functions were allowed to be used in this project:
+The following functions were used in this project:
 
 | **Function**     | **Man**        | **Short Description**                                                    |
 | ---------------- | -------------- | ------------------------------------------------------------------------ |
@@ -45,17 +64,17 @@ The following functions were allowed to be used in this project:
 | signal           | man 7 signal   | Sets a signal handler for a specific signal                              |
 | kill             | man 2 kill     | Sends a signal to a process or a group of processes                      |
 | exit             | man 3 exit     | Terminates the calling process                                           |
-| getcwd           |                |                                                                          |
-| chdir            |                |                                                                          |
-| stat             |                |                                                                          |
+| getcwd           | man 3 getcwd   | Gets the current working directory                                       |
+| chdir            | man 2 chdir    | Changes the current working directory                                    |
+| stat             | man 2 stat     | Gets file status information                                             |
 | unlink           | man 2 unlink   | Deletes a name from the filesystem                                       |
 | execve           | man 2 execve   | Executes a program                                                       |
 | dup              | man 2 dup      | Duplicates a file descriptor                                             |
 | dup2             | man 2 dup2     | Duplicates a file descriptor to a specified new descriptor               |
 | pipe             | man 2 pipe     | Creates a pipe, a unidirectional communication channel                   |
 | strerror         | man 3 strerror | Returns a string describing the error code passed as argument            |
-| isatty           |                |                                                                          |
-| ioctl            |                |                                                                          |
+| isatty           | man 3 isatty   | Tests whether a file descriptor refers to a terminal                     |
+| ioctl            | man 2 ioctl    | Performs device-specific operations on a file descriptor                 |
 
 Additionally, the following libraries were allowed:
 
@@ -63,8 +82,7 @@ Additionally, the following libraries were allowed:
 
 ## Resources
 
-- Some great resources to make the project easier:
-
+Some great resources to make the project easier:
 - [Write your own shell](https://youtube.com/playlist?list=PLxIRFba3rzLzxxZMMbrm_-mkI7mV9G0pj&si=cmYw8hbQ3yzjXxvI)
 - [Unix processes in C](https://youtube.com/playlist?list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY&si=Gb277hWIOIhzdNw9)
 - [Git & GitHub](https://youtube.com/playlist?list=PL4cUxeGkcC9goXbgTDQ0n_4TBzOO0ocPR&si=Uq1ucOr4MHXsbRTQ)
