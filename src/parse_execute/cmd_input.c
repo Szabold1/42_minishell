@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:53:15 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/26 12:53:23 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/06 14:06:06 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,25 @@ static int	set_input(t_data *data, int i, int j)
 	return (OK);
 }
 
+// check if expansion is needed in here document
+// if yes, return true, otherwise return false
+static bool	check_expansion(t_data *data, int i, int j)
+{
+	char	*before;
+
+	before = ft_strdup(data->command_split[i][j + 1]);
+	if (!before)
+		err_msg("ft_strdup failed");
+	data->command_split[i][j + 1] = remove_quotes(
+			data->command_split[i][j + 1]);
+	if (ft_strcmp(before, data->command_split[i][j + 1]) != 0)
+		return (free(before), true);
+	free(before);
+	return (false);
+}
+
 // loop for here document
-static void	heredoc_loop(t_data *data, int i, int j)
+static void	heredoc_loop(t_data *data, int i, int j, bool ignore_expansion)
 {
 	char	*line;
 
@@ -52,20 +69,15 @@ static void	heredoc_loop(t_data *data, int i, int j)
 		if (g_signal == CTRL_C && g_signal--)
 		{
 			data->exit_status = 130;
-			free(line);
-			break ;
+			return (free(line));
 		}
 		if (!line)
-		{
-			err_msg2("warning", "here-document delimited by end-of-file");
-			break ;
-		}
-		replace_envvars_in_str(data, &line);
+			return (err_msg2("warning",
+					"here-document delimited by end-of-file"));
+		if (ignore_expansion == false)
+			replace_envvars_in_str(data, &line);
 		if (ft_strcmp(line, data->command_split[i][j + 1]) == 0)
-		{
-			free(line);
-			break ;
-		}
+			return (free(line));
 		ft_printf_fd(data->cmds[i]->fd_in, "%s\n", line);
 		free(line);
 	}
@@ -76,16 +88,20 @@ static void	heredoc_loop(t_data *data, int i, int j)
 // return ERROR or OK
 static int	set_heredoc(t_data *data, int i, int j)
 {
+	bool	ignore_expansion;
+
+	ignore_expansion = false;
 	if (!data->command_split[i][j + 1])
 		return (err_msg("no delimiter after '<<'"), ERROR);
 	if (data->cmds[i]->fd_in > 0)
 		reset_fd(data->cmds[i]->fd_in);
-	data->cmds[i]->fd_in = open("/tmp/heredoc", O_RDWR | O_CREAT | O_TRUNC, 0644);
+	data->cmds[i]->fd_in = open("/tmp/heredoc",
+			O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (data->cmds[i]->fd_in == -1)
 		return (err_msg("failed to open /tmp/heredoc"), ERROR);
+	ignore_expansion = check_expansion(data, i, j);
 	sig_cases(HEREDOC);
-	heredoc_loop(data, i, j);
-	//sig_cases(NON_INTERACTIVE);
+	heredoc_loop(data, i, j, ignore_expansion);
 	close(data->cmds[i]->fd_in);
 	data->cmds[i]->fd_in = open("/tmp/heredoc", O_RDONLY);
 	if (data->cmds[i]->fd_in == -1)
