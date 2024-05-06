@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: seckhard <seckhard@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:42:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/06 14:19:31 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/06 16:52:16 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,7 @@ static int	main_loop(t_data *data)
 	{
 		clean_up_loop(data);
 		sig_cases(INTERACTIVE);
-		if (isatty(fileno(stdin)))
-			data->line = readline(PROMPT);
-		else
-		{
-			char *line;
-			line = get_next_line(fileno(stdin));
-			if (line)
-				data->line = ft_strtrim(line, "\n");
-			free(line);
-		}
+		data->line = readline(PROMPT);
 		sig_cases(NON_INTERACTIVE);
 		if (g_signal == CTRL_C && g_signal--)
 			data->exit_status = 130;

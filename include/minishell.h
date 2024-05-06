@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
+/*   By: seckhard <seckhard@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/06 14:18:39 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/06 16:49:08 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,11 @@ typedef struct s_data
 {
 	char	**env; // copy of the environment
 	char	*line; // "ls -l | sort | grep a > output.txt"
-	char	**line_split; // split by "|" {"ls -l", "sort", "grep a > output.txt"}
-	char	***command_split; // split by " " {{ls, -l, NULL}, {sort, NULL}, {grep, a, >, output.txt, NULL}}
+	char	**line_split;
+	// split by "|" {"ls -l", "sort", "grep a > output.txt"}
+	char	***command_split;
+	// split by " "
+	// {{ls, -l, NULL}, {sort, NULL}, {grep, a, >, output.txt, NULL}}
 	char	**cmd_paths; // array of paths to commands
 	t_cmd	**cmds; // array of commands
 	int		**pipes; // array of pipes to connect commands
@@ -97,7 +100,7 @@ int		init(t_data *data, char *env[]);
 // File: src/main.c
 int		main(int argc, char *argv[], char *env[]);
 // File: src/signal.c
-void 	sig_cases(int sig_status);
+void	sig_cases(int sig_status);
 // File: src/utils.c
 bool	is_directory(char *path);
 bool	is_builtin(char *cmd);
@@ -181,4 +184,4 @@ void	err_msg(char *msg);
 void	err_msg2(char *msg1, char *msg2);
 void	err_msg3(char *msg1, char *msg2, char *msg3);
 
-# endif
+#endif
