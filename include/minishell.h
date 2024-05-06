@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/27 07:38:57 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/06 14:18:39 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,10 @@ char	*remove_quotes(char *str);
 int		separate_redirections(t_data *data, int i);
 
 /* ******************************************************** Parse and execute */
+// File: src/parse_execute/child_process.c
+void	child_process(t_data *data, int i);
+// File: src/parse_execute/cmd_data_path.c
+char	*get_cmd_path(t_data *data, int i);
 // File: src/parse_execute/cmd_data.c
 int		set_cmd_data(t_data *data, int i);
 // File: src/parse_execute/cmd_in_out.c

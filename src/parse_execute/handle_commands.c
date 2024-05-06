@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:10:46 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/02 13:37:22 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/06 14:08:26 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,6 @@ static int	handle_command(t_data *data, int i)
 	if (set_cmd_data(data, i) == ERROR)
 		return (err_msg("set_cmd_data failed"), ERROR);
 	remove_quotes_around(data, i);
-
-	// ft_printf_fd(2, "| cmd: %s\n", data->cmds[i]->cmd_array[0]); // for testing
-	// ft_printf_fd(2, "| path: %s\n", data->cmds[i]->cmd_path); // for testing
-	// ft_printf_fd(2, "| fd_in: %d\n", data->cmds[i]->fd_in); // for testing
-	// ft_printf_fd(2, "|_fd_out: %d\n", data->cmds[i]->fd_out); // for testing
-
 	if (execute_command(data, i) == ERROR)
 		return (ERROR);
 	return (OK);

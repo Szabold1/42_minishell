@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 10:19:28 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/26 10:20:26 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/06 14:20:50 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ bool	is_directory(char *path)
 	struct stat	st;
 
 	if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
-        return (true);
-    return (false);
+		return (true);
+	return (false);
 }
 
 // check if the command is a builtin, return true or false

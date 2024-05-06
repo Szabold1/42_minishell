@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:11:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/23 19:10:31 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/06 14:07:27 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ms_cd(t_data *data, int i)
 	if (i == 0 && data->cmd_count == 1)
 	{
 		if (cd_arg == NULL || (ft_strcmp(cd_arg, "~") == 0
-			&& data->cmds[i]->cmd_array[2] == NULL))
+				&& data->cmds[i]->cmd_array[2] == NULL))
 			ms_cd_home(data);
 		else if (data->cmds[i]->cmd_array[2])
 		{
