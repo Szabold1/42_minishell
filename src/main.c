@@ -12,6 +12,22 @@
 
 #include "minishell.h"
 
+// read line when stdin is not a terminal
+static char	*read_line_from_stdin(void)
+{
+	char	*line;
+	char	*trimmed_line;
+
+	line = get_next_line(0);
+	if (line)
+	{
+		trimmed_line = ft_strtrim(line, "\n");
+		free(line);
+		return (trimmed_line);
+	}
+	return (NULL);
+}
+
 // main loop for minishell
 // handle signals, read line, add it to history, parse, execute, and free line
 // return ERROR if any of the steps fail
@@ -21,7 +37,10 @@ static int	main_loop(t_data *data)
 	{
 		clean_up_loop(data);
 		sig_cases(INTERACTIVE);
-		data->line = readline(PROMPT);
+		if (isatty(0))
+			data->line = readline(PROMPT);
+		else
+			data->line = read_line_from_stdin();
 		sig_cases(NON_INTERACTIVE);
 		if (g_signal == CTRL_C && g_signal--)
 			data->exit_status = 130;
