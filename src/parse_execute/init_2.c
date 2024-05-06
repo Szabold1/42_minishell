@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:28:50 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/24 21:37:07 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:09:20 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,6 @@ static int	create_pipes(t_data *data)
 			i++;
 		}
 	}
-	// for (int i = 0; i < data->pipe_count; i++) // for testing
-	// {
-	// 	printf("pipe %d[0]: %d\n", i, data->pipes[i][0]); // for testing
-	// 	printf("pipe %d[1]: %d\n", i, data->pipes[i][1]); // for testing
-	// }
 	return (OK);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:16:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/28 07:00:19 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/06 14:07:57 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ static int	wrap_in_quotes(char **str_p, char quote)
 // 'i' is the index of '$'
 // return the value of the environment variable, or NULL if malloc fails
 // example: ($USER -> user) ($nonexistent -> "")
-static char	*replace_name_with_value(char *var_name, char **str_p, t_data *data, int i)
+static char	*replace_name_with_value(char *var_name, char **str_p,
+	t_data *data, int i)
 {
 	char	*value;
 

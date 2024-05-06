@@ -40,7 +40,9 @@ SRC_CHECK_INPUT		=	check_line.c \
 						quotes.c \
 						redirections_space.c
 
-SRC_PARSE_EXECUTE	=	cmd_data.c \
+SRC_PARSE_EXECUTE	=	child_process.c \
+						cmd_data_path.c \
+						cmd_data.c \
 						cmd_in_out.c \
 						cmd_input.c \
 						cmd_output.c \
