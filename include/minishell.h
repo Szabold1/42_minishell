@@ -53,12 +53,6 @@
 // Signals
 # define CTRL_C 1
 
-// Define error messages
-# define ARGS_ERROR RED "error:" RESET " minishell cannot take any arguments\n"
-
-// Define the prompt
-# define PROMPT NEON "minishell$ " RESET
-
 extern int	g_signal;
 
 // Define the command structure

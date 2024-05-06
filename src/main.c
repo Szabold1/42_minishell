@@ -38,7 +38,7 @@ static int	main_loop(t_data *data)
 		clean_up_loop(data);
 		sig_cases(INTERACTIVE);
 		if (isatty(0))
-			data->line = readline(PROMPT);
+			data->line = readline(NEON "minishell$ " RESET);
 		else
 			data->line = read_line_from_stdin();
 		sig_cases(NON_INTERACTIVE);
@@ -66,7 +66,8 @@ int	main(int argc, char *argv[], char *env[])
 	t_data	data;
 
 	if (argc != 1 || argv[1] || !env)
-		return (ft_printf_fd(2, ARGS_ERROR), ERROR);
+		return (ft_printf_fd(2, RED "error:" RESET
+				" minishell cannot take any arguments\n"), 1);
 	if (init(&data, env) == ERROR)
 		return (clean_up(&data), ERROR);
 	if (main_loop(&data) == ERROR)
