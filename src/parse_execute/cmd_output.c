@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_output.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 08:57:39 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/24 19:28:27 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/05/08 12:54:21 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static int	set_output(t_data *data, int i, int j, int mode)
 
 	if (data->cmds[i]->no_outfile)
 		return (OK);
+	if (check_redir_after(data->command_split[i][j + 1]) == ERROR)
+		return (ERROR);
 	file = remove_quotes(data->command_split[i][j + 1]);
 	if (!file)
 		return (err_msg("no output file after '>'"), ERROR);

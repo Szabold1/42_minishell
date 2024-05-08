@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:37:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/02 14:29:48 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/08 10:06:55 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static int	check_syntax(t_data *data)
 	len = ft_strlen(data->line);
 	if (data->line[0] == '|' || data->line[len - 1] == '|'
 		|| data->line[0] == ';' || data->line[len - 1] == ';'
-		|| data->line[0] == '\\' || data->line[len - 1] == '\\')
+		|| data->line[0] == '\\' || data->line[len - 1] == '\\'
+		|| data->line[len - 1] == '>' || data->line[len - 1] == '<')
 	{
 		data->exit_status = 2;
 		return (err_msg("syntax error"), ERROR);

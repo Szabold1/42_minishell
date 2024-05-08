@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 14:17:49 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/06 14:18:03 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/08 13:14:07 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static void	handle_no_path(t_data *data, int i)
 	else
 		exit_code = handle_no_cmd_file(cmd_name);
 	clean_up(data);
+	close(0);
 	close(1);
 	exit(exit_code);
 }
@@ -56,6 +57,7 @@ static void	handle_empty_cmd(t_data *data, int i)
 	{
 		clean_up(data);
 		close(0);
+		close(1);
 		exit(0);
 	}
 	if (cmd->cmd_path == NULL)

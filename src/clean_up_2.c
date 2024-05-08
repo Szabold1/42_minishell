@@ -6,16 +6,18 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 07:41:24 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/17 09:56:40 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/08 13:16:02 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// close file descriptor if it is not -1, and set it to -1
+// close file descriptor if it is not -1 or one of the standard file descriptors
+// and set it to -1
 void	reset_fd(int fd)
 {
-	if (fd != -1)
+	if (fd != -1 && fd != STDIN_FILENO && fd != STDOUT_FILENO
+		&& fd != STDERR_FILENO)
 	{
 		close(fd);
 		fd = -1;
@@ -66,7 +68,10 @@ void	clean_up_loop(t_data *data)
 {
 	clean_up_loop_1(data);
 	if (data->pipes)
+	{
+		close_pipes(data);
 		free_pipes(data);
+	}
 	if (data->pids)
 	{
 		free(data->pids);

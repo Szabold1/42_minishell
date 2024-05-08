@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seckhard <seckhard@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/06 16:49:08 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/05/08 11:40:43 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	sig_cases(int sig_status);
 // File: src/utils.c
 bool	is_directory(char *path);
 bool	is_builtin(char *cmd);
+int		check_redir_after(char *str_after_redir);
 
 /* ************************************************************** Check input */
 // File: src/check_input/check_line.c

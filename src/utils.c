@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 10:19:28 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/06 14:20:50 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/08 13:18:57 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,17 @@ bool	is_builtin(char *cmd)
 		|| ft_strcmp(cmd, "exit") == 0)
 		return (true);
 	return (false);
+}
+
+// check for valid token after redirection symbol
+// return ERROR or OK
+int	check_redir_after(char *str_after_redir)
+{
+	if (!str_after_redir)
+		return (err_msg("syntax error"), ERROR);
+	if (str_after_redir[0] == '>'
+		|| str_after_redir[0] == '<')
+		return (err_msg2("syntax error near unexpected token",
+				str_after_redir), ERROR);
+	return (OK);
 }
