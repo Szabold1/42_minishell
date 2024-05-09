@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 10:19:28 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/08 13:18:57 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/09 11:56:00 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,18 @@ int	check_redir_after(char *str_after_redir)
 		return (err_msg2("syntax error near unexpected token",
 				str_after_redir), ERROR);
 	return (OK);
+}
+
+// part of replace_envvars_in_str()
+// skip the next word in the string
+// 'str_p' is a pointer to the string where the replacement is done
+// 'i' is the index of the first character of the current word
+void	skip_next_word(char **str_p, int *i)
+{
+	while ((*str_p)[*i] && (*str_p)[*i] != ' ')
+		(*i)++;
+	while ((*str_p)[*i] && (*str_p)[*i] == ' ')
+		(*i)++;
+	while ((*str_p)[*i] && (*str_p)[*i] != ' ')
+		(*i)++;
 }

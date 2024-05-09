@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:53:15 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/08 12:38:55 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/09 12:15:22 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ static void	heredoc_loop(t_data *data, int i, int j, bool ignore_expansion)
 		if (!line)
 			return (err_msg2("warning",
 					"here-document delimited by end-of-file"));
-		if (ignore_expansion == false)
-			replace_envvars_in_str(data, &line);
 		if (ft_strcmp(line, data->command_split[i][j + 1]) == 0)
 			return (free(line));
+		if (ignore_expansion == false)
+			replace_envvars_in_str(data, &line, true);
 		ft_printf_fd(data->cmds[i]->fd_in, "%s\n", line);
 		free(line);
 	}

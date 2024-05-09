@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:16:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/06 14:07:57 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/09 12:14:13 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,9 @@ static int	replace_envvar(t_data *data, char **str_p, int i)
 
 // go through the string and replace all environment variables with their values
 // 'str_p' is a pointer to the string where the replacement is done
+// 'in_h' is true if the string is in a here document, false otherwise
 // return ERROR or OK
-int	replace_envvars_in_str(t_data *data, char **str_p)
+int	replace_envvars_in_str(t_data *data, char **str_p, bool in_h)
 {
 	int		i;
 	bool	in_dq;
@@ -125,6 +126,8 @@ int	replace_envvars_in_str(t_data *data, char **str_p)
 	in_sq = false;
 	while ((*str_p)[i])
 	{
+		if (ft_strncmp(*str_p + i, "<<", 2) == 0 && !in_sq && !in_dq && !in_h)
+			skip_next_word(str_p, &i);
 		if ((*str_p)[i] == D_QUOTE && !in_sq)
 			in_dq = !in_dq;
 		else if ((*str_p)[i] == S_QUOTE && !in_dq)
