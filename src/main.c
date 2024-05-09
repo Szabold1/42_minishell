@@ -20,7 +20,7 @@ static int	main_loop(t_data *data)
 		clean_up_loop(data);
 		sig_cases(INTERACTIVE);
 		if (isatty(fileno(stdin)))
-			data->line = readline(NEON "minishell$ " RESET));
+			data->line = readline(NEON "minishell$ " RESET);
 		else
 		{
 			char *line;
