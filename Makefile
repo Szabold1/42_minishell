@@ -35,10 +35,11 @@ RM					=	rm -rf
 
 # Source files
 SRC_CHECK_INPUT		=	check_line.c \
-						env_variables.c \
 						exit_status.c \
 						quotes.c \
-						redirections_space.c
+						redirections_space.c \
+						replace_env_vars_2.c \
+						replace_env_vars.c
 
 SRC_PARSE_EXECUTE	=	child_process.c \
 						cmd_data_path.c \

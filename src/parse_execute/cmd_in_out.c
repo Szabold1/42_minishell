@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:03:50 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/08 12:55:03 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/10 13:45:06 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,24 @@ static void	set_default_fds(t_data *data, int i)
 		data->cmds[i]->fd_out = STDOUT_FILENO;
 }
 
+// handle input and output redirection ('<', '<<', '>', '>>')
+// return ERROR or OK
+static int	handle_redir(t_data *data, int i, int *j)
+{
+	if (handle_input(data, i, *j) == ERROR)
+		return (ERROR);
+	if (handle_output(data, i, *j) == ERROR)
+		return (ERROR);
+	if (is_redirection(data->command_split[i][*j]))
+	{
+		data->cmds[i]->has_redir = true;
+		(*j)++;
+	}
+	if (data->command_split[i][*j])
+		(*j)++;
+	return (OK);
+}
+
 // check redirections ('<', '<<', '>', '>>') and set fd_in, fd_out accordingly
 // return ERROR or OK
 int	set_cmd_in_out(t_data *data, int i)
@@ -60,15 +78,7 @@ int	set_cmd_in_out(t_data *data, int i)
 			return (err_msg("failed to open /dev/null"), ERROR);
 	}
 	while (data->command_split[i][j])
-	{
-		if (handle_input(data, i, j) == ERROR)
+		if (handle_redir(data, i, &j) == ERROR)
 			return (ERROR);
-		if (handle_output(data, i, j) == ERROR)
-			return (ERROR);
-		if (is_redirection(data->command_split[i][j]))
-			j++;
-		if (data->command_split[i][j])
-			j++;
-	}
 	return (OK);
 }

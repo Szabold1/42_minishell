@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/10 08:22:22 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/10 13:45:40 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_cmd
 	int		fd_out; // fd to write to
 	bool	no_infile; // true if couldn't open input file
 	bool	no_outfile; // true if couldn't open output file
+	bool	has_redir; // true if command has redirection
 }	t_cmd;
 
 // Define the main data structure
@@ -105,8 +106,6 @@ int		surround_with(char **str, char *substr, char *surround, int start_i);
 /* ************************************************************** Check input */
 // File: src/check_input/check_line.c
 int		check_line(t_data *data);
-// File: src/check_input/env_variables.c
-int		replace_envvars_in_str(t_data *data, char **str_p, bool in_h);
 // File: src/check_input/exit_status.c
 int		replace_exit_status(t_data *data, char **line, int i);
 // File: src/check_input/quotes.c
@@ -115,6 +114,11 @@ int		check_quotes_and_redirections(t_data *data);
 char	*remove_quotes(char *str);
 // File: src/check_input/redirections_space.c
 int		separate_redirections(t_data *data, int i);
+// File: src/check_input/replace_env_vars_2.c
+char	*replace_name_with_value(char *var_name, t_data *data,
+			int i, bool in_dq);
+// File: src/check_input/replace_env_vars.c
+int		replace_envvars_in_str(t_data *data, char **str_p, bool in_h);
 
 /* ******************************************************** Parse and execute */
 // File: src/parse_execute/child_process.c

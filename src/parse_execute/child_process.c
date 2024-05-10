@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 14:17:49 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/08 13:14:07 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/10 12:06:06 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	handle_empty_cmd(t_data *data, int i)
 	t_cmd	*cmd;
 
 	cmd = data->cmds[i];
-	if (cmd->cmd_array[0][0] == '\0')
+	if (cmd->cmd_array[0][0] == '\0' && cmd->has_redir)
 	{
 		clean_up(data);
 		close(0);
