@@ -6,26 +6,11 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:16:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/09 20:10:03 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/10 08:21:29 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// get the name of the environment variable starting at index 'i' in the 'str'
-// return the name of the environment variable with $ prefix
-// return value has to be freed
-static char	*get_var_name(char *str, int i)
-{
-	int		j;
-	char	*var_name;
-
-	j = i + 1;
-	while (str[j] && (ft_isalnum(str[j]) || str[j] == '_' || str[j] == '?'))
-		j++;
-	var_name = ft_substr(str, i, j - i);
-	return (var_name);
-}
 
 // wrap the string in quotes
 // 'str_p' is a pointer to the string that is wrapped in quotes

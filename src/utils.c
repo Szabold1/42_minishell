@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 10:19:28 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/09 19:48:19 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/10 08:21:43 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,6 @@ bool	is_directory(char *path)
 	struct stat	st;
 
 	if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
-		return (true);
-	return (false);
-}
-
-// check if the command is a builtin, return true or false
-bool	is_builtin(char *cmd)
-{
-	if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
-		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "export") == 0
-		|| ft_strcmp(cmd, "unset") == 0 || ft_strcmp(cmd, "env") == 0
-		|| ft_strcmp(cmd, "exit") == 0)
 		return (true);
 	return (false);
 }
@@ -58,6 +47,21 @@ void	skip_next_word(char **str_p, int *i)
 		(*i)++;
 	while ((*str_p)[*i] && (*str_p)[*i] != ' ')
 		(*i)++;
+}
+
+// get the name of the environment variable starting at index 'i' in the 'str'
+// return the name of the environment variable with $ prefix
+// return value has to be freed
+char	*get_var_name(char *str, int i)
+{
+	int		j;
+	char	*var_name;
+
+	j = i + 1;
+	while (str[j] && (ft_isalnum(str[j]) || str[j] == '_' || str[j] == '?'))
+		j++;
+	var_name = ft_substr(str, i, j - i);
+	return (var_name);
 }
 
 // surround first 'substr' with 'surround' in 'str' starting at index 'start_i'

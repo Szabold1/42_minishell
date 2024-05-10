@@ -6,11 +6,22 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 05:05:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/06 14:17:34 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/10 08:20:31 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// check if the command is a builtin, return true or false
+static bool	is_builtin(char *cmd)
+{
+	if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
+		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "export") == 0
+		|| ft_strcmp(cmd, "unset") == 0 || ft_strcmp(cmd, "env") == 0
+		|| ft_strcmp(cmd, "exit") == 0)
+		return (true);
+	return (false);
+}
 
 // execute the builtin command
 static void	execute_builtin(t_data *data, int i)

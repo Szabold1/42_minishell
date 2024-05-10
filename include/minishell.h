@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/09 19:25:37 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/10 08:22:22 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ int		main(int argc, char *argv[], char *env[]);
 void	sig_cases(int sig_status);
 // File: src/utils.c
 bool	is_directory(char *path);
-bool	is_builtin(char *cmd);
 int		check_redir_after(char *str_after_redir);
 void	skip_next_word(char **str_p, int *i);
-int 	surround_with(char **str, char *substr, char *surround, int start_i);
+char	*get_var_name(char *str, int i);
+int		surround_with(char **str, char *substr, char *surround, int start_i);
 
 /* ************************************************************** Check input */
 // File: src/check_input/check_line.c
