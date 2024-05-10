@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 10:19:28 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/09 11:56:00 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/09 19:48:19 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,29 @@ void	skip_next_word(char **str_p, int *i)
 		(*i)++;
 	while ((*str_p)[*i] && (*str_p)[*i] != ' ')
 		(*i)++;
+}
+
+// surround first 'substr' with 'surround' in 'str' starting at index 'start_i'
+// 'str' is a pointer to the string where the replacement is done
+// return ERROR or OK
+// example: ("hello>>file", ">>", " ", 5) -> "hello >> file"
+int	surround_with(char **str, char *substr, char *surround, int start_i)
+{
+	char	*temp;
+	char	*new_substr;
+
+	if (!ft_strnstr(*str + start_i, substr, 2))
+		return (ERROR);
+	temp = ft_strjoin(surround, substr);
+	if (!temp)
+		return (ERROR);
+	new_substr = ft_strjoin(temp, surround);
+	free(temp);
+	if (!new_substr)
+		return (ERROR);
+	*str = ft_strreplace(*str, substr, new_substr, start_i);
+	free(new_substr);
+	if (!*str)
+		return (ERROR);
+	return (OK);
 }

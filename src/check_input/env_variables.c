@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:16:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/09 12:14:13 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/09 20:10:03 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,33 @@ static int	wrap_in_quotes(char **str_p, char quote)
 	return (OK);
 }
 
+// wrap special characters in quotes (<, >, <<, >>, |)
+// part of replace_name_with_value()
+static int	wrap_special_characters(char **str_p)
+{
+	int		i;
+	char	temp[2];
+
+	if (!*str_p)
+		return (OK);
+	i = 0;
+	temp[0] = '\0';
+	while ((*str_p)[i])
+	{
+		if ((*str_p)[i] == '<' || (*str_p)[i] == '>' || (*str_p)[i] == '|')
+		{
+			temp[0] = (*str_p)[i];
+			temp[1] = '\0';
+			if (surround_with(str_p, temp, "'", i) == ERROR)
+				return (ERROR);
+			i += 2;
+		}
+		if ((*str_p)[i])
+			i++;
+	}
+	return (OK);
+}
+
 // replace environment variable name with its value
 // 'var_name' is the name of the environment variable (with $ prefix)
 // 'str_p' is a pointer to the string where the replacement is done
@@ -73,6 +100,8 @@ static char	*replace_name_with_value(char *var_name, char **str_p,
 			wrap_in_quotes(&value, S_QUOTE);
 		else if (ft_strchr(value, D_QUOTE))
 			wrap_in_quotes(&value, D_QUOTE);
+		if (wrap_special_characters(&value) == ERROR)
+			return (free(value), NULL);
 		if (!value)
 			value = ft_strdup("");
 		if (!value)

@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/09 12:14:43 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/09 19:25:37 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ bool	is_directory(char *path);
 bool	is_builtin(char *cmd);
 int		check_redir_after(char *str_after_redir);
 void	skip_next_word(char **str_p, int *i);
+int 	surround_with(char **str, char *substr, char *surround, int start_i);
 
 /* ************************************************************** Check input */
 // File: src/check_input/check_line.c
