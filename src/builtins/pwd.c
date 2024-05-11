@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:14:19 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/18 09:17:24 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/11 11:43:06 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ void	ms_pwd(t_data *data, int i)
 		data->exit_status = 1;
 		return (err_msg2("pwd", "PWD not set"));
 	}
-	printf("%s\n", pwd);
+	ft_printf_fd(STDOUT_FILENO, "%s\n", pwd);
 	data->exit_status = 0;
 }

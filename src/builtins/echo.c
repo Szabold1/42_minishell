@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:10:27 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/02 10:26:10 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/10 13:53:07 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static void	print_arg(char **echo_arg, int i, bool *newline, bool *check_flag)
 		}
 	}
 	*check_flag = false;
-	printf("%s", echo_arg[i]);
+	ft_printf_fd(STDOUT_FILENO, "%s", echo_arg[i]);
 	if (echo_arg[i + 1])
-		printf(" ");
+		ft_printf_fd(STDOUT_FILENO, " ");
 }
 
 // print the arguments of the echo command, handle the -n flag
@@ -50,6 +50,6 @@ void	ms_echo(t_data *data, int i)
 	while (echo_arg[j])
 		print_arg(echo_arg, j++, &newline, &check_flag);
 	if (newline)
-		printf("\n");
+		ft_printf_fd(STDOUT_FILENO, "\n");
 	data->exit_status = 0;
 }
