@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 10:19:28 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/10 08:21:43 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/11 11:33:13 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*get_var_name(char *str, int i)
 	char	*var_name;
 
 	j = i + 1;
-	while (str[j] && (ft_isalnum(str[j]) || str[j] == '_' || str[j] == '?'))
+	while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
 		j++;
 	var_name = ft_substr(str, i, j - i);
 	return (var_name);
