@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 12:37:31 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/02 14:29:48 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/09 12:15:13 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static int	check_syntax(t_data *data)
 	len = ft_strlen(data->line);
 	if (data->line[0] == '|' || data->line[len - 1] == '|'
 		|| data->line[0] == ';' || data->line[len - 1] == ';'
-		|| data->line[0] == '\\' || data->line[len - 1] == '\\')
+		|| data->line[0] == '\\' || data->line[len - 1] == '\\'
+		|| data->line[len - 1] == '>' || data->line[len - 1] == '<')
 	{
 		data->exit_status = 2;
 		return (err_msg("syntax error"), ERROR);
@@ -86,7 +87,7 @@ int	check_line(t_data *data)
 		return (ERROR);
 	if (check_quotes_and_redirections(data) == ERROR)
 		return (ERROR);
-	if (replace_envvars_in_str(data, &(data->line)) == ERROR)
+	if (replace_envvars_in_str(data, &(data->line), false) == ERROR)
 		return (ERROR);
 	if (split_and_count(data) == ERROR)
 		return (ERROR);

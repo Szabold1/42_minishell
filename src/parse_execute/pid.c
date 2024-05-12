@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pid.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 19:19:45 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/24 19:03:45 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/05/12 14:10:23 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ void	wait_for_processes(t_data *data)
 	while (i < data->cmd_count && data->pids[i] != -1)
 	{
 		waitpid(data->pids[i], &status, 0);
-		if (WIFEXITED(status) && i == data->cmd_count - 1)
+		if (WIFEXITED(status) && i == data->cmd_count - 1 - data->builtin_count)
 			data->exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status) && i == data->cmd_count - 1)
+		else if (WIFSIGNALED(status)
+			&& i == data->cmd_count - 1 - data->builtin_count)
 			data->exit_status = WTERMSIG(status) + 128;
 		i++;
 	}

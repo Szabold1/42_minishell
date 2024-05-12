@@ -6,11 +6,20 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:03:50 by bszabo            #+#    #+#             */
-/*   Updated: 2024/04/16 14:18:02 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/10 13:45:06 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// check if str is a redirection ('<', '<<', '>', '>>')
+static bool	is_redirection(char *str)
+{
+	if (ft_strcmp(str, "<") == 0 || ft_strcmp(str, "<<") == 0
+		|| ft_strcmp(str, ">") == 0 || ft_strcmp(str, ">>") == 0)
+		return (true);
+	return (false);
+}
 
 // redirect input-output to fd_in, fd_out
 int	set_redirections(t_data *data, int i)
@@ -26,13 +35,31 @@ int	set_redirections(t_data *data, int i)
 static void	set_default_fds(t_data *data, int i)
 {
 	if (i == 0)
-		data->cmds[i]->fd_in = 0;
+		data->cmds[i]->fd_in = STDIN_FILENO;
 	else
 		data->cmds[i]->fd_in = data->pipes[i - 1][0];
 	if (i < data->cmd_count - 1)
 		data->cmds[i]->fd_out = data->pipes[i][1];
 	else
-		data->cmds[i]->fd_out = 1;
+		data->cmds[i]->fd_out = STDOUT_FILENO;
+}
+
+// handle input and output redirection ('<', '<<', '>', '>>')
+// return ERROR or OK
+static int	handle_redir(t_data *data, int i, int *j)
+{
+	if (handle_input(data, i, *j) == ERROR)
+		return (ERROR);
+	if (handle_output(data, i, *j) == ERROR)
+		return (ERROR);
+	if (is_redirection(data->command_split[i][*j]))
+	{
+		data->cmds[i]->has_redir = true;
+		(*j)++;
+	}
+	if (data->command_split[i][*j])
+		(*j)++;
+	return (OK);
 }
 
 // check redirections ('<', '<<', '>', '>>') and set fd_in, fd_out accordingly
@@ -51,12 +78,7 @@ int	set_cmd_in_out(t_data *data, int i)
 			return (err_msg("failed to open /dev/null"), ERROR);
 	}
 	while (data->command_split[i][j])
-	{
-		if (handle_input(data, i, j) == ERROR)
+		if (handle_redir(data, i, &j) == ERROR)
 			return (ERROR);
-		if (handle_output(data, i, j) == ERROR)
-			return (ERROR);
-		j++;
-	}
 	return (OK);
 }

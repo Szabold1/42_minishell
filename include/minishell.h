@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seckhard <seckhard@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/06 16:49:08 by seckhard         ###   ########.fr       */
+/*   Updated: 2024/05/12 14:06:56 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_cmd
 	int		fd_out; // fd to write to
 	bool	no_infile; // true if couldn't open input file
 	bool	no_outfile; // true if couldn't open output file
+	bool	has_redir; // true if command has redirection
 }	t_cmd;
 
 // Define the main data structure
@@ -82,6 +83,7 @@ typedef struct s_data
 	pid_t	*pids; // array of child process ids
 	int		cmd_count; // 3 (number of commands in the line)
 	int		pipe_count; // 2 (number of pipes in the line)
+	int		builtin_count; // number of builtin commands in the line
 	int		exit_status;
 	int		fd_stdin; // copy of stdin
 	int		fd_stdout; // copy of stdout
@@ -97,13 +99,14 @@ int		main(int argc, char *argv[], char *env[]);
 void	sig_cases(int sig_status);
 // File: src/utils.c
 bool	is_directory(char *path);
-bool	is_builtin(char *cmd);
+int		check_redir_after(char *str_after_redir);
+void	skip_next_word(char **str_p, int *i);
+char	*get_var_name(char *str, int i);
+int		surround_with(char **str, char *substr, char *surround, int start_i);
 
 /* ************************************************************** Check input */
 // File: src/check_input/check_line.c
 int		check_line(t_data *data);
-// File: src/check_input/env_variables.c
-int		replace_envvars_in_str(t_data *data, char **str_p);
 // File: src/check_input/exit_status.c
 int		replace_exit_status(t_data *data, char **line, int i);
 // File: src/check_input/quotes.c
@@ -112,6 +115,11 @@ int		check_quotes_and_redirections(t_data *data);
 char	*remove_quotes(char *str);
 // File: src/check_input/redirections_space.c
 int		separate_redirections(t_data *data, int i);
+// File: src/check_input/replace_env_vars_2.c
+char	*replace_name_with_value(char *var_name, char **str_p, t_data *data,
+			int i);
+// File: src/check_input/replace_env_vars.c
+int		replace_envvars_in_str(t_data *data, char **str_p, bool in_h);
 
 /* ******************************************************** Parse and execute */
 // File: src/parse_execute/child_process.c
