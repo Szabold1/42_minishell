@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:16:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/10 13:33:10 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/12 08:09:26 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,19 @@
 // 'i' is the index of the '$'
 // 'str_p' is a pointer to the string where the replacement is done
 // return index of last character of the value in the string or ERROR
-static int	replace_envvar(t_data *data, char **str_p, int i, bool in_dq)
+static int	replace_envvar(t_data *data, char **str_p, int i, int in_dq)
 {
 	char	*var_name;
 	char	*value;
 
-	if ((*str_p)[i] == '$' && (*str_p)[i + 1] == '?')
+	if ((*str_p)[i + 1] == '?')
 		return (replace_exit_status(data, str_p, i));
+	else if ((*str_p)[i + 1] == D_QUOTE && in_dq)
+		return (i);
 	var_name = get_var_name(*str_p, i);
 	if (!var_name)
 		return (ERROR);
-	value = replace_name_with_value(var_name, data, i, in_dq);
+	value = replace_name_with_value(var_name, str_p, data, i);
 	if (value == NULL)
 		return (free(var_name), ERROR);
 	if (ft_strlen(value) == 0 && i == 0)

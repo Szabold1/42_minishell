@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 10:07:30 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/10 13:31:43 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/12 08:10:21 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,12 @@ static char	*handle_value(char *var_name, t_data *data)
 // 'i' is the index of '$'
 // return the value of the environment variable, or NULL if malloc fails
 // example: ($USER -> user) ($nonexistent -> "")
-char	*replace_name_with_value(char *var_name, t_data *data,
-		int i, bool in_dq)
+char	*replace_name_with_value(char *var_name, char **str_p, t_data *data,
+	int i)
 {
 	char	*value;
-	char	**str_p;
 
-	str_p = &(data->line);
-	if (((*str_p)[i + 1] == S_QUOTE || (*str_p)[i + 1] == D_QUOTE) && !in_dq)
+	if (((*str_p)[i + 1] == S_QUOTE || (*str_p)[i + 1] == D_QUOTE))
 		value = ft_strdup("");
 	else if (ft_strcmp(var_name, "$") == 0)
 		value = ft_strdup("$");
