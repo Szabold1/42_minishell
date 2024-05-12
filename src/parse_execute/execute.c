@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 05:05:51 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/10 08:20:31 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/12 14:08:19 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void	execute_builtin(t_data *data, int i)
 	char	*cmd;
 
 	cmd = data->cmds[i]->cmd_array[0];
+	data->builtin_count++;
 	if (set_redirections(data, i) == ERROR)
 		return ;
 	if (ft_strcmp(cmd, "echo") == 0)

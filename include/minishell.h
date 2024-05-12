@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 13:37:09 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/12 07:55:33 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/12 14:06:56 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_data
 	pid_t	*pids; // array of child process ids
 	int		cmd_count; // 3 (number of commands in the line)
 	int		pipe_count; // 2 (number of pipes in the line)
+	int		builtin_count; // number of builtin commands in the line
 	int		exit_status;
 	int		fd_stdin; // copy of stdin
 	int		fd_stdout; // copy of stdout

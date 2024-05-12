@@ -6,7 +6,7 @@
 /*   By: bszabo <bszabo@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:28:50 by bszabo            #+#    #+#             */
-/*   Updated: 2024/05/10 11:34:38 by bszabo           ###   ########.fr       */
+/*   Updated: 2024/05/12 15:48:29 by bszabo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int	init_2(t_data *data)
 	path = ms_getenv("PATH", data);
 	if (path)
 		data->cmd_paths = ft_split(path, ':');
+	data->builtin_count = 0;
 	if (init_cmds(data) == ERROR)
 		return (ERROR);
 	if (create_pipes(data) == ERROR)
