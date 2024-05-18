@@ -6,7 +6,8 @@
   <a href="#usage">Usage</a> &#xa0; | &#xa0;
   <a href="#simplified-code-logic">Code logic</a> &#xa0; | &#xa0;
   <a href="#used-functions">Used functions</a> &#xa0; | &#xa0;
-  <a href="#resources">Resources</a> &#xa0;
+  <a href="#resources">Resources</a> &#xa0; | &#xa0;
+  <a href="#test-results">Test results</a> &#xa0;
 </p>
 
 <br>
@@ -102,6 +103,12 @@ Some great resources to make the project easier:
 - [42 minishell](https://youtube.com/playlist?list=PLGU1kcPKHMKj5yA0RPb5AK4QAhexmQwrW&si=qUeTIHAtYtlATnUM)
 - [Other minishell resources](https://github.com/pasqualerossi/Minishell_Resources?tab=readme-ov-file)
 - Writing a Unix Shell: [Part 1](https://indradhanush.github.io/blog/writing-a-unix-shell-part-1/) | [Part 2](https://indradhanush.github.io/blog/writing-a-unix-shell-part-2/) | [Part 3](https://indradhanush.github.io/blog/writing-a-unix-shell-part-3/)
+
+## Test results
+
+Test results with [this](https://github.com/zstenger93/42_minishell_tester) tester:
+
+![Results with tester](test_results.png)
 
 <br>
 
